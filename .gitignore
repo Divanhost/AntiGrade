@@ -1,0 +1,13 @@
+frontend\node_modules
+
+backend\AntiGrade.Web\bin
+backend\AntiGrade.Web\obj
+
+backend\AntiGrade.Data\bin
+backend\AntiGrade.Data\obj
+
+backend\AntiGrade.Core\bin
+backend\AntiGrade.Core\obj
+
+backend\AntiGrade.BusinessObjects\bin
+backend\AntiGrade.BusinessObjects\obj
