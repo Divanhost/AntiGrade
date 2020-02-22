@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessIntelligence.Core.Middleware;
+using BusinessIntelligence.Web.Middleware;
+using DigitalSkynet.DotnetCore.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,10 +25,32 @@ namespace AntiGrade.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddOptions();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc((options)=>{
+                options.EnableEndpointRouting = false;
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder
+                    .WithOrigins(_corsOrigins.SelectMany(origin => new []
+                    {
+                        $"http://{origin}",
+                        $"https://{origin}"
+                    }).ToArray())
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials());
+            });
+
+            services.SetupAuthorization(Configuration);
+            services.AddSwaggerDocumentation();
+            services.AddHttpContextAccessor();
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,17 +60,21 @@ namespace AntiGrade.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseGlobalExceptionHandler();
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseSwaggerDocumentation();
+            app.UseAuthentication();
+            app.UseHealthChecks("/health");
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseCors("CorsPolicy");
+            app.UseMvc();
         }
+
+        private readonly string[] _corsOrigins = {
+            "localhost:5001",
+            "localhost:4200"
+        };
     }
 }

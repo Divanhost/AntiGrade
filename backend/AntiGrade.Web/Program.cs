@@ -18,9 +18,16 @@ namespace AntiGrade.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+            .ConfigureAppConfiguration((hostingContext,config)=>
+            {
+                config.AddJsonFile("appsettings.json");
+                config.AddJsonFile("appsettings.{Environment}.json", optional : true);
+                config.AddJsonFile("appsettings.local.json", optional : true);
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+                
     }
 }
