@@ -1,8 +1,6 @@
 #folder
 bin/
-obj/
 frontend\node_modules
-backend/AntiGrade.Web/.vs/
-.vs/
+.vscode/
+obj/
 backend/AntiGrade.Web/appsettings.local.json
-/backend/AntiGrade.Web/AntiGrade.Web.csproj.user

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Core/AntiGrade.Core.csproj": {}
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj": {}
   },
   "projects": {
-    "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Core/AntiGrade.Core.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Core/AntiGrade.Core.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj",
         "projectName": "AntiGrade.Core",
-        "projectPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Core/AntiGrade.Core.csproj",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj",
         "packagesPath": "/home/gtaslenko/.nuget/packages/",
-        "outputPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Core/obj/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -28,8 +28,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Data/AntiGrade.Data.csproj": {
-                "projectPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Data/AntiGrade.Data.csproj"
+              "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj": {
+                "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj"
               }
             }
           }
@@ -130,14 +130,14 @@
         }
       }
     },
-    "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Data/AntiGrade.Data.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Data/AntiGrade.Data.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj",
         "projectName": "AntiGrade.Data",
-        "projectPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Data/AntiGrade.Data.csproj",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj",
         "packagesPath": "/home/gtaslenko/.nuget/packages/",
-        "outputPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Data/obj/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
@@ -154,8 +154,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Shared/AntiGrade.Shared.csproj": {
-                "projectPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Shared/AntiGrade.Shared.csproj"
+              "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj": {
+                "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj"
               }
             }
           }
@@ -184,14 +184,14 @@
         }
       }
     },
-    "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Shared/AntiGrade.Shared.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Shared/AntiGrade.Shared.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj",
         "projectName": "AntiGrade.Shared",
-        "projectPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Shared/AntiGrade.Shared.csproj",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj",
         "packagesPath": "/home/gtaslenko/.nuget/packages/",
-        "outputPath": "/home/gtaslenko/Documents/AntiGrade/AntiGrade.Shared/obj/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/share/dotnet/sdk/NuGetFallbackFolder"
