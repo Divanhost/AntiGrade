@@ -1,5 +1,5 @@
 using System;
-using AntiGrade.BusinessObjects.Models.Identity;
+using AntiGrade.Shared.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +17,12 @@ namespace AntiGrade.Data.Context
         {
             base.OnModelCreating(builder);
             builder.Entity<User>().HasKey(x => x.Id);
-
-            
             builder.Entity<Role>().HasData(
-                GetRole(1, AntiGrade.BusinessObjects.Roles.Admin),
-                GetRole(2, AntiGrade.BusinessObjects.Roles.Teacher),
-                GetRole(3, AntiGrade.BusinessObjects.Roles.Student),
-                GetRole(4, AntiGrade.BusinessObjects.Roles.Lecturer),
-                GetRole(6, AntiGrade.BusinessObjects.Roles.User)
+                GetRole(1, AntiGrade.Shared.Roles.Admin),
+                GetRole(2, AntiGrade.Shared.Roles.Teacher),
+                GetRole(3, AntiGrade.Shared.Roles.Student),
+                GetRole(4, AntiGrade.Shared.Roles.Lecturer),
+                GetRole(6, AntiGrade.Shared.Roles.User)
             );
         }
 

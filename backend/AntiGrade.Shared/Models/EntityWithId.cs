@@ -1,4 +1,4 @@
-namespace AntiGrade.BusinessObjects.Models
+namespace AntiGrade.Shared.Models
 {
     public interface IEntityWithId<T> : IEntity<T>
     {

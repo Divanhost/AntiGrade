@@ -1,4 +1,4 @@
-namespace AntiGrade.BusinessObjects
+namespace AntiGrade.Shared
 {
     public static class Policies
     {

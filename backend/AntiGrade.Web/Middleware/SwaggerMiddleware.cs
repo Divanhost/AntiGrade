@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace BusinessIntelligence.Web.Middleware
+namespace AntiGrade.Web.Middleware
 {
     public static class SwaggerMiddleware
     {

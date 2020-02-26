@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace AntiGrade.BusinessObjects.Models.Identity
+namespace AntiGrade.Shared.Models.Identity
 {
     public class UserRole : IdentityUserRole<int>, IEntity<int>
     {

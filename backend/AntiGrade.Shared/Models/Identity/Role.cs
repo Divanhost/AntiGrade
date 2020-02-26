@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace AntiGrade.BusinessObjects.Models.Identity
+namespace AntiGrade.Shared.Models.Identity
 {
     public class Role : IdentityRole<int>, IEntity<int>
     {

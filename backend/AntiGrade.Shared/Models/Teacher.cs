@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using AntiGrade.BusinessObjects.Models.Identity;
+using AntiGrade.Shared.Models.Identity;
 
-namespace AntiGrade.BusinessObjects.Models
+namespace AntiGrade.Shared.Models
 {
     public class Teacher: IEntityWithId<int>
     {

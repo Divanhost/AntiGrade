@@ -10,17 +10,17 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessIntelligence.Core.Middleware
+namespace AntiGrade.Core.Middleware
 {
     public static class AuthorizationMiddleware
     {
         public static IServiceCollection SetupAuthorization(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthorization(options =>
-                options.AddPolicy(AntiGrade.BusinessObjects.Policies.AdminOnly, policy =>
+                options.AddPolicy(AntiGrade.Shared.Policies.AdminOnly, policy =>
                     {
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim(ClaimTypes.Role, AntiGrade.BusinessObjects.Roles.Admin);
+                        policy.RequireClaim(ClaimTypes.Role, AntiGrade.Shared.Roles.Admin);
                     })
             );
             services.AddAuthentication();
@@ -30,7 +30,7 @@ namespace BusinessIntelligence.Core.Middleware
 
             services.AddCors(options =>
             {
-                options.AddPolicy("businessintelligence",
+                options.AddPolicy("AntiGrade",
                     builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             });
 
@@ -105,7 +105,7 @@ namespace BusinessIntelligence.Core.Middleware
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddIdentity<AntiGrade.BusinessObjects.Models.Identity.User, AntiGrade.BusinessObjects.Models.Identity.Role>(options =>
+            services.AddIdentity<AntiGrade.Shared.Models.Identity.User, AntiGrade.Shared.Models.Identity.Role>(options =>
                 {
                     options.User.RequireUniqueEmail = true;
                 })
