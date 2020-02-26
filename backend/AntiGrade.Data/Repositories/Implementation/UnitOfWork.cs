@@ -25,7 +25,18 @@ namespace AntiGrade.Data.Repositories.Implementation
                 return _userRepository;
             }
         }
+        public IRepository<TokenCouple, int> TokenCoupleRepository
+        {
+            get
+            {
+                if (_tokenCoupleRepository == null)
+                {
+                    _tokenCoupleRepository = new Repository<TokenCouple, int>(_context);
+                }
 
+                return _tokenCoupleRepository;
+            }
+        }
         public async Task<int> Save()
         {
             var result = await _context.SaveChangesAsync();
@@ -56,6 +67,7 @@ namespace AntiGrade.Data.Repositories.Implementation
         private readonly AppDbContext _context;
        
         private IRepository<User, int> _userRepository;
+        private IRepository<TokenCouple, int> _tokenCoupleRepository;
 
     }
 }

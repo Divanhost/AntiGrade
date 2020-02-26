@@ -3,7 +3,7 @@ using AntiGrade.Shared.Models.Identity;
 
 namespace AntiGrade.Shared.Models
 {
-    public class Teacher: IEntityWithId<int>
+    public class Employee: IEntityWithId<int>
     {
         [Key]
         public int Id { get; set; }

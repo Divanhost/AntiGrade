@@ -14,7 +14,10 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
-        
+        IRepository<TokenCouple, int> TokenCoupleRepository
+        {
+            get;
+        }
         Task<int> Save();
     }
 }
