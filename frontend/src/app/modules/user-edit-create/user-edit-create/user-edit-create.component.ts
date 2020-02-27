@@ -54,25 +54,25 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
               private readonly route: ActivatedRoute,
               private router: Router,
               notifierService: NotifierService) {
-    this.currentUserId = roleService.getCurrentUser().id;
-    this.subscriptions.push(
-      this.route.params.subscribe(params => this.userId = params.id)
-    );
-    this.notifier = notifierService;
-    this.isCreateMode = this.userId === undefined;
-    this.isShowDeleteButton = this.userId !== undefined && this.isAdminRole;
+    // this.currentUserId = roleService.getCurrentUser().id;
+    // this.subscriptions.push(
+    //   this.route.params.subscribe(params => this.userId = params.id)
+    // );
+    // this.notifier = notifierService;
+    // this.isCreateMode = this.userId === undefined;
+    // this.isShowDeleteButton = this.userId !== undefined && this.isAdminRole;
   }
 
   ngOnInit() {
-    if (this.isCreateMode) {
-      this.showPasswordInput = true;
-    } else {
-      this.getUserByID();
-      this.isShowChangePassword = true;
-    }
-    this.initForm();
-    this.roles = [];
-    this.getAllRoles();
+    // if (this.isCreateMode) {
+    //   this.showPasswordInput = true;
+    // } else {
+    //   this.getUserByID();
+    //   this.isShowChangePassword = true;
+    // }
+    // this.initForm();
+    // this.roles = [];
+    // this.getAllRoles();
   }
 
   initForm() {
