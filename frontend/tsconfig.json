@@ -22,5 +22,16 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
+  },
+  "paths": {
+    "@ag/guards": ["src/app/core/guards/index.ts"],
+    "@services/*": ["src/app/core/services/*"],
+    "@ag/common/classes": ["src/app/shared/classes/index.ts"],
+    "@ag/common/components": ["src/app/shared/components/index.ts"],
+    "@ag/enums": ["src/app/shared/enums/index.ts"],
+    "@models/*": ["src/app/shared/models/*"],
+    "@ag/components": ["src/app/modules/main/index.ts"],
+    "@ag/modules": ["src/app/modules/main/module/index.ts"],
+    "@ag/directives": ["src/app/shared/directives/index.ts"]
   }
 }
