@@ -4897,7 +4897,8 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "AntiGrade.Shared": "1.0.0"
+          "AntiGrade.Shared": "1.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0"
         },
         "compile": {
           "bin/placeholder/AntiGrade.Data.dll": {}

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AntiGrade.Core.Configuration;
 using AntiGrade.Core.Middleware;
+using AntiGrade.Data.Context;
 using AntiGrade.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,7 +48,9 @@ namespace AntiGrade
                     .AllowAnyMethod()
                     .AllowCredentials());
             });
-            // services.RegisterDependencies(Configuration);
+            services.RegisterDependencies(Configuration);
+            // services.AddDbContext<AppDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.SetupAuthorization(Configuration);
             services.AddSwaggerDocumentation();
             services.AddHttpContextAccessor();

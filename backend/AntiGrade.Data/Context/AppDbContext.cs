@@ -1,4 +1,5 @@
 using System;
+using AntiGrade.Shared.Models;
 using AntiGrade.Shared.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,6 +13,8 @@ namespace AntiGrade.Data.Context
         {
 
         }
+        public DbSet<Employee> Employees {get;set;}
+        public DbSet<TokenCouple> TokenCouples {get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

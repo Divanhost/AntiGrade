@@ -18,10 +18,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AntiGrade.Core.Services.Implementation
 {
-    public class TokenService : ILoginService
+    public class LoginService : ILoginService
     {
         private readonly UserManager<User> _userManager;
-        public TokenService(IUnitOfWork unitOfWork,
+        public LoginService(IUnitOfWork unitOfWork,
             IConfigurationService configuration,
             UserManager<User> userManager)
         {
