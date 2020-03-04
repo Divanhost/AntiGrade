@@ -24,7 +24,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   private readonly notifier: NotifierService;
   addUserForm: FormGroup;
   submitted = false;
-  isCreateMode: boolean;
+  isCreateMode: boolean = true;
   isShowDeleteButton: boolean;
   isShowChangePassword: boolean;
   showOldPasswordInput: boolean;
@@ -264,10 +264,10 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
       this.user = this.addUserForm.getRawValue();
       this.user.id = this.userId;
 
-      if (!this.isCreateMode && this.user.newPassword !== this.user.confirmPassword) {
-        this.mustMatch = true;
-        return;
-      }
+      // if (!this.isCreateMode && this.user.newPassword !== this.user.confirmPassword) {
+      //   this.mustMatch = true;
+      //   return;
+      // }
       this.createOrUpdateUser();
     }
   }

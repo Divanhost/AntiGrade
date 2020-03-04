@@ -4,45 +4,43 @@
                     <div>
                         <label for="userName">User name</label>
                         <input id="userName" class="form-control" type="text" formControlName="userName"
-                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.userName), 'disable-field': !isAdminRole}">
+                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.userName)}">
                         <div *ngIf="isInputHasErrors(form.userName)" class="invalid-feedback">
                             <div *ngIf="form.userName.errors">User name is null or have whitespace</div>
                             <div *ngIf="form.userName.errors.maxlength">User name is too long</div>
                         </div>
-                        <small *ngIf="isAdminRole" class="form-text text-muted">
+                        <small  class="form-text text-muted">
                             Enter the user name
                         </small>
                     </div>
                     <div>
                         <label for="email">Email</label>
                         <input id="email" class="form-control" type="email" formControlName="email"
-                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.email), 'disable-field': !isAdminRole }">
+                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.email)}">
                         <div *ngIf="isInputHasErrors(form.email)" class="invalid-feedback">
                             <div *ngIf="form.email.errors.required || form.email.errors.maxlength">Email is null or
                                 too long</div>
                             <div *ngIf="form.email.errors.email">Email must be a valid email address</div>
                         </div>
-                        <small *ngIf="isAdminRole" class="form-text text-muted">
+                        <small  class="form-text text-muted">
                             Enter the email
                         </small>
                     </div>
                     <div>
                         <label for="input-category">Role</label>
-                        <div [ngClass]="{ 'role-field': !isNotCurrentAdminProfile }">
+                        <!-- <div [ngClass]="{ 'role-field': !isNotCurrentAdminProfile }"> -->
+                        <div>
                             <ng-select [searchable]="false" bindLabel="name" bindValue="name" formControlName="role"
-                                [ngClass]="{ 'is-invalid': isInputHasErrors(form.role), 'disable-field': !isNotCurrentAdminProfile }"
+                                [ngClass]="{ 'is-invalid': isInputHasErrors(form.role)}"
                                 [multiple]="true" [closeOnSelect]="false">
                                 <ng-option *ngFor="let role of roles" [value]="role">{{ role.name }}</ng-option>
                             </ng-select>
-                            <div class="text-hint">
-                                If you want to revoke your admin access, ask another admin to edit your role.
-                            </div>
                             <div *ngIf="isInputHasErrors(form.role)" class="invalid-feedback">
                                 <div *ngIf="form.role.errors.required">Role is required</div>
                             </div>
-                            <small *ngIf="isNotCurrentAdminProfile" class="form-text text-muted">
+                            <!-- <small *ngIf="isNotCurrentAdminProfile" class="form-text text-muted">
                                 Select role for the user
-                            </small>
+                            </small> -->
                         </div>
                     </div>
                     <div class="checkbox-container" *ngIf="isShowChangePassword">
@@ -74,9 +72,9 @@
                                 Password between 8 and 20 characters must contain at least one lowercase letter, one
                                 uppercase letter, one numeric digit.</div>
                         </div>
-                        <small class="form-text text-muted">
+                        <!-- <small class="form-text text-muted">
                             Enter the new password
-                        </small>
+                        </small> -->
                     </div>
                     <div *ngIf="showPasswords">
                         <label for="input-category">Confirm password</label>
@@ -100,11 +98,11 @@
                             Enter the user name
                         </small>
                     </div>
-                    <div class="buttons">
+                    <div class="buttons mt-2">
                         <button type="submit" class="btn-success btn btn-primary">Save</button>
                         <button type="submit" *ngIf="isShowDeleteButton" (click)="isDeleteMode = true"
                             class="btn-danger btn btn-primary">Delete</button>
-                        <button type="button" routerLink="/configuration/users" class="btn btn-dark">Cancel</button>
+                        <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
                     </div>
                 </form>
     </div>

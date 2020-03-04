@@ -12,6 +12,7 @@ import { RequestInterceptor } from './core/services/request-interceptor';
 import { UserEditCreateComponent } from './modules/user-edit-create/user-edit-create/user-edit-create.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -59,6 +60,7 @@ const customNotifierOptions: NotifierOptions = {
     AppComponent,
     LoginComponent,
     UserEditCreateComponent,
+    DashboardComponent,
   ],
   imports: [
     NgbModule,
