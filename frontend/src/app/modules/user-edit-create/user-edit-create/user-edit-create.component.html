@@ -65,7 +65,7 @@
                             Enter the old password
                         </small>
                     </div>
-                    <div *ngIf="showPasswordInput">
+                    <div>
                         <label for="input-category">Password</label>
                         <input class="form-control border-style" type="password" formControlName="newPassword"
                             [ngClass]="{ 'is-invalid': isInputHasErrors(form.newPassword) }" autocomplete="new-password">

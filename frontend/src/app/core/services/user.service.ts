@@ -21,28 +21,24 @@ export class UserService {
     return this.http.getData(`users/get`);
   }
 
-  getUsersWithoutEmployee(): Observable<UserViewModel[]> {
-    return this.http.getData(`users/without_employee`);
-  }
-
   getAllRoles(): Observable<PagedResponseModel<RoleViewModel>> {
-    return this.http.getData(`users/get/roles`);
+    return this.http.getData(`users/roles`);
   }
 
   getUserByID(userId): Observable<ResponseModel<UserViewModel>> {
-    return this.http.getData(`users/get/${userId}`);
+    return this.http.getData(`users/${userId}`);
   }
 
   checkUserNameExists(username): Observable<ResponseModel<string>> {
-    return this.http.getData(`users/get/check_username/${username}`);
+    return this.http.getData(`users/check_username/${username}`);
   }
 
   checkEmailExists(email): Observable<ResponseModel<string>> {
-    return this.http.getData(`users/get/check_email/${email}`);
+    return this.http.getData(`users/check_email/${email}`);
   }
 
   checkPassword(userName, password): Observable<ResponseModel<boolean>> {
-    return this.http.getData(`users/get/check_password/${userName}/${password}`);
+    return this.http.getData(`users/check_password/${userName}/${password}`);
   }
 
   createUser(user): Observable<ResponseModel<UserDtoModel>> {
@@ -50,7 +46,7 @@ export class UserService {
   }
 
   updateUser(userId, user): Observable<ResponseModel<UserDtoModel>> {
-    return this.http.putData(`users/put/${userId}`, user);
+    return this.http.putData(`users/${userId}`, user);
   }
 
   deleteUser(userId): Observable<ResponseModel<UserDtoModel>> {

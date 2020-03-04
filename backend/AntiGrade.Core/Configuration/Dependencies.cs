@@ -1,4 +1,3 @@
-using System;
 using AntiGrade.Core.Services.Implementation;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Context;
@@ -6,11 +5,8 @@ using AntiGrade.Data.Repositories.Implementation;
 using AntiGrade.Data.Repositories.Interfaces;
 using AntiGrade.Shared.Models.Identity;
 using AutoMapper;
-using BusinessIntelligence.Core.Services.Implementation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +34,7 @@ namespace AntiGrade.Core.Configuration
         {
             RegisterHelpers(services);
             RegisterServices(services);
-            //AddAutoMapper(services);
+            AddAutoMapper(services);
         }
 
         private static void RegisterTestOnlyDependencies(this IServiceCollection services)
@@ -60,23 +56,22 @@ namespace AntiGrade.Core.Configuration
         {
             services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IContextAccessor, ContextAccessor>();
             services.AddScoped<UserManager<User>>();
         }
 
-        // private static void AddAutoMapper(IServiceCollection services)
-        // {
-        //     var mappingConfig = new MapperConfiguration(cfg =>
-        //     {
-        //         cfg.AddProfile(new MappingProfile());
-        //         cfg.AddProfile(new FinanceMappingProfile());
-        //         cfg.AddProfile(new OperationsMappingProfile());
-        //         cfg.AddProfile(new HumanResourcesMappingProfile());
-        //     });
+        private static void AddAutoMapper(IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfile());
+            });
 
-        //     IMapper mapper = mappingConfig.CreateMapper();
-        //     services.AddSingleton(mapper);
-        //     services.AddMvc();
-        // }
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddMvc();
+        }
 
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {

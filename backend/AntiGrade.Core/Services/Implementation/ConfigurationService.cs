@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 
-namespace BusinessIntelligence.Core.Services.Implementation
+namespace AntiGrade.Core.Services.Implementation
 {
     public class ConfigurationService : IConfigurationService
     {

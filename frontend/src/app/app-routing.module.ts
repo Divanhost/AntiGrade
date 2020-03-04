@@ -5,7 +5,7 @@ import { UserEditCreateComponent } from './modules/user-edit-create/user-edit-cr
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/login' },
+  { path: '', pathMatch: 'full', redirectTo: '/users' },
   { path: 'login', component: LoginComponent },
   { path: 'users', component: UserEditCreateComponent },
   // { path: '404', component: PageNotFoundComponent },

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using AntiGrade.Shared.Enums;
 
-namespace DigitalSkynet.DotnetCore.Api.Exceptions
+namespace AntiGrade.Shared.Exceptions
 {
     public class ApiException : Exception
     {

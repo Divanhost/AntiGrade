@@ -43,7 +43,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   editUser: UserViewModel = new UserDtoModel();
   currentUserId: number;
   pageTitle = 'Create user';
-  roles: RoleViewModel[];
+  roles: RoleViewModel[] = [];
   isPasswordCorrect = true;
   isShowAvatarBlock = true;
   passwordValidationPattern = '((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20})';
@@ -70,9 +70,8 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
     //   this.getUserByID();
     //   this.isShowChangePassword = true;
     // }
-    // this.initForm();
-    // this.roles = [];
-    // this.getAllRoles();
+    this.initForm();
+    this.getAllRoles();
   }
 
   initForm() {
@@ -84,7 +83,6 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
       oldPassword: new FormControl(''),
       newPassword: new FormControl(''),
       confirmPassword: new FormControl(''),
-      gitlabName: new FormControl('')
     });
     if (this.isCreateMode) {
       this.addUserForm.controls['newPassword'].setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
@@ -173,7 +171,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
       this.showPasswordInput = true;
       this.showOldPasswordInput = true;
       this.addUserForm.controls['newPassword'].setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
-      if (this.isAdminRole && (this.userId !== this.currentUserId)) {
+      if (/*this.isAdminRole &&*/ (this.userId !== this.currentUserId)) {
         this.showOldPasswordInput = false;
       } else {
         this.addUserForm.controls['oldPassword'].setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
@@ -190,9 +188,10 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   }
 
   createOrUpdateUser() {
+    debugger;
     this.checkUserName();
     this.checkEmail();
-    if (this.showPasswords && !this.isAdminRole) {
+    if (this.showPasswords /*&& !this.isAdminRole*/) {
       this.checkPassword();
     }
     if (this.isCreateMode) {
@@ -273,17 +272,17 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  get isAdminRole(): boolean {
-    return this.roleService.checkIfRole(Role.Admin);
-  }
+  // get isAdminRole(): boolean {
+  //   return this.roleService.checkIfRole(Role.Admin);
+  // }
 
-  get isShowFinanceTab(): boolean {
-    return this.isAdminRole && !this.isCreateMode && this.userId !== this.currentUserId;
-  }
+  // get isShowFinanceTab(): boolean {
+  //   return this.isAdminRole && !this.isCreateMode && this.userId !== this.currentUserId;
+  // }
 
-  get isNotCurrentAdminProfile(): boolean {
-    return this.isAdminRole && this.currentUserId !== this.userId;
-  }
+  // get isNotCurrentAdminProfile(): boolean {
+  //   return this.isAdminRole && this.currentUserId !== this.userId;
+  // }
 
   ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());

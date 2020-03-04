@@ -15,20 +15,5 @@ namespace AntiGrade.Shared.Models.Identity
             get;
             set;
         }
-        // public virtual List<AccountAccess> AccountAccess
-        // {
-        //     get;
-        //     set;
-        // }
-        // public virtual List<SourcePasswordAccess> SourcePasswordAccess
-        // {
-        //     get;
-        //     set;
-        // }
-        // public virtual List<Dashboard> Dashboards
-        // {
-        //     get;
-        //     set;
-        // }
     }
 }

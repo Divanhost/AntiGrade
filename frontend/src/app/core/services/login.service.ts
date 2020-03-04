@@ -15,14 +15,14 @@ export class LoginService {
     }
 
     login(loginModel: LoginModel): Observable<string> {
-        return this.httpService.postData(`auth/login`, loginModel);
+        return this.httpService.postData(`login/login`, loginModel);
     }
 
     renew() {
         const jwt = localStorage.getItem(this.JWT_TOKEN);
         const refresh = localStorage.getItem(this.REFRESH_TOKEN);
         const oldTokens = new TokenCouple(jwt, refresh);
-        return this.httpService.postData('auth/renew', oldTokens ).pipe(tap((tokens: TokenCouple) => {
+        return this.httpService.postData('login/renew', oldTokens ).pipe(tap((tokens: TokenCouple) => {
             this.storeToken(tokens.jwt);
         }));
     }
