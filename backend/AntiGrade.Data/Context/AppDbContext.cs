@@ -15,6 +15,10 @@ namespace AntiGrade.Data.Context
         }
         public DbSet<Employee> Employees {get;set;}
         public DbSet<TokenCouple> TokenCouples {get;set;}
+        public DbSet<Group> Groups {get;set;}
+        public DbSet<Student> Students {get;set;}
+        public DbSet<Subject> Subjects {get;set;}
+        public DbSet<SubjectDistribution> SubjectDistribution {get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -8,8 +8,6 @@ import { UserEditCreateComponent } from './user-edit-create/user-edit-create.com
 import { LoginService, HttpService } from 'src/app/core/services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { AppRoutingModule } from 'src/app/app-routing.module';
-import { BrowserModule } from '@angular/platform-browser';
 
 
 registerLocaleData(localeRu, 'ru-RU');
