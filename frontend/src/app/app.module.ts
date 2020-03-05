@@ -1,18 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './modules/login/login.component';
 import { NotifierOptions, NotifierModule } from 'angular-notifier';
 import {  HttpService } from './core/services';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from './core/services/request-interceptor';
-import { UserEditCreateComponent } from './modules/user-edit-create/user-edit-create/user-edit-create.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { CommonModule } from '@angular/common';
+
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -58,12 +56,10 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    UserEditCreateComponent,
-    DashboardComponent,
   ],
   imports: [
     NgbModule,
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

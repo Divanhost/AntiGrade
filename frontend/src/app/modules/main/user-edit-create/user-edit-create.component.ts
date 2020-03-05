@@ -4,13 +4,13 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NotifierService } from 'angular-notifier';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { UserService, LoginService } from '../../../core/services';
 import { UserDtoModel } from 'src/app/shared/models/user-dto.model';
 import { UserViewModel } from 'src/app/shared/models';
 import { RoleViewModel } from 'src/app/shared/models/role.model';
 import { RoleService } from 'src/app/core/services/role.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { PagedResponseModel } from 'src/app/shared/models/paged-response.model';
+import { UserService } from 'src/app/core/services';
 import { Role } from 'src/app/shared/enums/role.enum';
 
 
@@ -24,7 +24,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   private readonly notifier: NotifierService;
   addUserForm: FormGroup;
   submitted = false;
-  isCreateMode: boolean = true;
+  isCreateMode = true;
   isShowDeleteButton: boolean;
   isShowChangePassword: boolean;
   showOldPasswordInput: boolean;
@@ -54,22 +54,22 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
               private readonly route: ActivatedRoute,
               private router: Router,
               notifierService: NotifierService) {
-    // this.currentUserId = roleService.getCurrentUser().id;
-    // this.subscriptions.push(
-    //   this.route.params.subscribe(params => this.userId = params.id)
-    // );
-    // this.notifier = notifierService;
-    // this.isCreateMode = this.userId === undefined;
-    // this.isShowDeleteButton = this.userId !== undefined && this.isAdminRole;
+    this.currentUserId = roleService.getCurrentUser().id;
+    this.subscriptions.push(
+      this.route.params.subscribe(params => this.userId = params.id)
+    );
+    this.notifier = notifierService;
+    this.isCreateMode = this.userId === undefined;
+    this.isShowDeleteButton = this.userId !== undefined && this.isAdminRole;
   }
 
   ngOnInit() {
-    // if (this.isCreateMode) {
-    //   this.showPasswordInput = true;
-    // } else {
-    //   this.getUserByID();
-    //   this.isShowChangePassword = true;
-    // }
+    if (this.isCreateMode) {
+      this.showPasswordInput = true;
+    } else {
+      this.getUserByID();
+      this.isShowChangePassword = true;
+    }
     this.initForm();
     this.getAllRoles();
   }
@@ -191,7 +191,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
     debugger;
     this.checkUserName();
     this.checkEmail();
-    if (this.showPasswords /*&& !this.isAdminRole*/) {
+    if (this.showPasswords && !this.isAdminRole) {
       this.checkPassword();
     }
     if (this.isCreateMode) {
@@ -264,25 +264,25 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
       this.user = this.addUserForm.getRawValue();
       this.user.id = this.userId;
 
-      // if (!this.isCreateMode && this.user.newPassword !== this.user.confirmPassword) {
-      //   this.mustMatch = true;
-      //   return;
-      // }
+      if (!this.isCreateMode && this.user.newPassword !== this.user.confirmPassword) {
+        this.mustMatch = true;
+        return;
+      }
       this.createOrUpdateUser();
     }
   }
 
-  // get isAdminRole(): boolean {
-  //   return this.roleService.checkIfRole(Role.Admin);
-  // }
+  get isAdminRole(): boolean {
+    return this.roleService.checkIfRole(Role.Admin);
+  }
 
-  // get isShowFinanceTab(): boolean {
-  //   return this.isAdminRole && !this.isCreateMode && this.userId !== this.currentUserId;
-  // }
+  get isShowFinanceTab(): boolean {
+    return this.isAdminRole && !this.isCreateMode && this.userId !== this.currentUserId;
+  }
 
-  // get isNotCurrentAdminProfile(): boolean {
-  //   return this.isAdminRole && this.currentUserId !== this.userId;
-  // }
+  get isNotCurrentAdminProfile(): boolean {
+    return this.isAdminRole && this.currentUserId !== this.userId;
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());
