@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AntiGrade.Shared.InputModels 
+namespace AntiGrade.Shared.ViewModels 
 {
     public class GroupView
     {

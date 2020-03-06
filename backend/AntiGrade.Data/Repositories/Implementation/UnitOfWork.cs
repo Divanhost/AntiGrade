@@ -37,6 +37,81 @@ namespace AntiGrade.Data.Repositories.Implementation
                 return _tokenCoupleRepository;
             }
         }
+
+        public IRepository<Employee, int> EmployeeRepository
+        {
+            get
+            {
+                if (_employeeRepository == null)
+                {
+                    _employeeRepository = new Repository<Employee, int>(_context);
+                }
+
+                return _employeeRepository;
+            }
+        }
+
+        public IRepository<Group, int> GroupRepository
+        {
+            get
+            {
+                if (_groupRepository == null)
+                {
+                    _groupRepository = new Repository<Group, int>(_context);
+                }
+
+                return _groupRepository;
+            }
+        }
+          public IRepository<Student, int> StudentRepository
+        {
+            get
+            {
+                if (_studentRepository== null)
+                {
+                    _studentRepository = new Repository<Student, int>(_context);
+                }
+
+                return _studentRepository;
+            }
+        }
+        public IRepository<Subject, int> SubjectRepository
+        {
+            get
+            {
+                if (_subjectRepository == null)
+                {
+                    _subjectRepository = new Repository<Subject, int>(_context);
+                }
+
+                return _subjectRepository;
+            }
+        }
+        public IRepository<EmployeePosition, int> EmployeePositionRepository
+        {
+            get
+            {
+                if (_employeePositionRepository == null)
+                {
+                    _employeePositionRepository = new Repository<EmployeePosition, int>(_context);
+                }
+
+                return _employeePositionRepository;
+            }
+        }
+        public IRepository<SubjectDistribution, int> SubjectDistributionRepository
+        {
+            get
+            {
+                if (_subjectDistributionRepository == null)
+                {
+                    _subjectDistributionRepository = new Repository<SubjectDistribution, int>(_context);
+                }
+
+                return _subjectDistributionRepository;
+            }
+        }
+
         public async Task<int> Save()
         {
             var result = await _context.SaveChangesAsync();
@@ -68,6 +143,12 @@ namespace AntiGrade.Data.Repositories.Implementation
        
         private IRepository<User, int> _userRepository;
         private IRepository<TokenCouple, int> _tokenCoupleRepository;
+        private IRepository<Employee, int> _employeeRepository;
+        private IRepository<Group, int> _groupRepository;
+        private IRepository<Student, int> _studentRepository;
+        private IRepository<Subject, int> _subjectRepository;
+        private IRepository<EmployeePosition, int> _employeePositionRepository;
+        private IRepository<SubjectDistribution, int> _subjectDistributionRepository;
 
     }
 }

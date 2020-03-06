@@ -52,7 +52,7 @@ namespace AntiGrade.Core.Services.Implementation
 
             if (result == null)
             {
-                throw new NotFoundWebsiteException("The user is not found");
+                throw new NotFoundWebsiteException("Пользователь не найден");
             }
 
             return result;
@@ -153,7 +153,7 @@ namespace AntiGrade.Core.Services.Implementation
                 }
                 else
                 {
-                    throw new WebsiteException("The user does not exists");
+                    throw new WebsiteException("Пользователь не существует");
                 }
             }
             else

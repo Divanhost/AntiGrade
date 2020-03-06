@@ -18,6 +18,31 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
+
+        IRepository<Subject, int> SubjectRepository
+        {
+            get;
+        }
+        IRepository<Employee, int> EmployeeRepository
+        {
+            get;
+        }
+        IRepository<Group, int> GroupRepository
+        {
+            get;
+        }
+        IRepository<Student, int> StudentRepository
+        {
+            get;
+        }
+        IRepository<SubjectDistribution, int> SubjectDistributionRepository
+        {
+            get;
+        }
+        IRepository<EmployeePosition, int> EmployeePositionRepository
+        {
+            get;
+        }
         Task<int> Save();
     }
 }
