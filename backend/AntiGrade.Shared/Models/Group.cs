@@ -6,6 +6,7 @@ namespace AntiGrade.Shared.Models
     {
         public int Id {get;set;}
         public int Name {get;set;}
+        public bool IsDeleted {get;set;}
         public virtual List<Student> Students {get;set;}
     }
 }
