@@ -14,6 +14,7 @@ namespace AntiGrade.Data.Context
 
         }
         public DbSet<Employee> Employees {get;set;}
+        public DbSet<EmployeePosition> EmployeePositions {get;set;}
         public DbSet<TokenCouple> TokenCouples {get;set;}
         public DbSet<Group> Groups {get;set;}
         public DbSet<Student> Students {get;set;}
