@@ -112,6 +112,44 @@ namespace AntiGrade.Data.Repositories.Implementation
             }
         }
 
+        public IRepository<Criteria, int> CriteriaRepository 
+        {
+            get
+            {
+                if (_criteriaRepository == null)
+                {
+                    _criteriaRepository = new Repository<Criteria, int>(_context);
+                }
+
+                return _criteriaRepository;
+            }
+        }
+
+        public IRepository<Work, int> WorkRepository
+        {
+            get
+            {
+                if (_workRepository == null)
+                {
+                    _workRepository = new Repository<Work, int>(_context);
+                }
+
+                return _workRepository;
+            }
+        }
+        public IRepository<WorkType, int> WorkTypeRepository 
+        {
+            get
+            {
+                if (_workTypeRepository == null)
+                {
+                    _workTypeRepository = new Repository<WorkType, int>(_context);
+                }
+
+                return _workTypeRepository;
+            }
+        }
+
         public async Task<int> Save()
         {
             var result = await _context.SaveChangesAsync();
@@ -149,6 +187,9 @@ namespace AntiGrade.Data.Repositories.Implementation
         private IRepository<Subject, int> _subjectRepository;
         private IRepository<EmployeePosition, int> _employeePositionRepository;
         private IRepository<SubjectDistribution, int> _subjectDistributionRepository;
+        private IRepository<Criteria, int> _criteriaRepository;
+        private IRepository<Work, int> _workRepository;
+        private IRepository<WorkType, int> _workTypeRepository;
 
     }
 }

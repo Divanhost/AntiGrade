@@ -43,6 +43,18 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
+        IRepository<Criteria, int> CriteriaRepository
+        {
+            get;
+        }
+        IRepository<Work, int> WorkRepository
+        {
+            get;
+        }
+        IRepository<WorkType, int> WorkTypeRepository
+        {
+            get;
+        }
         Task<int> Save();
     }
 }
