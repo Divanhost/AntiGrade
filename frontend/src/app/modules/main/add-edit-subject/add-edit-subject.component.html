@@ -1,0 +1,42 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div *ngIf="isCreate; else edit" class="display-3">Создание дисциплины</div>
+    <ng-template #edit >
+        <div class="display-3">Изменение дисциплины</div>
+    </ng-template >
+    <div>
+        <label for="input-name">Название</label>
+        <input class="form-control border-style" formControlName="name" id="input-name"
+            [ngClass]="{ 'is-invalid': isInputHasErrors(controls.name) }" type="text">
+        <div *ngIf="isInputHasErrors(controls.name)" class="invalid-feedback">
+            <div *ngIf="controls.name.errors.required">Название обязательно</div>
+        </div>
+        <small class="form-text text-muted">
+            Введите название дисциплины
+        </small>
+    </div>
+    <div>Вид зачёта</div>
+    <ng-select formControlName="examType">
+        <ng-option *ngFor="let type of examTypes" [value]="type">
+            {{ type.name }}
+        </ng-option>
+    </ng-select>
+    <!-- <div>Список преподавателей</div>
+        <ng-multiselect-dropdown
+            [placeholder]="'custom placeholder'"
+            [data]="teachers"
+            [(ngModel)]="selectedTeachers"
+            [settings]="dropdownSettings"
+        >
+        </ng-multiselect-dropdown> -->
+    <div>Составитель учебного плана</div>
+    <ng-select [searchable]="false" formControlName="mainTeacher">
+        <ng-option *ngFor="let mTeacher of selectedTeachers" [value]="">
+            {{mTeacher.FullName}}
+        </ng-option>
+    </ng-select>
+    <div class="buttons">
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
+    </div>
+</form>
+

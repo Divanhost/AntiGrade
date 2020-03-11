@@ -8,14 +8,16 @@ import { UserEditCreateComponent } from './user-edit-create/user-edit-create.com
 import { LoginService, HttpService } from 'src/app/core/services';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { AddEditSubjectComponent } from './add-edit-subject/add-edit-subject.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
   declarations: [
     MainComponent,
-    UserEditCreateComponent
+    UserEditCreateComponent,
+    AddEditSubjectComponent
   ],
   imports: [
     NgbModule,
@@ -24,6 +26,7 @@ registerLocaleData(localeRu, 'ru-RU');
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'always' }),
   ],
   providers: [
