@@ -87,5 +87,10 @@ namespace AntiGrade.Core.Services.Implementation
                 throw new WebsiteException("Дисциплина не существует");
             }
         }
+        public async Task<List<ExamType>> GetExamTypes()
+        {
+            var examTypes = await _unitOfWork.GetRepository<ExamType,int>().All().ToListAsync();
+            return examTypes;
+        }
     }
 }

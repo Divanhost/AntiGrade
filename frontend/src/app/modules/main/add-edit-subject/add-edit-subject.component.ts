@@ -7,6 +7,7 @@ import { Employee } from 'src/app/shared/models/employee.model';
 import { ExamType } from 'src/app/shared/models/exam-type.model';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
+import { SubjectService } from 'src/app/core/services/subject.service';
 
 @Component({
   selector: 'app-add-edit-subject',
@@ -16,14 +17,15 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 export class AddEditSubjectComponent extends BaseFormComponent implements OnInit {
   isCreate: boolean;
   subjectId: number;
-  teachers = [];
+  teachers: Employee[] = [];
   examTypes: ExamType[] = [];
   dropdownList = [];
-  selectedTeachers = [];
+  selectedTeachers: Employee[] = [];
   dropdownSettings = {};
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
-              private readonly employeeService: EmployeeService) {
+              private readonly employeeService: EmployeeService,
+              private readonly subjectService: SubjectService) {
     super();
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
@@ -43,39 +45,40 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     //   { item_id: 3, item_text: 'Pune' },
     //   { item_id: 4, item_text: 'Navsari' }
     // ];
-    // this.dropdownSettings = {
-    //   singleSelection: false,
-    //   idField: 'item_id',
-    //   textField: 'item_text',
-    //   selectAllText: 'Select All',
-    //   unSelectAllText: 'UnSelect All',
-    //   itemsShowLimit: 3,
-    //   allowSearchFilter: true
-    // };
+    this.dropdownSettings = {
+      singleSelection: false,
+      textField: 'fullName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
     this.initForm();
     this.getExamTypes();
     this.getTeachers();
   }
   initForm() {
     this.form = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      examType: new FormControl('', [Validators.required, Validators.maxLength(500)]),
-      teachersList: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      examType: new FormControl('', [Validators.required]),
+      teachersList: new FormControl('', [Validators.required]),
       mainTeacher: new FormControl(null, Validators.required)
     });
   }
   onSubmit() {
   }
 
-  getExamTypes(){
-    // this.subscriptions.push(
-    // )
+  getExamTypes() {
+    this.subscriptions.push(
+      this.subjectService.getExamTypes().subscribe((responce: ResponseModel<ExamType[]>) => {
+        this.examTypes = responce.payload;
+      })
+    );
   }
   getTeachers() {
     this.subscriptions.push(
-      this.employeeService.getAllTeachers().subscribe((responce: ResponseModel<Employee[]>) =>{
+      this.employeeService.getAllTeachers().subscribe((responce: ResponseModel<Employee[]>) => {
         this.teachers = responce.payload;
-        console.log(this.teachers);
       })
     );
   }

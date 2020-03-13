@@ -18,24 +18,22 @@
             </div>
             <div>Вид зачёта</div>
             <ng-select formControlName="examType">
-                <ng-option *ngFor="let type of examTypes" [value]="type">
+                <ng-option *ngFor="let type of examTypes">
                     {{ type.name }}
                 </ng-option>
             </ng-select>
-            <!-- <div>Список преподавателей</div>
-        <ng-multiselect-dropdown
-            [placeholder]="'custom placeholder'"
+            <div>Список преподавателей</div>
+        <ng-multiselect-dropdown formControlName="teachersList"
             [data]="teachers"
             [(ngModel)]="selectedTeachers"
-            [settings]="dropdownSettings"
-        >
-        </ng-multiselect-dropdown> -->
+            [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
             <div>Составитель учебного плана</div>
-            <ng-select [searchable]="false" formControlName="mainTeacher">
-                <ng-option *ngFor="let mTeacher of selectedTeachers" [value]="">
-                    {{mTeacher.FullName}}
-                </ng-option>
-            </ng-select>
+        <ng-select [searchable]="false" formControlName="mainTeacher">
+            <ng-option *ngFor="let mTeacher of selectedTeachers">
+                {{mTeacher.fullName}}
+            </ng-option>
+        </ng-select>
             <div class="buttons">
                 <button type="submit" class="btn btn-success">Save</button>
                 <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
