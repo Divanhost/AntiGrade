@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AntiGrade.Shared.Models;
 using AntiGrade.Shared.Models.Identity;
 using AntiGrade.Shared.ViewModels;
 using AutoMapper;
@@ -15,6 +16,8 @@ namespace AntiGrade.Core.Configuration
             CreateMap<Role,RolesView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
+            CreateMap<Employee, EmployeeView>()
+                .ForMember(x => x.FullName, _ => _.MapFrom(x => $"{x.LastName} {x.FirstName}"));
         }
     }
 }

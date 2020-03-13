@@ -7,7 +7,8 @@ namespace AntiGrade.Shared.Models
     {
         public int Id { get; set; }
         public string Name {get;set;}
-        public GradeType Type {get;set;}
+        public int TypeId {get;set;}
+        public ExamType Type {get;set;}
         public bool IsDeleted {get;set;}
         public virtual List<Group> Groups{get;set;}
     }

@@ -3,8 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent, BaseFormComponent } from 'src/app/shared/classes';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ExamType } from 'src/app/shared/enums/exam-type.enum';
 import { Employee } from 'src/app/shared/models/employee.model';
+import { ExamType } from 'src/app/shared/models/exam-type.model';
+import { EmployeeService } from 'src/app/core/services/employee.service';
+import { ResponseModel } from 'src/app/shared/models/response.model';
 
 @Component({
   selector: 'app-add-edit-subject',
@@ -20,36 +22,39 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   selectedTeachers = [];
   dropdownSettings = {};
   constructor(private readonly router: Router,
-              private readonly route: ActivatedRoute) {
+              private readonly route: ActivatedRoute,
+              private readonly employeeService: EmployeeService) {
     super();
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
     );
     this.isCreate = this.subjectId === undefined;
-    console.log(this.isCreate);
   }
 
   ngOnInit(): void {
-    this.dropdownList = [
-      { item_id: 1, item_text: 'Mumbai' },
-      { item_id: 2, item_text: 'Bangaluru' },
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' },
-      { item_id: 5, item_text: 'New Delhi' }
-    ];
-    this.selectedTeachers = [
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' }
-    ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
+    // this.dropdownList = [
+    //   { item_id: 1, item_text: 'Mumbai' },
+    //   { item_id: 2, item_text: 'Bangaluru' },
+    //   { item_id: 3, item_text: 'Pune' },
+    //   { item_id: 4, item_text: 'Navsari' },
+    //   { item_id: 5, item_text: 'New Delhi' }
+    // ];
+    // this.selectedTeachers = [
+    //   { item_id: 3, item_text: 'Pune' },
+    //   { item_id: 4, item_text: 'Navsari' }
+    // ];
+    // this.dropdownSettings = {
+    //   singleSelection: false,
+    //   idField: 'item_id',
+    //   textField: 'item_text',
+    //   selectAllText: 'Select All',
+    //   unSelectAllText: 'UnSelect All',
+    //   itemsShowLimit: 3,
+    //   allowSearchFilter: true
+    // };
+    this.initForm();
+    this.getExamTypes();
+    this.getTeachers();
   }
   initForm() {
     this.form = new FormGroup({
@@ -59,8 +64,19 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
       mainTeacher: new FormControl(null, Validators.required)
     });
   }
-  onSubmit(){
-    
+  onSubmit() {
   }
 
+  getExamTypes(){
+    // this.subscriptions.push(
+    // )
+  }
+  getTeachers() {
+    this.subscriptions.push(
+      this.employeeService.getAllTeachers().subscribe((responce: ResponseModel<Employee[]>) =>{
+        this.teachers = responce.payload;
+        console.log(this.teachers);
+      })
+    );
+  }
 }

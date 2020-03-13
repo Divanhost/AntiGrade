@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Repositories.Interfaces;
+using AntiGrade.Shared.Enums;
 using AntiGrade.Shared.Exceptions;
 using AntiGrade.Shared.InputModels;
 using AntiGrade.Shared.Models;
@@ -52,6 +53,16 @@ namespace AntiGrade.Core.Services.Implementation
                                     .ToListAsync();
             return employees;
         }
+
+        public async Task<List<EmployeeView>> GetAllTeachers()
+        {
+            var employees = await _unitOfWork.GetRepository<Employee,int>()
+                                    .Filter(x=> x.EmployeePositionId == (int)Positions.Teacher)
+                                    .ProjectTo<EmployeeView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return employees;
+        }
+
 
         public async Task<EmployeeView> GetEmployeeById(int employeeId)
         {

@@ -4,12 +4,7 @@ namespace AntiGrade.Shared.ViewModels
 {
     public class EmployeeView:EmployeeDto
     {
-        public string FullName
-        {
-            get
-            {
-                return LastName + ' ' + FirstName;
-            }
-        }
+        public string FullName{get;set;}
+       
     }
 }

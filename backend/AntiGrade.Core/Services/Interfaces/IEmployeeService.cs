@@ -10,6 +10,7 @@ namespace AntiGrade.Core.Services.Interfaces
     public interface IEmployeeService
     {
         Task<List<EmployeeView>> GetAllEmployees();
+        Task<List<EmployeeView>> GetAllTeachers();
         Task<EmployeeView> GetEmployeeById(int employeeId);
         Task<Employee> CreateEmployee(EmployeeDto employeeDto);
         Task<Employee> UpdateEmployee(int employeeId, EmployeeDto Employee);
