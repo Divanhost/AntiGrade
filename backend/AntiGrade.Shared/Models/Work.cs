@@ -19,7 +19,6 @@ namespace AntiGrade.Shared.Models
         public int SubjectId {get;set;}
         public virtual Subject Subject {get;set;}
         public virtual List<Criteria> Criterias {get;set;}
-        public List<StudentWork> StudentWorks {get;set;}
         public WorkType WorkType {get;set;}
     }
 }

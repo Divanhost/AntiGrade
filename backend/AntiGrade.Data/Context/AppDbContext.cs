@@ -23,7 +23,7 @@ namespace AntiGrade.Data.Context
         public DbSet<Criteria> Criterias { get; set; }
         public DbSet<Work> Works { get; set; }
         public DbSet<WorkType> WorkTypes { get; set; }
-        public DbSet<StudentWork> StudentWorks { get; set; }
+        public DbSet<StudentCriteria> StudentCriterias { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -36,16 +36,16 @@ namespace AntiGrade.Data.Context
                 GetRole(6, AntiGrade.Shared.Roles.User)
             );
 
-            builder.Entity<StudentWork>()
-                .HasKey(sw => new { sw.StudentId, sw.WorkId });
-            builder.Entity<StudentWork>()
+            builder.Entity<StudentCriteria>()
+                .HasKey(sw => new { sw.StudentId, sw.CriteriaId });
+            builder.Entity<StudentCriteria>()
                 .HasOne(sw => sw.Student)
-                .WithMany(s => s.StudentWorks)
+                .WithMany(s => s.StudentCriterias)
                 .HasForeignKey(sw => sw.StudentId);
-            builder.Entity<StudentWork>()
-                .HasOne(sw => sw.Work)
-                .WithMany(w => w.StudentWorks)
-                .HasForeignKey(sw => sw.WorkId);
+            builder.Entity<StudentCriteria>()
+                .HasOne(sw => sw.Criteria)
+                .WithMany(w => w.StudentCriterias)
+                .HasForeignKey(sw => sw.CriteriaId);
         }
 
         private Role GetRole(int id, string role)
