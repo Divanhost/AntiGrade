@@ -18,9 +18,12 @@ namespace AntiGrade.Core.Services.Implementation
         {
         }
 
-        public async Task<Group> CreateGroup(GroupDto GroupDto)
+        public async Task<Group> CreateGroup(GroupDto groupDto)
         {
-            var group =_mapper.Map<Group>(GroupDto);
+            var group = new Group()
+            {
+                Name = groupDto.Name
+            };
             var result = _unitOfWork.GetRepository<Group,int>().Create(group);
             await _unitOfWork.Save();
             return result;

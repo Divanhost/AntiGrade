@@ -5,6 +5,7 @@ import { AdminGuard } from 'src/app/core/guards/admin.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserEditCreateComponent } from './user-edit-create/user-edit-create.component';
 import { AddEditSubjectComponent } from './add-edit-subject/add-edit-subject.component';
+import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -25,6 +26,12 @@ const appRoutes: Routes = [
       },
       { path: 'subject/add',
         component: AddEditSubjectComponent
+      },
+      { path: 'group/edit/:id',
+        component: AddEditGroupComponent
+      },
+      { path: 'group/add',
+        component: AddEditGroupComponent
       }
     ]
   }

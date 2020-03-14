@@ -1,0 +1,25 @@
+<div class="container-fluid row">
+    <div class="col-6">
+        <form (ngSubmit)="onSubmit()" [formGroup]="form">
+            <h2 *ngIf="isCreate; else edit">Создание группы</h2>
+            <ng-template #edit>
+                <h2>Изменение группы</h2>
+            </ng-template>
+            <div>
+                <label for="input-name">Название</label>
+                <input class="form-control border-style" formControlName="name" id="input-name" [(ngModel)]="group.name"
+                    [ngClass]="{ 'is-invalid': isInputHasErrors(controls.name) }" type="text">
+                <div *ngIf="isInputHasErrors(controls.name)" class="invalid-feedback">
+                    <div *ngIf="controls.name.errors.required">Название обязательно</div>
+                </div>
+                <small class="form-text text-muted">
+                    Введите название Группы
+                </small>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

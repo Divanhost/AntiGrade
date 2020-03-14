@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
+using AntiGrade.Shared.InputModels;
 using AntiGrade.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,13 @@ namespace AntiGrade.Controllers
         public async Task<IActionResult> GetExamTypes()
         {
             var result = await _service.GetExamTypes();
+            return ResponseModel(result);
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> AddSubject([FromBody] SubjectDto subjectDto)
+        {
+            var result = await _service.CreateSubject(subjectDto);
             return ResponseModel(result);
         }
     }

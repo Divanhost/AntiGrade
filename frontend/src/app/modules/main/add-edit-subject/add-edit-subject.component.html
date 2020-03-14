@@ -7,7 +7,7 @@
             </ng-template>
             <div>
                 <label for="input-name">Название</label>
-                <input class="form-control border-style" formControlName="name" id="input-name"
+                <input class="form-control border-style" formControlName="name" id="input-name" [(ngModel)]="subject.name"
                     [ngClass]="{ 'is-invalid': isInputHasErrors(controls.name) }" type="text">
                 <div *ngIf="isInputHasErrors(controls.name)" class="invalid-feedback">
                     <div *ngIf="controls.name.errors.required">Название обязательно</div>
@@ -17,23 +17,21 @@
                 </small>
             </div>
             <div>Вид зачёта</div>
-            <ng-select formControlName="examType">
-                <ng-option *ngFor="let type of examTypes">
+            <ng-select formControlName="examType" [(ngModel)]="subject.examType">
+                <ng-option *ngFor="let type of examTypes" [value] = "type">
                     {{ type.name }}
                 </ng-option>
             </ng-select>
             <div>Список преподавателей</div>
-        <ng-multiselect-dropdown formControlName="teachersList"
-            [data]="teachers"
-            [(ngModel)]="selectedTeachers"
-            [settings]="dropdownSettings">
-        </ng-multiselect-dropdown>
+            <ng-multiselect-dropdown formControlName="teachers" [data]="teachers" [(ngModel)]="subject.teachers"
+                [settings]="dropdownSettings">
+            </ng-multiselect-dropdown>
             <div>Составитель учебного плана</div>
-        <ng-select [searchable]="false" formControlName="mainTeacher">
-            <ng-option *ngFor="let mTeacher of selectedTeachers">
-                {{mTeacher.fullName}}
-            </ng-option>
-        </ng-select>
+            <ng-select [searchable]="false" formControlName="mainTeacher"  [(ngModel)]="subject.mainTeacher">
+                <ng-option *ngFor="let mTeacher of subject.teachers" [value] = "mTeacher">
+                    {{mTeacher.fullName}}
+                </ng-option>
+            </ng-select>
             <div class="buttons">
                 <button type="submit" class="btn btn-success">Save</button>
                 <button type="button" routerLink="" class="btn btn-dark">Cancel</button>

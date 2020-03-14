@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using AntiGrade.Shared.Models;
+using AntiGrade.Shared.ViewModels;
 
 namespace AntiGrade.Shared.InputModels
 {
@@ -6,5 +8,7 @@ namespace AntiGrade.Shared.InputModels
     {
         public string Name {get;set;}
         public ExamType Type {get;set;}
+        public List<EmployeeView> Teachers {get;set;}
+        public EmployeeDto MainTeacher {get;set;}
     }
 }

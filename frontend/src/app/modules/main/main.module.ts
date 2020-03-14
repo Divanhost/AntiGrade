@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AddEditSubjectComponent } from './add-edit-subject/add-edit-subject.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component';
 
 registerLocaleData(localeRu, 'ru-RU');
 
@@ -17,7 +18,8 @@ registerLocaleData(localeRu, 'ru-RU');
   declarations: [
     MainComponent,
     UserEditCreateComponent,
-    AddEditSubjectComponent
+    AddEditSubjectComponent,
+    AddEditGroupComponent
   ],
   imports: [
     NgbModule,
