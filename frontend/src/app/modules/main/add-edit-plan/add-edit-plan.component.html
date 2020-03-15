@@ -1,46 +1,33 @@
-<div class="container-fluid">
-    <div class="btn btn-success" (click) = "addWork()">Добавить работу</div>
-    <div class="row">
-        <div class="col-8 work-holder">
-            <div *ngFor="let work of works">
-                <div  class= "d-flex">
-                    <div class= "mr-3">
-                        <label>Название работы</label>
-                        <input class="form-control border-style" [(ngModel)]="work.name" type="text">
-                        <small class="form-text text-muted">
-                            Введите название Группы
-                        </small>
-                    </div>
-                    <div class= "mr-3">
-                        <label>Макс. баллов</label>
-                        <input class="form-control border-style" [(ngModel)]="work.points" type="number">
-                        <small class="form-text text-muted">
-                            Введите количество баллов
-                        </small>
-                    </div>
-                    <div class="btn btn-primary" (click)="addCriteria(work)">Добавить критерий</div>
-                </div>
-                <div *ngFor="let criteria of work.criterias">
-                    <div class= "mr-3">
-                        <label>Название критерия</label>
-                        <input class="form-control border-style" [(ngModel)]="criteria.name" type="text">
-                        <small class="form-text text-muted">
-                            Введите название критерия
-                        </small>
-                    </div>
-                    <div class= "mr-3">
-                        <label>Балл</label>
-                        <input class="form-control border-style" [(ngModel)]="criteria.points" type="number">
-                        <small class="form-text text-muted">
-                            Введите количество баллов
-                        </small>
-                    </div>
-                </div>
+<div class="btn btn-success" (click)="addWork()">Добавить работу</div>
+<div *ngFor="let work of works" class="d-flex">
+    <div class="col-6 work-wrapper">
+        <div class="mr-3">
+            <label>Название работы</label>
+            <input class="form-control border-style" [(ngModel)]="work.name" type="text">
+        </div>
+        <div class="mr-3">
+            <label>Макс. баллов</label>
+            <input class="form-control border-style" [(ngModel)]="work.points" type="number">
+        </div>
+        <button (click)="toggleCriterias()">
+            <img src="assets/arrow.png" alt="" class="arrow-icon">
+        </button>
+
+    </div>
+    <div class="col-6" *ngIf="isCriteraisShown">
+        <div class="btn btn-primary" (click)="addCriteria(work)">Добавить критерий</div>
+        <div class="d-flex" *ngFor="let criteria of work.criterias">
+            <div class="mr-3">
+                <label>Название критерия</label>
+                <input class="form-control border-style" [(ngModel)]="criteria.name" type="text">
+            </div>
+            <div>
+                <label>Балл</label>
+                <input class="form-control border-style" [(ngModel)]="criteria.points" type="number">
             </div>
         </div>
     </div>
-    <div class="btn btn-warning" (click) = "savePlan()">Save</div>
-    <h4>Предпросмотр</h4>
-    <app-rating-table [works] ='works' [students] = 'students'></app-rating-table>
 </div>
-
+<div class="btn btn-warning" (click)="savePlan()">Save</div>
+<h4>Предпросмотр</h4>
+<app-rating-table [works]='works' [students]='students'></app-rating-table>

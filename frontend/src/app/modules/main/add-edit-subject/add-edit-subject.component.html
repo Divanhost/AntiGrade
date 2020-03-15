@@ -17,8 +17,8 @@
                 </small>
             </div>
             <div>Вид зачёта</div>
-            <ng-select formControlName="examType" [(ngModel)]="subject.examType">
-                <ng-option *ngFor="let type of examTypes" [value] = "type">
+            <ng-select formControlName="examType" [(ngModel)]="subject.examTypeId">
+                <ng-option *ngFor="let type of examTypes" [value] = "type.id">
                     {{ type.name }}
                 </ng-option>
             </ng-select>

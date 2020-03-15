@@ -4,7 +4,7 @@ import { Employee } from './employee.model';
 export class SubjectDto {
     id: number;
     name: string;
-    examType: ExamType;
+    examTypeId: number;
     teachers: Employee[];
     mainTeacher: Employee;
 }

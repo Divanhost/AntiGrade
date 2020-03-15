@@ -17,7 +17,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   planId: number;
   works: Work[] = [];
   students: Student[] = [];
-  dropdownSettings = {};
+  isCriteraisShown = false;
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly groupService: GroupService) {
@@ -29,6 +29,9 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.works.length === 0) {
+      this.addWork();
+    }
     this.students.push({name: 'Angelina'});
     this.students.push({name: 'George'});
     this.students.push({name: 'Ivan'});
@@ -37,11 +40,16 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     const work = new Work();
     work.criterias = [];
     this.works.push(work);
+    this.toggleCriterias();
   }
   addCriteria(work: Work) {
     work.criterias.push(new Criteria());
   }
   savePlan() {
     console.log(this.works);
+  }
+  toggleCriterias() {
+    this.isCriteraisShown = !this.isCriteraisShown;
+    console.log(this.isCriteraisShown);
   }
 }

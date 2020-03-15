@@ -25,7 +25,7 @@ namespace AntiGrade.Core.Services.Implementation
                 Name = subjectDto.Name,
                 Teachers = new List<Employee>()
             };
-            var type = await _unitOfWork.ExamTypeRepository.Find(x=>x.Id == subjectDto.Type.Id);
+            var type = await _unitOfWork.GetRepository<ExamType,int>().Find(x=>x.Id == subjectDto.ExamTypeId);
             subject.Type = type;
             foreach (var item in subjectDto.Teachers)
             {
