@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <h1>Мои Предметы</h1>
+    <div *ngFor="let subject of subjects" class="card subject-card">
+        <div class="card-header">
+            <h5 class="card-title">
+                {{subject.name}}
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="buttons">
+                <div class="btn btn-primary">
+                    Групппы
+                </div>
+                <div *ngIf="subject.hasPlan"  [routerLink]="['/plan/edit',subject.id]" class="btn btn-success mx-2" click>
+                    Редактировать план
+                </div>
+                <div *ngIf="!subject.hasPlan"  [routerLink]="['/plan/add']" class="btn btn-success mx-2" click>
+                    Добавить план
+                </div>
+                <div class="btn btn-warning">
+                    Оценки
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

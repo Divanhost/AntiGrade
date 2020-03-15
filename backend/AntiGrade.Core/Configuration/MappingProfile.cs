@@ -22,6 +22,9 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x => x.Id, _ => _.MapFrom(r => r.Id));
             CreateMap<Subject, SubjectDto>()
                 .ForMember(x => x.MainTeacher, _ => _.Ignore());
+             CreateMap<Subject,SubjectView>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
         }
     }
 }

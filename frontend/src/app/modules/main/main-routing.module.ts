@@ -6,6 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserEditCreateComponent } from './user-edit-create/user-edit-create.component';
 import { AddEditSubjectComponent } from './add-edit-subject/add-edit-subject.component';
 import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component';
+import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -21,10 +23,13 @@ const appRoutes: Routes = [
       { path: 'users',
         component: UserEditCreateComponent
       },
-      { path: 'subject/edit/:id',
+      { path: 'subjects',
+        component: SubjectsComponent
+      },
+      { path: 'subjects/edit/:id',
         component: AddEditSubjectComponent
       },
-      { path: 'subject/add',
+      { path: 'subjects/add',
         component: AddEditSubjectComponent
       },
       { path: 'group/edit/:id',
@@ -32,6 +37,12 @@ const appRoutes: Routes = [
       },
       { path: 'group/add',
         component: AddEditGroupComponent
+      },
+      { path: 'plan/edit/:id',
+        component: AddEditPlanComponent
+      },
+      { path: 'plan/add',
+        component: AddEditPlanComponent
       }
     ]
   }

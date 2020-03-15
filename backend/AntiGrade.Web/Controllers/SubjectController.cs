@@ -22,6 +22,13 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetSubjects()
+        {
+            var result = await _service.GetAllSubjects();
+            return ResponseModel(result);
+        }
+
         [HttpPost()]
         public async Task<IActionResult> AddSubject([FromBody] SubjectDto subjectDto)
         {

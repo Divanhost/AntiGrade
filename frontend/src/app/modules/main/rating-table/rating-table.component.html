@@ -1,0 +1,28 @@
+<div class="col-8">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Учащийся
+                </th>
+                <th *ngFor="let work of works">
+                    {{work.name}}
+                </th>
+                <th>
+                    Всего
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student of students">
+                <td>
+                   {{student.name}} 
+                </td>
+                <td *ngFor="let work of works">
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

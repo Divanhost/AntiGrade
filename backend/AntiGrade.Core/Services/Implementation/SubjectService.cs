@@ -61,7 +61,7 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var subjects = await _unitOfWork.GetRepository<Subject,int>()
                                     .Filter(x=>!x.IsDeleted)
-                                    .ProjectTo<SubjectView>()
+                                    .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return subjects;
         }

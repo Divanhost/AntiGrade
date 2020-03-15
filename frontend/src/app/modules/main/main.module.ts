@@ -11,6 +11,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AddEditSubjectComponent } from './add-edit-subject/add-edit-subject.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component';
+import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
+import { RatingTableComponent } from './rating-table/rating-table.component';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 registerLocaleData(localeRu, 'ru-RU');
 
@@ -19,7 +22,10 @@ registerLocaleData(localeRu, 'ru-RU');
     MainComponent,
     UserEditCreateComponent,
     AddEditSubjectComponent,
-    AddEditGroupComponent
+    AddEditGroupComponent,
+    AddEditPlanComponent,
+    RatingTableComponent,
+    SubjectsComponent
   ],
   imports: [
     NgbModule,
