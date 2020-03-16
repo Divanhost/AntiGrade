@@ -3,7 +3,11 @@
     overflow:auto;
 }
 .work-wrapper{
-    display: inline-flex;
+    height: 500px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #dedede;
+    overflow: auto;
 }
 .arrow-icon{
     display: flex;

@@ -13,6 +13,7 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<List<ExamType>> GetExamTypes();
         Task<SubjectView> GetSubjectById(int subjectId);
         Task<Subject> CreateSubject(SubjectDto subjectDto);
+        Task<bool> CreateSubjectPlan(SubjectPlan plan);
         Task<Subject> UpdateSubject(int subjectId, SubjectDto subject);
         Task<bool> DeleteById(int subjectId);
     }

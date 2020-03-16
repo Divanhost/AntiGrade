@@ -14,7 +14,7 @@
                 <div *ngIf="subject.hasPlan"  [routerLink]="['/plan/edit',subject.id]" class="btn btn-success mx-2" click>
                     Редактировать план
                 </div>
-                <div *ngIf="!subject.hasPlan"  [routerLink]="['/plan/add']" class="btn btn-success mx-2" click>
+                <div *ngIf="!subject.hasPlan"  [routerLink]="['/plan/add',subject.id]" class="btn btn-success mx-2" click>
                     Добавить план
                 </div>
                 <div class="btn btn-warning">

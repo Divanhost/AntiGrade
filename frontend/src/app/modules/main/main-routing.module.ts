@@ -41,7 +41,7 @@ const appRoutes: Routes = [
       { path: 'plan/edit/:id',
         component: AddEditPlanComponent
       },
-      { path: 'plan/add',
+      { path: 'plan/add/:id',
         component: AddEditPlanComponent
       }
     ]

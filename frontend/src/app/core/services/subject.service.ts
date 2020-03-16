@@ -5,6 +5,7 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 import { ExamType } from 'src/app/shared/models/exam-type.model';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
+import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,8 @@ export class SubjectService {
   }
   getSubjects(): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData('subject/all');
+  }
+  addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
+    return this.http.postData(`subject/plan`, data);
   }
 }
