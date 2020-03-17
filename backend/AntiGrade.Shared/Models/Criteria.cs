@@ -10,8 +10,8 @@ namespace AntiGrade.Shared.Models
         [Key]
         public int Id {get;set;}
 
-        [MaxLength(50)]
-        public int Name {get;set;}
+        [MaxLength(100)]
+        public string Name {get;set;}
 
         [Column(TypeName = "decimal(18,5)")]
         public decimal Points {get;set;}

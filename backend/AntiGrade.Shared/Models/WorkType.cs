@@ -6,7 +6,7 @@ namespace AntiGrade.Shared.Models
     {
         [Key]
         public int Id {get;set;}
-        [MaxLength(50)]
-        public int Name {get;set;}
+        [MaxLength(80)]
+        public string Name {get;set;}
     }
 }

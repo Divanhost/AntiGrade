@@ -6,6 +6,7 @@ import { ExamType } from 'src/app/shared/models/exam-type.model';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
 import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,5 @@ export class SubjectService {
   addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
     return this.http.postData(`subject/plan`, data);
   }
+
 }

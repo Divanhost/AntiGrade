@@ -25,6 +25,10 @@ namespace AntiGrade.Core.Configuration
              CreateMap<Subject,SubjectView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
+            CreateMap<CriteriaDto,Criteria>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.Points));
         }
     }
 }

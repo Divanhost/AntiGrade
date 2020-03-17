@@ -42,5 +42,11 @@ namespace AntiGrade.Controllers
             var result = await _service.CreateSubjectPlan(plan);
             return ResponseModel(result);
         }
+
+        [HttpPost("work")]
+        public async Task<IActionResult> AddWork([FromBody] WorkDto work)
+        {
+            return Ok();
+        }
     }
 }

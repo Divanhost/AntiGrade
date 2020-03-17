@@ -110,6 +110,11 @@ export class HttpService {
     postMData(route: string, data: object): Observable<any> {
         return  this.http.post<any>(this.host + route, data);
     }
+    postJsonData(route: string, data: object): Observable<any> {
+        const header = new HttpHeaders()
+        .set('Content-type', 'application/json');
+        return  this.http.post<any>(this.host + route, data, { headers: header});
+    }
 
     putData(route: string, data: object): Observable<any> {
         return this.http.put(this.host + route, data);

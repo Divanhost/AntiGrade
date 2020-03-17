@@ -108,25 +108,25 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<bool> CreateSubjectPlan(SubjectPlan plan)
         {
-            foreach (var workDto in plan.WorksDto)
+            foreach (var workDto in plan.Works)
             {
-                var criterias = new List<Criteria>();
-                foreach (var criteriaDto in workDto.CriteriasDto)
-                {
-                    var criteria = _mapper.Map<Criteria>(criteriaDto);
-                    criterias.Add(criteria);
-                }
-                var work = new Work
+                 var work = new Work
                 {
                     Name = workDto.Name,
                     Points =workDto.Points,
-                    SubjectId = plan.SubjectId,
-                    Criterias = criterias
+                    SubjectId = plan.SubjectId
                 };
+                var criterias = new List<Criteria>();
+                foreach (var criteriaDto in workDto.Criterias)
+                {
+                    var criteria = _mapper.Map<Criteria>(criteriaDto);
+                    criteria.Work = work;
+                    criterias.Add(criteria);
+                }
+                work.Criterias = criterias;
                 _unitOfWork.GetRepository<Work,int>().Create(work);
-                return await _unitOfWork.Save() > 0;
             }   
-            return false;
+            return await _unitOfWork.Save() > 0;
         }
     }
 }

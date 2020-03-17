@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200317074131_fixedWorkName")]
+    partial class fixedWorkName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,8 +27,8 @@ namespace AntiGrade.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(100);
+                    b.Property<int>("Name")
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Points")
                         .HasColumnType("decimal(18,5)");
@@ -144,35 +146,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "47d3387b-52b6-4c07-ad5a-a83e86dde05f",
+                            ConcurrencyStamp = "4cfb03f2-2d1b-4b1c-99b3-2cfc1a522c78",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "3a5eca0d-d1e3-4840-9295-48d529185043",
+                            ConcurrencyStamp = "fd94ee92-2b78-4d62-a503-8a722c391df6",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "47037a44-a6f0-4b88-a5f0-980d679a9f17",
+                            ConcurrencyStamp = "d07739b3-c080-49b5-b41a-27f24c6dc9bb",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "8345da90-35c2-48b1-83a2-eef72b7e64e4",
+                            ConcurrencyStamp = "7bb16acd-fa90-48c2-b68e-d0ac162fe68b",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "f85547ee-977b-49ab-9a65-6611a2d3fdfb",
+                            ConcurrencyStamp = "29fdc05d-ee4a-4838-ab61-c751655bc88a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -359,7 +361,7 @@ namespace AntiGrade.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasMaxLength(100);
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("Points")
                         .HasColumnType("decimal(18,5)");
@@ -383,8 +385,8 @@ namespace AntiGrade.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(80);
+                    b.Property<int>("Name")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
