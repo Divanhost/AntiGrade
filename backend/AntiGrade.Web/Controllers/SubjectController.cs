@@ -43,10 +43,10 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
 
-        [HttpPost("work")]
-        public async Task<IActionResult> AddWork([FromBody] WorkDto work)
-        {
-            return Ok();
-        }
+        // [HttpPost("work")]
+        // public async Task<IActionResult> AddWork([FromBody] WorkDto work)
+        // {
+        //     return Ok();
+        // }
     }
 }

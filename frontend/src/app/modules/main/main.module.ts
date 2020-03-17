@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainRoutingModule } from './main-routing.module';
@@ -14,7 +14,7 @@ import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component
 import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
 import { RatingTableComponent } from './rating-table/rating-table.component';
 import { SubjectsComponent } from './subjects/subjects.component';
-
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -35,11 +35,13 @@ registerLocaleData(localeRu, 'ru-RU');
     ReactiveFormsModule,
     NgSelectModule,
     NgMultiSelectDropDownModule.forRoot(),
+    MDBBootstrapModule.forRoot(),
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'always' }),
   ],
   providers: [
     LoginService,
     HttpService
-  ]
+  ],
+  schemas: [ NO_ERRORS_SCHEMA ]
 })
 export class MainModule { }
