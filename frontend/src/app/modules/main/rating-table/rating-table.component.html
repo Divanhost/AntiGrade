@@ -26,53 +26,37 @@
         </tbody>
     </table>
 </div> -->
-<div class="card">
-    <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
-    <div class="card-body">
-      <div id="table" class="table-editable">
-        <table class="table table-bordered table-responsive-md table-striped text-center">
-          <thead>
-            <tr>
-                <th class="text-center">
-                    Учащийся
-                </th>
-                <th class="text-center" *ngFor="let work of works">
-                    {{work.name}}
-                </th>
-                <th class="text-center">
-                    Всего
-                </th>
-            </tr>
+<!-- <div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <thead>
+          <tr>
+            <th class="text-center">
+              Учащийся
+            </th>
+            <th class="text-center" *ngFor="let work of works">
+              {{work.name}}
+            </th>
+            <th class="text-center">
+              Всего
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr *ngFor="let student of students">
-              <td>
-                 {{student.name}} 
-              </td>
-              <td *ngFor="let work of works">
-                <span (keyup)="chansgeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{work.points}}</span>
-              </td>
-              <td>
-              </td>
+            <td>
+              {{student.name}}
+            </td>
+            <td *ngFor="let work of works">
+              <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)"
+                contenteditable="true">{{work.points}}</span>
+            </td>
+            <td>
+            </td>
           </tr>
-      </tbody>
-          <!-- <tr *ngFor="let person of personList; let id = index">
-            https://mdbootstrap.com/docs/angular/tables/editable/
-            <td>
-              <span (keyup)="chansgeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.name}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.age}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.companyName}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'country', $event)" (blur)="updateList(id, 'country', $event)">{{person.country}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.city}}</span>
-            </td>
-          </tr> -->
-        </table>
-      </div>
+        </tbody>
+
+      </table>
+    </div> -->

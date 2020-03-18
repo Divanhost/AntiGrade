@@ -8,6 +8,7 @@ import { AddEditSubjectComponent } from './add-edit-subject/add-edit-subject.com
 import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component';
 import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
 import { SubjectsComponent } from './subjects/subjects.component';
+import { RatingTableComponent } from './rating-table/rating-table.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -43,6 +44,9 @@ const appRoutes: Routes = [
       },
       { path: 'plan/add/:id',
         component: AddEditPlanComponent
+      },
+      { path: 'subjects/rating/:id',
+        component: RatingTableComponent
       }
     ]
   }

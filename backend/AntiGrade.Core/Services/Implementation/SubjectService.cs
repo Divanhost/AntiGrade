@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Repositories.Interfaces;
@@ -108,25 +109,62 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<bool> CreateSubjectPlan(SubjectPlan plan)
         {
+            var subject = await _unitOfWork.GetRepository<Subject,int>().Find(x=>x.Id == plan.SubjectId);
+            if(subject == null)
+            {
+                throw new WebsiteException("Такого предмета не существует");
+            }
             foreach (var workDto in plan.Works)
             {
+                if(workDto.Name == null){
+                    continue;
+                }
                  var work = new Work
                 {
                     Name = workDto.Name,
                     Points =workDto.Points,
                     SubjectId = plan.SubjectId
                 };
-                var criterias = new List<Criteria>();
-                foreach (var criteriaDto in workDto.Criterias)
-                {
-                    var criteria = _mapper.Map<Criteria>(criteriaDto);
-                    criteria.Work = work;
-                    criterias.Add(criteria);
+                // var criterias = new List<Criteria>();
+
+                // foreach (var criteriaDto in workDto.Criterias)
+                // {
+                //     var criteria = _mapper.Map<Criteria>(criteriaDto);
+                //     criterias.Add(criteria);
+                // }
+                var criterias = _mapper.Map<List<CriteriaDto>,List<Criteria>>(workDto.Criterias);
+                if(criterias.Count == 0){
+                    criterias.Add(new Criteria{
+                        Name = "Критерий 1",
+                        Points = workDto.Points,
+                    });
                 }
                 work.Criterias = criterias;
                 _unitOfWork.GetRepository<Work,int>().Create(work);
+                if(!subject.HasPlan){
+                    subject.HasPlan = true;
+                }
             }   
             return await _unitOfWork.Save() > 0;
+        }
+
+        public async Task<List<WorkView>> GetWorks(int subjectId)
+        {
+            var result = await _unitOfWork.GetRepository<Work,int>()
+                                    .Filter(x=>x.SubjectId == subjectId)
+                                    .ProjectTo<WorkView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return result;
+        }
+        public async Task<List<StudentView>> GetStudents(int subjectId)
+        {
+            var result = await _unitOfWork.GetRepository<Subject,int>()
+                                    .Filter(x=>x.Id == subjectId)
+                                    .SelectMany(x => x.Groups)
+                                    .SelectMany(y=>y.Students)
+                                    .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return result;
         }
     }
 }

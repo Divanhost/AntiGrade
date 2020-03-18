@@ -1,19 +1,35 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Work } from 'src/app/shared/models/work.model';
 import { Student } from 'src/app/shared/models/student.model';
+import { StudentCriteria } from 'src/app/shared/models/student-criteria.model';
+import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
+import { BaseComponent } from 'src/app/shared/classes';
+import { SubjectService } from 'src/app/core/services/subject.service';
+import { ResponseModel } from 'src/app/shared/models/response.model';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
   styleUrls: ['./rating-table.component.scss']
 })
-export class RatingTableComponent implements OnInit {
+export class RatingTableComponent extends BaseComponent implements OnInit {
 
-  @Input() works: Work[];
-  @Input() students: Student[];
-
-  constructor() { }
+  subject: SubjectDto;
+  works: Work[];
+  students: Student[];
+  subjectId: number;
+  pointsDistribution: StudentCriteria[];
+  constructor(
+    private readonly subjectService: SubjectService,
+    private readonly route: ActivatedRoute) {
+    super();
+    this.subscriptions.push(
+      this.route.params.subscribe(params => this.subjectId = params.id)
+    );
+  }
 
   ngOnInit(): void {
+    this.initializeTable();
   }
   editField: string;
   personList: Array<any> = [
@@ -31,6 +47,36 @@ export class RatingTableComponent implements OnInit {
     { id: 9, name: 'Anastasia John', age: 21, companyName: 'Ajo', country: 'Brazil', city: 'Rio' },
     { id: 10, name: 'John Maklowicz', age: 36, companyName: 'Mako', country: 'Poland', city: 'Bialystok' },
   ];
+
+  initializeTable() {
+    this.getWorks();
+    this.getStudents();
+
+  }
+
+  getWorks() {
+    this.subscriptions.push(
+      this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
+        this.works = response.payload;
+        console.log(this.works);
+      })
+    );
+  }
+  getStudents() {
+    this.subscriptions.push(
+      this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
+        this.students = response.payload;
+        console.log(this.students);
+      })
+    );
+  }
+
+
+
+
+
+
+
 
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;

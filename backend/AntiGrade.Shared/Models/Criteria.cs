@@ -18,7 +18,7 @@ namespace AntiGrade.Shared.Models
         [ForeignKey(nameof(Work))]
         public int WorkId {get;set;}
         public virtual Work Work {get;set;}
-        public List<StudentCriteria> StudentCriterias {get;set;}
+        public virtual List<StudentCriteria> StudentCriterias {get;set;}
 
     }
 }

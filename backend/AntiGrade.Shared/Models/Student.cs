@@ -17,6 +17,6 @@ namespace AntiGrade.Shared.Models
         public int GroupId {get;set;}
 
         public virtual Group Group {get;set;}
-        public List<StudentCriteria> StudentCriterias {get;set;}
+        public virtual List<StudentCriteria> StudentCriterias {get;set;}
     }
 }

@@ -7,6 +7,8 @@ import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
 import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
 import { HttpHeaders } from '@angular/common/http';
+import { Work } from 'src/app/shared/models/work.model';
+import { Student } from 'src/app/shared/models/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,12 @@ export class SubjectService {
   }
   addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
     return this.http.postData(`subject/plan`, data);
+  }
+  getSubjectWorks(id: number): Observable<ResponseModel<Work[]>> {
+    return this.http.getData(`subject/works/${id}`);
+  }
+  getSubjectStudents(id: number): Observable<ResponseModel<Student[]>> {
+    return this.http.getData(`subject/students/${id}`);
   }
 
 }
