@@ -122,7 +122,7 @@ namespace AntiGrade.Core.Services.Implementation
                  var work = new Work
                 {
                     Name = workDto.Name,
-                    Points =workDto.Points,
+                    MaxPoints =workDto.MaxPoints,
                     SubjectId = plan.SubjectId
                 };
                 // var criterias = new List<Criteria>();
@@ -136,7 +136,7 @@ namespace AntiGrade.Core.Services.Implementation
                 if(criterias.Count == 0){
                     criterias.Add(new Criteria{
                         Name = "Критерий 1",
-                        Points = workDto.Points,
+                        MaxPoints = workDto.MaxPoints,
                     });
                 }
                 work.Criterias = criterias;

@@ -12,8 +12,8 @@ namespace AntiGrade.Shared.Models
         [MaxLength(100)]
         public string Name {get;set;}
 
-         [Column(TypeName = "decimal(18,5)")]
-        public decimal Points {get;set;}
+        [Column(TypeName = "decimal(18,5)")]
+        public decimal MaxPoints {get;set;}
 
         [ForeignKey(nameof(Subject))]
         public int SubjectId {get;set;}

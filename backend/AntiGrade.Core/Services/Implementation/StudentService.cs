@@ -62,6 +62,14 @@ namespace AntiGrade.Core.Services.Implementation
             return student;
         }
 
+        public async Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds)
+        {
+            var result = await _unitOfWork.GetRepository<StudentCriteria,int>()
+                                            .Filter(x => studentIds.Contains(x.StudentId))
+                                            .ToListAsync();
+            return result;
+        }
+
         public async Task<Student> UpdateStudent(int StudentId, StudentDto studentDto)
         {
             if(studentDto != null)

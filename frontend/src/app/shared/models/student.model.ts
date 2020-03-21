@@ -1,4 +1,8 @@
 
 export class Student {
-    name: string;
+    id: number;
+    firstName: string;
+    lastName: string;
+    groupId: number;
+    fullName = this.lastName + ' ' + this.firstName;
 }

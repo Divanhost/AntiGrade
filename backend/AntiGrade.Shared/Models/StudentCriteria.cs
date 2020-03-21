@@ -2,8 +2,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AntiGrade.Shared.Models
 {
-    public class StudentCriteria
+    public class StudentCriteria:IEntityWithId<int>
     {
+        public int Id {get;set;}
         public int StudentId {get;set;}
         public int CriteriaId {get;set;}
         public virtual Student Student {get;set;}

@@ -47,6 +47,10 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
+        IRepository<StudentCriteria, int> StudentCriteriaRepository
+        {
+            get;
+        }
         IRepository<Work, int> WorkRepository
         {
             get;

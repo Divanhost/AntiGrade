@@ -14,7 +14,8 @@ namespace AntiGrade.Shared.Models
         public string Name {get;set;}
 
         [Column(TypeName = "decimal(18,5)")]
-        public decimal Points {get;set;}
+        public decimal MaxPoints {get;set;}
+
         [ForeignKey(nameof(Work))]
         public int WorkId {get;set;}
         public virtual Work Work {get;set;}

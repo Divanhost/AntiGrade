@@ -1,62 +1,31 @@
-<!-- <div class="col-8">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    Учащийся
-                </th>
-                <th *ngFor="let work of works">
-                    {{work.name}}
-                </th>
-                <th>
-                    Всего
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let student of students">
-                <td>
-                   {{student.name}} 
-                </td>
-                <td *ngFor="let work of works">
-                </td>
-                <td>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div> -->
-<!-- <div class="card">
-  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
-  <div class="card-body">
-    <div id="table" class="table-editable">
-      <table class="table table-bordered table-responsive-md table-striped text-center">
-        <thead>
-          <tr>
-            <th class="text-center">
-              Учащийся
-            </th>
-            <th class="text-center" *ngFor="let work of works">
-              {{work.name}}
-            </th>
-            <th class="text-center">
-              Всего
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of students">
-            <td>
-              {{student.name}}
-            </td>
-            <td *ngFor="let work of works">
-              <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)"
-                contenteditable="true">{{work.points}}</span>
-            </td>
-            <td>
-            </td>
-          </tr>
-        </tbody>
-
-      </table>
-    </div> -->
+<div class="container-fluid mt-2 table-editable">
+  <table class="table table-bordered table-responsive-md table-striped text-center">
+    <thead>
+      <tr>
+        <th>
+          Студент
+        </th>
+        <th *ngFor="let work of works">
+          {{work.name}}
+        </th>
+        <th>
+          Итого
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>
+          {{student.lastName}}
+        </td>
+        <td *ngFor="let work of works">
+          <span (keyup)="changeValue(work.id, student.id, $event)" (blur)="updateList(work.id, student.id, $event)"
+            contenteditable="true">{{work.points}}
+          </span>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
