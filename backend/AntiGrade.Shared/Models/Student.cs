@@ -18,5 +18,6 @@ namespace AntiGrade.Shared.Models
 
         public virtual Group Group {get;set;}
         public virtual List<StudentCriteria> StudentCriterias {get;set;}
+        public virtual List<StudentWork> StudentWorks {get;set;}
     }
 }

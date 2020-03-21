@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Repositories.Interfaces;
@@ -20,8 +22,8 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<Student> CreateStudent(StudentDto StudentDto)
         {
-            var student =_mapper.Map<Student>(StudentDto);
-            var result = _unitOfWork.GetRepository<Student,int>().Create(student);
+            var student = _mapper.Map<Student>(StudentDto);
+            var result = _unitOfWork.GetRepository<Student, int>().Create(student);
             await _unitOfWork.Save();
             return result;
         }
@@ -46,7 +48,7 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<StudentView>> GetAllStudents()
         {
-            var students = await _unitOfWork.GetRepository<Student,int>()
+            var students = await _unitOfWork.GetRepository<Student, int>()
                                     .All()
                                     .ProjectTo<StudentView>()
                                     .ToListAsync();
@@ -55,28 +57,19 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<StudentView> GetStudentById(int studentId)
         {
-            var student = await _unitOfWork.GetRepository<Student,int>()
-                                    .Filter(x=>x.Id == studentId)
+            var student = await _unitOfWork.GetRepository<Student, int>()
+                                    .Filter(x => x.Id == studentId)
                                     .ProjectTo<StudentView>()
                                     .FirstOrDefaultAsync();
             return student;
         }
-
-        public async Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds)
-        {
-            var result = await _unitOfWork.GetRepository<StudentCriteria,int>()
-                                            .Filter(x => studentIds.Contains(x.StudentId))
-                                            .ToListAsync();
-            return result;
-        }
-
         public async Task<Student> UpdateStudent(int StudentId, StudentDto studentDto)
         {
-            if(studentDto != null)
+            if (studentDto != null)
             {
-                 var student = await _unitOfWork.GetRepository<Student, int>()
-                    .Filter(x => x.Id == StudentId)
-                    .FirstOrDefaultAsync();
+                var student = await _unitOfWork.GetRepository<Student, int>()
+                   .Filter(x => x.Id == StudentId)
+                   .FirstOrDefaultAsync();
                 if (student != null)
                 {
                     _mapper.Map(studentDto, student);
@@ -89,11 +82,54 @@ namespace AntiGrade.Core.Services.Implementation
                     throw new WebsiteException("Дисциплина не существуетs");
                 }
                 return student;
-            } 
+            }
             else
             {
                 throw new WebsiteException("Дисциплина не существует");
             }
+        }
+
+        public async Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds)
+        {
+            var result = await _unitOfWork.GetRepository<StudentCriteria, int>()
+                                            .Filter(x => studentIds.Contains(x.StudentId))
+                                            .ToListAsync();
+            return result;
+        }
+
+        public async Task<bool> UpdateStudentCriteria(List<StudentCriteria> studentCriteria)
+        {
+
+            var criteriaForCreate = studentCriteria.Where(x => x.Id == 0).ToList();
+            _unitOfWork.GetRepository<StudentCriteria, int>().Create(criteriaForCreate);
+
+            var criteriasForUpdate = studentCriteria.Where(x => x.Id != 0).ToList();
+            _unitOfWork.GetRepository<StudentCriteria, int>().Update(criteriasForUpdate);
+
+
+            return await _unitOfWork.Save() > 0;
+
+        }
+
+
+        public async Task<List<StudentWork>> GetStudentWorks(List<int> studentIds)
+        {
+            var result = await _unitOfWork.GetRepository<StudentWork, int>()
+                                            .Filter(x => studentIds.Contains(x.StudentId))
+                                            .ToListAsync();
+            return result;
+        }
+
+        public async Task<bool> UpdateStudentWorks(List<StudentWork> studentWorks)
+        {
+            var worksForCreate = studentWorks.Where(x => x.Id == 0).ToList();
+            _unitOfWork.GetRepository<StudentWork, int>().Create(worksForCreate);
+
+            var worksForUpdate = studentWorks.Where(x => x.Id != 0).ToList();
+            _unitOfWork.GetRepository<StudentWork, int>().Update(worksForUpdate);
+
+
+            return await _unitOfWork.Save() > 0;
         }
     }
 }

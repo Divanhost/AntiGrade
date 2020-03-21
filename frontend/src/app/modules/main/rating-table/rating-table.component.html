@@ -14,18 +14,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let student of students">
-        <td>
-          {{student.lastName}}
-        </td>
-        <td *ngFor="let work of works">
-          <span (keyup)="changeValue(work.id, student.id, $event)" (blur)="updateList(work.id, student.id, $event)"
-            contenteditable="true">{{work.points}}
-          </span>
-        </td>
-        <td>
-        </td>
-      </tr>
+      <ng-container *ngFor="let row of data">
+        <tr *ngFor="let student of students">
+          <td>
+            {{student.lastName}}
+          </td>
+          <td *ngFor="let item of row">
+            <span (keyup)="changeValue(work.id, student.id, $event)"
+              (blur)="updateWorkPoints(work.id, student.id, $event)" contenteditable="true">{{item}}
+            </span>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </ng-container>
     </tbody>
   </table>
+  <div class="btn btn-success" (click)="updateRating()"> submit</div>
 </div>

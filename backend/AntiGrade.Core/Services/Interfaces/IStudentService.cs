@@ -13,7 +13,13 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<StudentView> GetStudentById(int studentId);
         Task<Student> CreateStudent(StudentDto studentDto);
         Task<Student> UpdateStudent(int studentId, StudentDto student);
-        Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds);
         Task<bool> DeleteById(int studentId);
+
+
+        Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds);
+        Task<bool> UpdateStudentCriteria(List<StudentCriteria> studentCriteria);
+
+        Task<List<StudentWork>> GetStudentWorks(List<int> studentIds);
+        Task<bool> UpdateStudentWorks(List<StudentWork> studentWorks);
     }
 }

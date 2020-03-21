@@ -34,9 +34,6 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     this.plan.works = [];
     this.addWork();
     this.plan.subjectId = this.subjectId;
-    this.students.push({name: 'Angelina'});
-    this.students.push({name: 'George'});
-    this.students.push({name: 'Ivan'});
   }
   addWork() {
     const work = new Work();
