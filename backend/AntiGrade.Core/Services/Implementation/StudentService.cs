@@ -122,12 +122,15 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<bool> UpdateStudentWorks(List<StudentWork> studentWorks)
         {
-            var worksForCreate = studentWorks.Where(x => x.Id == 0).ToList();
-            _unitOfWork.GetRepository<StudentWork, int>().Create(worksForCreate);
+              var worksForDelete = studentWorks.Where(x => x.Touched && x.SumOfPoints == 0).ToList();
+            _unitOfWork.GetRepository<StudentWork, int>().Delete(worksForDelete);
 
-            var worksForUpdate = studentWorks.Where(x => x.Id != 0).ToList();
+            var worksForUpdate = studentWorks.Where(x => x.Touched && x.SumOfPoints != 0).ToList();
             _unitOfWork.GetRepository<StudentWork, int>().Update(worksForUpdate);
 
+            var worksForCreate = studentWorks.Where(x => !x.Touched).ToList();
+            worksForCreate.ForEach(x=>x.Touched = true);
+            _unitOfWork.GetRepository<StudentWork, int>().Create(worksForCreate);
 
             return await _unitOfWork.Save() > 0;
         }

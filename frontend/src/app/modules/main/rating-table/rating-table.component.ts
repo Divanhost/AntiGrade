@@ -23,7 +23,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   studentCriteria: StudentCriteria[] = [];
   studentWorks: StudentWork[] = [];
   editField: string;
-  data =[];
+  data = [];
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
@@ -61,7 +61,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   }
 
   getStudentCriteria() {
-    const studentIds = this.students.map(({id}) => id);
+    const studentIds = this.students.map(({ id }) => id);
     this.subscriptions.push(
       this.studentService.getStudentCriterias(studentIds).subscribe((response: ResponseModel<StudentCriteria[]>) => {
         this.studentCriteria = response.payload;
@@ -75,7 +75,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   }
 
   getStudentWorks() {
-    const studentIds = this.students.map(({id}) => id);
+    const studentIds = this.students.map(({ id }) => id);
     this.subscriptions.push(
       this.studentService.getStudentWorks(studentIds).subscribe((response: ResponseModel<StudentWork[]>) => {
         this.studentWorks = response.payload;
@@ -91,23 +91,21 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     );
   }
 
-  updateWorkPoints(workId: number, studentId: number, event: any) {
-
+  updateWorkPoints(studentWork: StudentWork, event: any) {
     const editField = event.target.textContent;
 
-    const work = this.studentWorks.find(x => x.workId === workId && x.studentId === studentId);
-    if (work !== undefined) {
-      work.SumOfPoints = editField;
+    studentWork.SumOfPoints = editField;
+    if ( studentWork.SumOfPoints.toString() !== '' && studentWork.SumOfPoints !== null) {
+      const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
+      if (!hasWork) {
+        this.studentWorks.push(studentWork);
+      }
     } else {
-      const studentWork = new StudentWork();
-      studentWork.workId =  workId;
-      studentWork.studentId = studentId;
-      studentWork.SumOfPoints = event.target.textContent;
-      this.studentWorks.push(studentWork);
+      studentWork.SumOfPoints = 0;
     }
   }
 
-  changeValue(workId: number, studentId: number, event: any) {
+  changeValue(studentWork: StudentWork, event: any) {
     this.editField = event.target.textContent;
   }
 
@@ -117,13 +115,15 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.works.forEach(work => {
         const sp = this.studentWorks.find(x => x.workId === work.id && x.studentId === student.id);
         if (sp) {
-          // debugger;
-          row.push(sp.toString());
-        }  else {
-          row.push(null);
+          row.push(sp);
+        } else {
+          const studentWork = new StudentWork();
+          studentWork.workId = work.id;
+          studentWork.studentId = student.id;
+          row.push(studentWork);
         }
       });
-      this.data.push(row);
+      this.data.push({ works: row, currentStudent: student });
       row = [];
     });
   }
