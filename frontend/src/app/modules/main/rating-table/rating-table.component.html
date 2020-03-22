@@ -24,9 +24,11 @@
             </span>
           </td>
           <td>
+            Сумма баллов
           </td>
         </tr>
     </tbody>
   </table>
-  <div class="btn btn-success" (click)="updateRating()"> submit</div>
+  <div class="btn btn-success" (click)="updateRating()"  [routerLink]="['/subjects']"> Сохранить</div>
+  <div class="btn btn-primary ml-3" [routerLink]="['/subjects']"> Назад</div>
 </div>

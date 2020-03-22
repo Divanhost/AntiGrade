@@ -15,6 +15,7 @@ import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
 import { RatingTableComponent } from './rating-table/rating-table.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { GroupsComponent } from './groups/groups.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -25,7 +26,8 @@ registerLocaleData(localeRu, 'ru-RU');
     AddEditGroupComponent,
     AddEditPlanComponent,
     RatingTableComponent,
-    SubjectsComponent
+    SubjectsComponent,
+    GroupsComponent
   ],
   imports: [
     NgbModule,

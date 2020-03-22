@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <h1>Группы</h1>
+    <div class="group-container">
+        <div *ngFor="let group of groups" class="card group-holder mr-3">
+            <div class="card-header">
+                <h5 class="card-title">
+                    {{group.name}}
+                </h5>
+            </div>
+            <div class="card-body group-body">
+                <div>
+                    <h5 class="mb-1">Список</h5>
+                    <ul class="list-group students-list">
+                        <li *ngFor="let student of group.students; let i =index" class="list-group-item">{{i+1}}. {{student.lastName}}</li>
+                    </ul>
+                </div>
+                <div class="buttons mt-3">
+                    <div class="btn btn-primary" (click)="deleteGroup(group.id)">
+                        Удалить группу
+                    </div>
+                    <div *ngIf="group.students.length" class="btn btn-success mx-2" click>
+                        Редактировать список
+                    </div>
+                    <div *ngIf="!group.students.length" class="btn btn-success mx-2" click>
+                        Добавить список
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="img-container" *ngIf="!subjectId">
+            <a [routerLink]="[ '/group/add' ]">
+                <img src="assets/add.png" alt="" class="link-img">
+            </a>
+        </div>
+        <div class="img-container" *ngIf="subjectId">
+            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">
+                <img src="assets/add.png" alt="" class="link-img">
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+</button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

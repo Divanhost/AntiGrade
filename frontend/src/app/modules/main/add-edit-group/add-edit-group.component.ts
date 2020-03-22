@@ -4,14 +4,15 @@ import { Group } from 'src/app/shared/models/group.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GroupService } from 'src/app/core/services/group.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { Student } from 'src/app/shared/models/student.model';
 @Component({
   selector: 'app-add-edit-group',
   templateUrl: './add-edit-group.component.html',
   styleUrls: ['./add-edit-group.component.scss']
 })
 export class AddEditGroupComponent extends BaseFormComponent implements OnInit {
-
+  faPlusCircle = faPlusCircle;
   isCreate: boolean;
   groupId: number;
   group: Group = new Group();
@@ -32,6 +33,11 @@ export class AddEditGroupComponent extends BaseFormComponent implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
     });
+    this.group.students = [];
+    this.addStudent();
+  }
+  addStudent() {
+    this.group.students.push(new Student());
   }
   onSubmit() {
     this.subscriptions.push(

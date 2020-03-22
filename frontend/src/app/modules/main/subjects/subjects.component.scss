@@ -4,4 +4,16 @@
 }
 .subject-card{
     max-width: max-content;
+    max-height: max-content;
+    margin-right: 1em;
+}
+.subject-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.link-img{
+    width: 100px;
+    height: 100px;
 }

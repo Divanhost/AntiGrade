@@ -1,0 +1,25 @@
+.group-holder{
+    max-width: max-content;
+}
+.group-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.students-list{
+    max-height: 300px;
+    overflow: auto;
+}
+.link-img{
+    width: 100px;
+    height: 100px;
+}
+.img-container{
+    display: flex;
+    align-items: center;
+}
+.group-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

@@ -16,10 +16,29 @@ namespace AntiGrade.Controllers
         public GroupController(IGroupService groupService) : base(groupService)
         { }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> AddGroup([FromBody] GroupDto groupDto)
         {
             var result = await _service.CreateGroup(groupDto);
+            return ResponseModel(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetGroups()
+        {
+            var result = await _service.GetAllGroups();
+            return ResponseModel(result);
+        }
+
+        [HttpGet("subject/{id}")]
+        public async Task<IActionResult> GetGroupBySubjectId(int id)
+        {
+            var result = await _service.GetGroupsBySubjectId(id);
+            return ResponseModel(result);
+        }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteGroup(int id)
+        {
+            var result = await _service.DeleteById(id);
             return ResponseModel(result);
         }
     }

@@ -16,4 +16,13 @@ export class GroupService {
   addGroup(data: Group): Observable<ResponseModel<boolean>> {
     return this.http.postData(`group`, data);
   }
+  getGroups(): Observable<ResponseModel<Group[]>> {
+    return this.http.getData(`group`);
+  }
+  getGroupsBySubjectId(id: number): Observable<ResponseModel<Group[]>> {
+    return this.http.getData(`group/subject/${id}`);
+  }
+  deleteGroup(id: number): Observable<ResponseModel<boolean>> {
+    return this.http.deleteData(`group/${id}`);
+  }
 }

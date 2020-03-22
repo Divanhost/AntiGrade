@@ -1,31 +1,35 @@
 <div class="container-fluid">
-    <h1>Мои Предметы</h1>
-    <div *ngFor="let subject of subjects" class="card subject-card">
-        <div class="card-header">
-            <h5 class="card-title">
-                {{subject.name}}
-            </h5>
-        </div>
-        <div class="card-body">
-            <div class="buttons">
-                <div class="btn btn-primary">
-                    Групппы
-                </div>
-                <div *ngIf="subject.hasPlan"  [routerLink]="['/plan/edit',subject.id]" class="btn btn-success mx-2" click>
-                    Редактировать план
-                </div>
-                <div *ngIf="!subject.hasPlan"  [routerLink]="['/plan/add',subject.id]" class="btn btn-success mx-2" click>
-                    Добавить план
-                </div>
-                <div class="btn btn-warning"  [routerLink]="['rating',subject.id]">
-                    Оценки
+    <h1>Предметы</h1>
+    <div class="subject-container">
+        <div *ngFor="let subject of subjects" class="card subject-card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    {{subject.name}}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="buttons">
+                    <div class="btn btn-primary" [routerLink]="['groups',subject.id]">
+                        Групппы
+                    </div>
+                    <div *ngIf="subject.hasPlan" [routerLink]="['/plan/edit',subject.id]" class="btn btn-success mx-2"
+                        click>
+                        Редактировать план
+                    </div>
+                    <div *ngIf="!subject.hasPlan" [routerLink]="['/plan/add',subject.id]" class="btn btn-success mx-2"
+                        click>
+                        Добавить план
+                    </div>
+                    <div *ngIf="subject.hasPlan" class="btn btn-warning" [routerLink]="['rating',subject.id]">
+                        Оценки
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div>
-        <a [routerLink]="[ 'add' ]">
-            <img src="assets/add.png" alt="">
-        </a>
+        <div class="link-holder">
+            <a [routerLink]="[ 'add' ]">
+                <img src="assets/add.png" alt="" class="link-img">
+            </a>
+        </div>
     </div>
 </div>

@@ -43,7 +43,20 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
                 .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.MaxPoints))
                 .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias));
+            CreateMap<Group,GroupView>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.Students, opt=>opt.MapFrom(src => src.Students));
+            CreateMap<GroupDto,Group>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.Students, opt=>opt.MapFrom(src => src.Students));
             CreateMap<Student,StudentView>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.FirstName, opt=>opt.MapFrom(src => src.FirstName))
+                .ForMember(x=> x.LastName, opt=>opt.MapFrom(src => src.LastName))
+                .ForMember(x=> x.GroupId, opt=>opt.MapFrom(src => src.GroupId));
+             CreateMap<StudentDto,Student>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.FirstName, opt=>opt.MapFrom(src => src.FirstName))
                 .ForMember(x=> x.LastName, opt=>opt.MapFrom(src => src.LastName))

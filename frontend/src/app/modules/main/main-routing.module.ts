@@ -9,6 +9,7 @@ import { AddEditGroupComponent } from './add-edit-group/add-edit-group.component
 import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { RatingTableComponent } from './rating-table/rating-table.component';
+import { GroupsComponent } from './groups/groups.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -47,6 +48,12 @@ const appRoutes: Routes = [
       },
       { path: 'subjects/rating/:id',
         component: RatingTableComponent
+      },
+      { path: 'subjects/groups/:id',
+        component: GroupsComponent
+      },
+      { path: 'groups',
+        component: GroupsComponent
       }
     ]
   }

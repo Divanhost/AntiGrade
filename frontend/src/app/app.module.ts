@@ -10,6 +10,7 @@ import { RequestInterceptor } from './core/services/request-interceptor';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -66,7 +67,8 @@ const customNotifierOptions: NotifierOptions = {
     ReactiveFormsModule,
     NgSelectModule,
     HttpClientModule,
-    NotifierModule.withConfig(customNotifierOptions)
+    NotifierModule.withConfig(customNotifierOptions),
+    FontAwesomeModule
   ],
   providers: [
     HttpService,

@@ -13,10 +13,27 @@
                     <div *ngIf="controls.name.errors.required">Название обязательно</div>
                 </div>
             </div>
-            <div class="buttons">
+            <div class="buttons mt-3">
                 <button type="submit" class="btn btn-success">Save</button>
                 <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
             </div>
         </form>
+        <div class="group-students">
+            <div class="st-header">
+                <h5 class="mb-1">Список студентов</h5>
+                <div class="btn btn-primary" (click)="addStudent()">Добавить</div>
+            </div>
+            <div class="student-row" *ngFor="let student of group.students">
+                <div class="mr-3">
+                    <label for="input-last">Фамилия</label>
+                    <input class="form-control border-style" id="input-last" type="text" [(ngModel)]="student.lastName">
+                </div>
+                <div>
+                    <label for="input-first">Имя</label>
+                    <input class="form-control border-style" id="input-first" type="text"
+                        [(ngModel)]="student.firstName">
+                </div>
+            </div>
+        </div>
     </div>
 </div>

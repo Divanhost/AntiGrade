@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Repositories.Interfaces;
@@ -20,10 +21,8 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<Group> CreateGroup(GroupDto groupDto)
         {
-            var group = new Group()
-            {
-                Name = groupDto.Name
-            };
+            var group = _mapper.Map<Group>(groupDto);
+
             var result = _unitOfWork.GetRepository<Group,int>().Create(group);
             await _unitOfWork.Save();
             return result;
@@ -36,14 +35,15 @@ namespace AntiGrade.Core.Services.Implementation
                 .FirstOrDefaultAsync();
             if (group != null)
             {
+                group.IsDeleted = true;
                 _unitOfWork.GetRepository<Group, int>()
-                    .Delete(group);
+                    .Update(group);
                 bool result = await _unitOfWork.Save() > 0;
                 return result;
             }
             else
             {
-                throw new WebsiteException("Такой дисциплины не существует");
+                throw new WebsiteException("Такой группы не существует");
             }
         }
 
@@ -51,7 +51,7 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var groups = await _unitOfWork.GetRepository<Group,int>()
                                     .Filter(x=>!x.IsDeleted)
-                                    .ProjectTo<GroupView>()
+                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return groups;
         }
@@ -59,9 +59,20 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<GroupView> GetGroupById(int groupId)
         {
             var group = await _unitOfWork.GetRepository<Group,int>()
-                                    .Filter(x=>x.Id == groupId)
-                                    .ProjectTo<GroupView>()
+                                    .Filter(x=>x.Id == groupId && !x.IsDeleted)
+                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
+            return group;
+        }
+
+        public async Task<List<GroupView>> GetGroupsBySubjectId(int id)
+        {
+             var group = await _unitOfWork.GetRepository<Subject,int>()
+                                    .Filter(x=>x.Id == id)
+                                    .SelectMany(x=>x.Groups)
+                                    .Where(y=> !y.IsDeleted )
+                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
             return group;
         }
 
@@ -81,13 +92,13 @@ namespace AntiGrade.Core.Services.Implementation
                 }
                 else
                 {
-                    throw new WebsiteException("Дисциплина не существуетs");
+                    throw new WebsiteException("Группа не существуетs");
                 }
                 return group;
             } 
             else
             {
-                throw new WebsiteException("Дисциплина не существует");
+                throw new WebsiteException("Группа не существует");
             }
         }
     }

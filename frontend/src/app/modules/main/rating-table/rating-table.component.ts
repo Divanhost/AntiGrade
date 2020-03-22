@@ -123,6 +123,10 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
           row.push(studentWork);
         }
       });
+      // debugger;
+      // let sum = row.map((sp: StudentWork) => {
+      //   return sp.SumOfPoints;
+      // });
       this.data.push({ works: row, currentStudent: student });
       row = [];
     });
