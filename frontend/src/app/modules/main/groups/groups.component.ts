@@ -5,6 +5,7 @@ import { GroupService } from 'src/app/core/services/group.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { ActivatedRoute } from '@angular/router';
 import { SubjectService } from 'src/app/core/services/subject.service';
+import { SubjectGroup } from 'src/app/shared/models/subject-group.model';
 
 @Component({
   selector: 'app-groups',
@@ -15,6 +16,7 @@ export class GroupsComponent extends BaseComponent implements OnInit {
   subjectId: number;
   groups: Group[] = [];
   modalGroups = [];
+  subjectGroups: SubjectGroup[] = [];
   constructor(private readonly groupService: GroupService,
               private readonly subjectService: SubjectService,
               private readonly route: ActivatedRoute) {
@@ -39,11 +41,15 @@ export class GroupsComponent extends BaseComponent implements OnInit {
     }
   }
   addGroupsToSubject() {
-    this.modalGroups = this.modalGroups.filter(x => x.checked);
-    const groups = this.modalGroups.map(({ group }) => group);
+    let groups = this.modalGroups.filter(x => x.checked);
+    groups.forEach((element)=>{
+      this.subjectGroups.push({groupId:element.group.id, subjectId: this.subjectId});
+    });
+    debugger;
     this.subscriptions.push(
-      this.subjectService.updateSubjectGroups(this.subjectId, groups).subscribe((response: ResponseModel<Group[]>) => {
+      this.subjectService.updateSubjectGroups(this.subjectId, this.subjectGroups).subscribe((response: ResponseModel<Group[]>) => {
         this.groups = response.payload;
+        this.subjectGroups =[];
       })
     );
   }
@@ -56,6 +62,7 @@ export class GroupsComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.groupService.getGroups().subscribe((response: ResponseModel<Group[]>) => {
         if (isModal) {
+          this.modalGroups = [];
           response.payload.forEach(item => {
             const ckd = this.groups.some(x => x.id === item.id);
             const modalGroup = { group: item, checked: ckd };

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Shared.InputModels;
+using AntiGrade.Shared.Models;
 using AntiGrade.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,7 +59,7 @@ namespace AntiGrade.Controllers
         }
 
         [HttpPut("groups/{id:int}")]
-        public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<GroupDto> groups)
+        public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<SubjectGroup> groups)
         {
             var result = await _service.UpdateSubjectGroups(id, groups);
             return ResponseModel(result);

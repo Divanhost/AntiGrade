@@ -10,6 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Work } from 'src/app/shared/models/work.model';
 import { Student } from 'src/app/shared/models/student.model';
 import { Group } from 'src/app/shared/models/group.model';
+import { SubjectGroup } from 'src/app/shared/models/subject-group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,8 @@ export class SubjectService {
     return this.http.getData(`subject/students/${id}`);
   }
 
-  updateSubjectGroups(id: number, groups: Group[]): Observable<ResponseModel<Group[]>> {
-    return this.http.putData(`subject/groups/${id}`, groups);
+  updateSubjectGroups(id: number,data: SubjectGroup[]): Observable<ResponseModel<Group[]>> {
+    return this.http.putData(`subject/groups/${id}`, data);
   }
 
 }

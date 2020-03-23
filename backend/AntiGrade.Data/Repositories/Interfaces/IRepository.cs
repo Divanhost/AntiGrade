@@ -90,5 +90,8 @@ namespace AntiGrade.Data.Repositories.Interfaces
         /// <param name="entry">Db entry</param>
         /// <returns>Detached entry</returns>
         TEntity Detach(TEntity entry);
+
+        void TryUpdateManyToMany(IEnumerable<TEntity> currentItems, IEnumerable<TEntity> newItems);
+
     }
 }

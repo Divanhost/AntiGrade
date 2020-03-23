@@ -114,7 +114,7 @@ namespace AntiGrade.Data.Repositories.Implementation
 
         public void Update(IEnumerable<TEntity> items)
         {
-            foreach(var entity in items)
+            foreach (var entity in items)
             {
                 _context.Entry(entity).State = EntityState.Modified;
             }
@@ -144,7 +144,12 @@ namespace AntiGrade.Data.Repositories.Implementation
             }
             _context.Dispose();
             _context = null;
-        }        
+        }
+        public void TryUpdateManyToMany(IEnumerable<TEntity> currentItems, IEnumerable<TEntity> newItems)
+        {
+            _context.Set<TEntity>().RemoveRange(currentItems.Except(newItems));
+            _context.Set<TEntity>().AddRange(newItems.Except(currentItems));
+        }
 
         protected AppDbContext _context
         {
