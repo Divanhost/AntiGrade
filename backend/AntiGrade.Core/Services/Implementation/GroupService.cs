@@ -19,13 +19,12 @@ namespace AntiGrade.Core.Services.Implementation
         {
         }
 
-        public async Task<Group> CreateGroup(GroupDto groupDto)
+        public async Task<bool> CreateGroup(GroupDto groupDto)
         {
             var group = _mapper.Map<Group>(groupDto);
 
-            var result = _unitOfWork.GetRepository<Group,int>().Create(group);
-            await _unitOfWork.Save();
-            return result;
+            var result = _unitOfWork.GetRepository<Group, int>().Create(group);
+            return await _unitOfWork.Save() > 0;
         }
 
         public async Task<bool> DeleteById(int groupId)
@@ -49,8 +48,8 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<GroupView>> GetAllGroups()
         {
-            var groups = await _unitOfWork.GetRepository<Group,int>()
-                                    .Filter(x=>!x.IsDeleted)
+            var groups = await _unitOfWork.GetRepository<Group, int>()
+                                    .Filter(x => !x.IsDeleted)
                                     .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return groups;
@@ -58,8 +57,8 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<GroupView> GetGroupById(int groupId)
         {
-            var group = await _unitOfWork.GetRepository<Group,int>()
-                                    .Filter(x=>x.Id == groupId && !x.IsDeleted)
+            var group = await _unitOfWork.GetRepository<Group, int>()
+                                    .Filter(x => x.Id == groupId && !x.IsDeleted)
                                     .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
             return group;
@@ -67,35 +66,51 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<GroupView>> GetGroupsBySubjectId(int id)
         {
-             var group = await _unitOfWork.GetRepository<Subject,int>()
-                                    .Filter(x=>x.Id == id)
-                                    .SelectMany(x=>x.SubjectGroups)
-                                    .Select(g=>g.Group)
-                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
-                                    .ToListAsync();
+            var group = await _unitOfWork.GetRepository<Subject, int>()
+                                   .Filter(x => x.Id == id)
+                                   .SelectMany(x => x.SubjectGroups)
+                                   .Select(g => g.Group)
+                                   .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
+                                   .ToListAsync();
             return group;
         }
 
-        public async Task<Group> UpdateGroup(int GroupId, GroupDto groupDto)
+        public async Task<bool> UpdateGroup(int GroupId, GroupDto groupDto)
         {
-            if(groupDto != null)
+            if (groupDto != null)
             {
-                 var group = await _unitOfWork.GetRepository<Group, int>()
-                    .Filter(x => x.Id == GroupId)
-                    .FirstOrDefaultAsync();
-                if (group != null)
+                var groupDb = await _unitOfWork.GetRepository<Group, int>()
+                   .Filter(x => x.Id == GroupId)
+                   .Include(x => x.Students)
+                   .FirstOrDefaultAsync();
+                var oldStudents = groupDb.Students;
+                if (groupDb != null)
                 {
-                    _mapper.Map(groupDto, group);
+                    groupDb.Name = groupDto.Name;
+
+                    var newStudents = _mapper.Map<List<Student>>(groupDto.Students);
+                    newStudents.ForEach(x => x.GroupId = groupDb.Id);
+                    if (oldStudents.Count == 0)
+                    {
+                        _unitOfWork.GetRepository<Student, int>()
+                                .Create(newStudents);
+                    }
+                    else
+                    {
+                        _unitOfWork.GetRepository<Student, int>()
+                                                .Update(oldStudents, newStudents);
+                    }
+
+                    groupDb.Students = null;
                     _unitOfWork.GetRepository<Group, int>()
-                        .Update(group);
-                    await _unitOfWork.Save();
+                        .Update(groupDb);
+                    return await _unitOfWork.Save() > 0;
                 }
                 else
                 {
                     throw new WebsiteException("Группа не существуетs");
                 }
-                return group;
-            } 
+            }
             else
             {
                 throw new WebsiteException("Группа не существует");

@@ -12,8 +12,8 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<List<GroupView>> GetAllGroups();
         Task<GroupView> GetGroupById(int id);
         Task<List<GroupView>> GetGroupsBySubjectId(int id);
-        Task<Group> CreateGroup(GroupDto groupDto);
-        Task<Group> UpdateGroup(int groupId, GroupDto groupDto);
+        Task<bool> CreateGroup(GroupDto groupDto);
+        Task<bool> UpdateGroup(int groupId, GroupDto groupDto);
         Task<bool> DeleteById(int id);
     }
 }

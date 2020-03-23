@@ -41,15 +41,14 @@ export class GroupsComponent extends BaseComponent implements OnInit {
     }
   }
   addGroupsToSubject() {
-    let groups = this.modalGroups.filter(x => x.checked);
-    groups.forEach((element)=>{
-      this.subjectGroups.push({groupId:element.group.id, subjectId: this.subjectId});
+    const groups = this.modalGroups.filter(x => x.checked);
+    groups.forEach((element) => {
+      this.subjectGroups.push({groupId: element.group.id, subjectId: this.subjectId});
     });
-    debugger;
     this.subscriptions.push(
       this.subjectService.updateSubjectGroups(this.subjectId, this.subjectGroups).subscribe((response: ResponseModel<Group[]>) => {
         this.groups = response.payload;
-        this.subjectGroups =[];
+        this.subjectGroups = [];
       })
     );
   }

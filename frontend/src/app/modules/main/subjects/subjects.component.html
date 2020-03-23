@@ -2,10 +2,11 @@
     <h1>Предметы</h1>
     <div class="subject-container">
         <div *ngFor="let subject of subjects" class="card subject-card">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between">
                 <h5 class="card-title">
                     {{subject.name}}
                 </h5>
+                <div class="btn btn-info" [routerLink]="['edit',subject.id]"> Изменить</div>
             </div>
             <div class="card-body">
                 <div class="buttons">

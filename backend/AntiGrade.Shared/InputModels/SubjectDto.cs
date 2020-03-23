@@ -8,6 +8,7 @@ namespace AntiGrade.Shared.InputModels
     {
         public string Name {get;set;}
         public int ExamTypeId {get;set;}
+        public ExamType ExamType {get;set;}
         public List<EmployeeView> Teachers {get;set;}
         public EmployeeDto MainTeacher {get;set;}
     }

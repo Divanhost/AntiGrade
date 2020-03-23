@@ -18,17 +18,17 @@
                     <div class="btn btn-primary" (click)="deleteGroup(group.id)">
                         Удалить группу
                     </div>
-                    <div *ngIf="group.students.length" class="btn btn-success mx-2" click>
+                    <div *ngIf="group.students.length" class="btn btn-success mx-2" [routerLink]="[ 'edit', group.id ]">
                         Редактировать список
                     </div>
-                    <div *ngIf="!group.students.length" class="btn btn-success mx-2" click>
+                    <div *ngIf="!group.students.length" class="btn btn-success mx-2" [routerLink]="[ 'edit', group.id ]">
                         Добавить список
                     </div>
                 </div>
             </div>
         </div>
         <div class="img-container" *ngIf="!subjectId">
-            <a [routerLink]="[ '/group/add' ]">
+            <a [routerLink]="[ '/groups/add' ]">
                 <img src="assets/add.png" alt="" class="link-img">
             </a>
         </div>

@@ -67,11 +67,11 @@ namespace AntiGrade.Core.Services.Implementation
             return subjects;
         }
 
-        public async Task<SubjectView> GetSubjectById(int subjectId)
+        public async Task<SubjectDto> GetSubjectById(int subjectId)
         {
             var subject = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => x.Id == subjectId)
-                                    .ProjectTo<SubjectView>()
+                                    .ProjectTo<SubjectDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
             return subject;
         }
@@ -85,9 +85,13 @@ namespace AntiGrade.Core.Services.Implementation
                    .FirstOrDefaultAsync();
                 if (subject != null)
                 {
-                    _mapper.Map(subjectDto, subject);
-                    _unitOfWork.GetRepository<Subject, int>()
-                        .Update(subject);
+                   subject.Name = subjectDto.Name;
+                   subject.TypeId = subjectDto.ExamTypeId;
+                   var employeesNew = _mapper.Map<List<Employee>>(subjectDto.Teachers);
+                   var employeesOld = subject.Teachers;
+                   subject.Teachers = null;
+                    _unitOfWork.GetRepository<Subject, int>() .Update(subject);
+                    _unitOfWork.GetRepository<Employee, int>() .Update(employeesOld,employeesNew);
                     await _unitOfWork.Save();
                 }
                 else
@@ -189,6 +193,7 @@ namespace AntiGrade.Core.Services.Implementation
             return await _unitOfWork.GetRepository<SubjectGroup, int>()
                                                     .Filter(x => x.SubjectId == subjectId)
                                                     .Select(x=>x.Group)
+                                                    .Where(g=>!g.IsDeleted)
                                                     .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
                                                     .ToListAsync();
         }

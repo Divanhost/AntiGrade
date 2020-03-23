@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '.';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { ExamType } from 'src/app/shared/models/exam-type.model';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
@@ -29,6 +29,12 @@ export class SubjectService {
   }
   getSubjects(): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData('subject/all');
+  }
+  getSubject(id: number): Observable<ResponseModel<SubjectDto>> {
+    return this.http.getData(`subject/${id}`);
+  }
+  updateSubject(id: number, data: SubjectDto): Observable<ResponseModel<SubjectDto>> {
+    return this.http.putData(`subject/${id}`, data);
   }
   addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
     return this.http.postData(`subject/plan`, data);

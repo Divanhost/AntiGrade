@@ -9,6 +9,7 @@ import { EmployeeService } from 'src/app/core/services/employee.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { SubjectService } from 'src/app/core/services/subject.service';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
+import { SubjectView } from 'src/app/shared/models/subject-view.model';
 
 @Component({
   selector: 'app-add-edit-subject',
@@ -36,17 +37,6 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-    // this.dropdownList = [
-    //   { item_id: 1, item_text: 'Mumbai' },
-    //   { item_id: 2, item_text: 'Bangaluru' },
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' },
-    //   { item_id: 5, item_text: 'New Delhi' }
-    // ];
-    // this.selectedTeachers = [
-    //   { item_id: 3, item_text: 'Pune' },
-    //   { item_id: 4, item_text: 'Navsari' }
-    // ];
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -59,7 +49,10 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.initForm();
     this.getExamTypes();
     this.getTeachers();
-    this.fillForm();
+    if (!this.isCreate) {
+      this.getSubject();
+      this.fillForm();
+    }
   }
   initForm() {
     this.form = new FormGroup({
@@ -69,20 +62,33 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
       mainTeacher: new FormControl(null, Validators.required)
     });
   }
+  getSubject() {
+    this.subscriptions.push(
+      this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
+        this.subject = response.payload;
+      })
+    );
+  }
   fillForm() {
-    // this.form.controls.name.setValue(this.subject.name);
-    // this.form.controls.examType.setValue(this.subject.examType);
-    // this.form.controls.teachers.setValue(this.subject.teachers);
-    // this.form.controls.mainTeacher.setValue(this.subject.mainTeacher);
+    this.form.controls.name.setValue(this.subject.name);
+    this.form.controls.examType.setValue(this.subject.examType);
+    this.form.controls.teachers.setValue(this.subject.teachers);
+    this.form.controls.mainTeacher.setValue(this.subject.mainTeacher);
   }
   onSubmit() {
-    // this.subject.name = this.form.controls.name.value;
-    // this.subject.examType = this.form.controls.examType.value;
-    // this.subject.mainTeacher = this.form.controls.mainTeacher.value;
-    console.log(this.subject);
-    this.subscriptions.push(
-      this.subjectService.addSubject(this.subject).subscribe()
-    );
+    if (this.isCreate) {
+      this.subscriptions.push(
+        this.subjectService.addSubject(this.subject).subscribe(() => {
+          this.router.navigate(['/subjects']);
+        })
+      );
+    } else {
+      this.subscriptions.push(
+        this.subjectService.updateSubject(this.subjectId, this.subject).subscribe(() => {
+          this.router.navigate(['/subjects']);
+        })
+      );
+    }
   }
 
   getExamTypes() {

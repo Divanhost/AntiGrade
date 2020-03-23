@@ -34,10 +34,10 @@ const appRoutes: Routes = [
       { path: 'subjects/add',
         component: AddEditSubjectComponent
       },
-      { path: 'group/edit/:id',
+      { path: 'groups/edit/:id',
         component: AddEditGroupComponent
       },
-      { path: 'group/add',
+      { path: 'groups/add',
         component: AddEditGroupComponent
       },
       { path: 'plan/edit/:id',

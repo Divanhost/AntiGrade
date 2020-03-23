@@ -58,7 +58,8 @@ namespace AntiGrade.Data.Repositories.Implementation
         {
             foreach (var item in items)
             {
-                _context.Entry(item).State = EntityState.Added;
+                //_context.Entry(item).State = EntityState.Added;
+                _context.Add(item);
             }
         }
 

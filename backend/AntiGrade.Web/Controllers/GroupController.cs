@@ -29,6 +29,18 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetGroup(int id)
+        {
+            var result = await _service.GetGroupById(id);
+            return ResponseModel(result);
+        }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateGroup(int id, [FromBody] GroupDto data)
+        {
+            var result = await _service.UpdateGroup(id, data);
+            return ResponseModel(result);
+        }
         [HttpGet("subject/{id}")]
         public async Task<IActionResult> GetGroupBySubjectId(int id)
         {

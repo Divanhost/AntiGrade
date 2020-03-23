@@ -6,7 +6,7 @@ import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { BaseComponent } from 'src/app/shared/classes';
 import { SubjectService } from 'src/app/core/services/subject.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from 'src/app/core/services/student.service';
 import { StudentWork } from 'src/app/shared/models/student-work.model';
 @Component({
@@ -27,7 +27,8 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
-    private readonly route: ActivatedRoute) {
+    private readonly route: ActivatedRoute,
+    private readonly router: Router) {
     super();
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
@@ -87,6 +88,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   updateStudentWorks() {
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
+        this.router.navigate(['/subjects']);
       })
     );
   }

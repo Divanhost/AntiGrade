@@ -2,7 +2,7 @@ import { Criteria } from './criteria.model';
 
 export class Work {
     id: number;
-    name: string;
+    name = '';
     points: number;
     criterias: Criteria[];
 }

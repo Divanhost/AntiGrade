@@ -5,6 +5,7 @@ export class SubjectDto {
     id: number;
     name: string;
     examTypeId: number;
+    examType: ExamType;
     teachers: Employee[];
     mainTeacher: Employee;
 }

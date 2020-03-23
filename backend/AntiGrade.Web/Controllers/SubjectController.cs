@@ -29,6 +29,18 @@ namespace AntiGrade.Controllers
             var result = await _service.GetAllSubjects();
             return ResponseModel(result);
         }
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetSubject(int id)
+        {
+            var result = await _service.GetSubjectById(id);
+            return ResponseModel(result);
+        }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateSubject(int id, [FromBody] SubjectDto subject)
+        {
+            var result = await _service.UpdateSubject(id,subject);
+            return ResponseModel(result);
+        }
 
         [HttpPost()]
         public async Task<IActionResult> AddSubject([FromBody] SubjectDto subjectDto)

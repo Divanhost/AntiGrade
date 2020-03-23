@@ -21,7 +21,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   mode: string;
   plan: SubjectPlan = new SubjectPlan();
   students: Student[] = [];
-  isCriteraisShown = true;
+  isCriteraisShown = false;
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly subjectService: SubjectService) {
@@ -47,12 +47,16 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     work.criterias = [];
     this.addCriteria(work);
     this.plan.works.push(work);
-    this.isCriteraisShown = false;
   }
   getPlan() {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
         this.plan.works = response.payload;
+        this.plan.works.forEach(element => {
+          if (!element.criterias.length) {
+            this.addCriteria(element);
+          }
+        });
       })
     );
   }
@@ -67,16 +71,22 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     work.criterias.filter(x => x !== criteria);
   }
   savePlan() {
-    this.plan.works.forEach(element => {
-      element.criterias.filter(x => x.name !== '')
+    const plan = Object.assign(this.plan);
+    plan.works = plan.works.filter(x => x.name !== '' && x.name !== null);
+    plan.works.forEach(element => {
+        element.criterias = element.criterias.filter(x => x.name !== '' &&  x.name !== null);
     });
     if (this.isCreate) {
       this.subscriptions.push(
-        this.subjectService.addSubjectPlan(this.plan).subscribe()
+        this.subjectService.addSubjectPlan(plan).subscribe(() => {
+          this.router.navigate(['/subjects']);
+        })
       );
     } else {
       this.subscriptions.push(
-        this.subjectService.updateSubjectPlan(this.plan).subscribe()
+        this.subjectService.updateSubjectPlan(plan).subscribe(() => {
+          this.router.navigate(['/subjects']);
+        })
       );
     }
   }
