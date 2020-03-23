@@ -67,13 +67,13 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<GroupView>> GetGroupsBySubjectId(int id)
         {
-             var group = await _unitOfWork.GetRepository<Subject,int>()
-                                    .Filter(x=>x.Id == id)
-                                    .SelectMany(x=>x.Groups)
-                                    .Where(y=> !y.IsDeleted )
-                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
-                                    .ToListAsync();
-            return group;
+            //  var group = await _unitOfWork.GetRepository<Subject,int>()
+            //                         .Filter(x=>x.Id == id)
+            //                         .SelectMany(x=>x.Groups)
+            //                         .Where(y=> !y.IsDeleted )
+            //                         .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
+            //                         .ToListAsync();
+            return null;
         }
 
         public async Task<Group> UpdateGroup(int GroupId, GroupDto groupDto)

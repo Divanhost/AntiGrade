@@ -8,5 +8,6 @@ namespace AntiGrade.Shared.Models
         public string Name {get;set;}
         public bool IsDeleted {get;set;}
         public virtual List<Student> Students {get;set;}
+        public virtual List<SubjectGroup> SubjectGroups {get;set;}
     }
 }

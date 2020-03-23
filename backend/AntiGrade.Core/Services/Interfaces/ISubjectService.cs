@@ -15,6 +15,7 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<Subject> CreateSubject(SubjectDto subjectDto);
         Task<bool> CreateSubjectPlan(SubjectPlan plan);
         Task<Subject> UpdateSubject(int subjectId, SubjectDto subject);
+        Task<List<GroupView>> UpdateSubjectGroups(int subjectId, List<GroupDto> subject);
         Task<bool> DeleteById(int subjectId);
         Task<List<WorkView>> GetWorks(int subjectId);
         Task<List<StudentView>> GetStudents(int subjectId);

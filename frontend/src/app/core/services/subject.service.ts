@@ -9,6 +9,7 @@ import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
 import { HttpHeaders } from '@angular/common/http';
 import { Work } from 'src/app/shared/models/work.model';
 import { Student } from 'src/app/shared/models/student.model';
+import { Group } from 'src/app/shared/models/group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,10 @@ export class SubjectService {
   }
   getSubjectStudents(id: number): Observable<ResponseModel<Student[]>> {
     return this.http.getData(`subject/students/${id}`);
+  }
+
+  updateSubjectGroups(id: number, groups: Group[]): Observable<ResponseModel<Group[]>> {
+    return this.http.putData(`subject/groups/${id}`, groups);
   }
 
 }

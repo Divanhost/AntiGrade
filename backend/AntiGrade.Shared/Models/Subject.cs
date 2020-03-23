@@ -16,7 +16,7 @@ namespace AntiGrade.Shared.Models
         public bool IsDeleted {get;set;}
         [DefaultValue(false)]
         public bool HasPlan {get;set;}
-        public virtual List<Group> Groups{get;set;}
+        public virtual List<SubjectGroup> SubjectGroups {get;set;}
         public virtual List<Employee> Teachers {get;set;}
     }
 }

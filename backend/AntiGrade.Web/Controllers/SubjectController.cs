@@ -56,5 +56,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetStudents(id);
             return ResponseModel(result);
         }
+
+        [HttpPut("groups/{id:int}")]
+        public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<GroupDto> groups)
+        {
+            var result = await _service.UpdateSubjectGroups(id, groups);
+            return ResponseModel(result);
+        }
     }
 }

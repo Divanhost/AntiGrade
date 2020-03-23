@@ -158,13 +158,22 @@ namespace AntiGrade.Core.Services.Implementation
         }
         public async Task<List<StudentView>> GetStudents(int subjectId)
         {
-            var result = await _unitOfWork.GetRepository<Subject,int>()
-                                    .Filter(x=>x.Id == subjectId)
-                                    .SelectMany(x => x.Groups)
-                                    .SelectMany(y=>y.Students)
-                                    .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
-                                    .ToListAsync();
-            return result;
+            // var result = await _unitOfWork.GetRepository<Subject,int>()
+            //                         .Filter(x=>x.Id == subjectId)
+            //                         .SelectMany(x => x.Groups)
+            //                         .SelectMany(y=>y.Students)
+            //                         .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
+            //                         .ToListAsync();
+            return null;
+        }
+
+        public async Task<List<GroupView>> UpdateSubjectGroups(int subjectId, List<GroupDto> groupsDto)
+        {
+            var subjectToUpdate = await  _unitOfWork.GetRepository<Subject,int>().Filter(x=>x.Id == subjectId).FirstOrDefaultAsync();
+            var groups = _mapper.Map<List<Group>>(groupsDto);
+             _unitOfWork.GetRepository<Subject,int>().Update(subjectToUpdate);
+            await _unitOfWork.Save();
+            return _mapper.Map<List<GroupView>>(groups);
         }
     }
 }
