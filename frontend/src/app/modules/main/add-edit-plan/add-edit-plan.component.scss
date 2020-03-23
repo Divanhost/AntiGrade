@@ -8,10 +8,24 @@
     border-radius: 5px;
     box-shadow: 0 0 10px #dedede;
     overflow: auto;
+    max-width: max-content;
+    padding: 1em;
 }
 .arrow-icon{
     display: flex;
     vertical-align: bottom;
     width: 30px;
     height: 30px;
+}
+.criteria-holder{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 1em;
+}
+.work-holder{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 1em;
 }

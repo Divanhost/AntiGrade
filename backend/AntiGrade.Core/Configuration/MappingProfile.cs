@@ -28,20 +28,26 @@ namespace AntiGrade.Core.Configuration
             CreateMap<CriteriaDto,Criteria>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
-                .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.MaxPoints));
+                .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.Points))
+                .ForMember(x=> x.WorkId, opt=>opt.MapFrom(src => src.WorkId));
             CreateMap<Criteria,CriteriaDto>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
-                .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.MaxPoints));
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.MaxPoints));
             CreateMap<Work,WorkDto>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
-                .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.MaxPoints))
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.MaxPoints))
+                .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias));
+             CreateMap<WorkDto,Work>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.Points))
                 .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias));
             CreateMap<Work,WorkView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
-                .ForMember(x=> x.MaxPoints, opt=>opt.MapFrom(src => src.MaxPoints))
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.MaxPoints))
                 .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias));
             CreateMap<Group,GroupView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))

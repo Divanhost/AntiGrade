@@ -123,25 +123,11 @@ namespace AntiGrade.Core.Services.Implementation
                 var work = new Work
                 {
                     Name = workDto.Name,
-                    MaxPoints = workDto.MaxPoints,
+                    MaxPoints = workDto.Points,
                     SubjectId = plan.SubjectId
                 };
-                // var criterias = new List<Criteria>();
-
-                // foreach (var criteriaDto in workDto.Criterias)
-                // {
-                //     var criteria = _mapper.Map<Criteria>(criteriaDto);
-                //     criterias.Add(criteria);
-                // }
                 var criterias = _mapper.Map<List<CriteriaDto>, List<Criteria>>(workDto.Criterias);
-                if (criterias.Count == 0)
-                {
-                    criterias.Add(new Criteria
-                    {
-                        Name = "Критерий 1",
-                        MaxPoints = workDto.MaxPoints,
-                    });
-                }
+                
                 work.Criterias = criterias;
                 _unitOfWork.GetRepository<Work, int>().Create(work);
                 if (!subject.HasPlan)
@@ -149,6 +135,22 @@ namespace AntiGrade.Core.Services.Implementation
                     subject.HasPlan = true;
                 }
             }
+            return await _unitOfWork.Save() > 0;
+        }
+        public async Task<bool> UpdateSubjectPlan(SubjectPlan plan)
+        {
+            var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == plan.SubjectId).Include(x=>x.Criterias).ToListAsync();
+            var worksNew = _mapper.Map<List<Work>>(plan.Works);
+
+            var oldCriterias = worksOld.SelectMany(x=>x.Criterias).ToList();
+            var newCriterias = worksNew.SelectMany(x=>x.Criterias).ToList();
+            
+            worksNew.ForEach(x=> {
+                x.SubjectId = plan.SubjectId;
+                x.Criterias = null;
+            });
+            _unitOfWork.GetRepository<Work, int>().Update(worksOld, worksNew);
+            _unitOfWork.GetRepository<Criteria, int>().Update(oldCriterias, newCriterias);
             return await _unitOfWork.Save() > 0;
         }
 
@@ -178,7 +180,7 @@ namespace AntiGrade.Core.Services.Implementation
                                                     .Filter(x => x.Id == subjectId)
                                                     .Include(x=>x.SubjectGroups)
                                                     .FirstOrDefaultAsync();
-            _unitOfWork.GetRepository<SubjectGroup, int>().TryUpdateManyToMany(subjectToUpdate.SubjectGroups, subjectGroups);
+            _unitOfWork.GetRepository<SubjectGroup, int>().Update(subjectToUpdate.SubjectGroups, subjectGroups);
             await _unitOfWork.Save();
             var groups = await GetGroups(subjectId);
             return groups;

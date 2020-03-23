@@ -33,14 +33,19 @@ export class SubjectService {
   addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
     return this.http.postData(`subject/plan`, data);
   }
+  updateSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
+    return this.http.putData(`subject/plan`, data);
+  }
+  // getSubjectPlan(id: number): Observable<ResponseModel<boolean>> {
+  //   return this.http.getData(`subject/plan/${id}`);
+  // }
   getSubjectWorks(id: number): Observable<ResponseModel<Work[]>> {
     return this.http.getData(`subject/works/${id}`);
   }
   getSubjectStudents(id: number): Observable<ResponseModel<Student[]>> {
     return this.http.getData(`subject/students/${id}`);
   }
-
-  updateSubjectGroups(id: number,data: SubjectGroup[]): Observable<ResponseModel<Group[]>> {
+  updateSubjectGroups(id: number, data: SubjectGroup[]): Observable<ResponseModel<Group[]>> {
     return this.http.putData(`subject/groups/${id}`, data);
   }
 

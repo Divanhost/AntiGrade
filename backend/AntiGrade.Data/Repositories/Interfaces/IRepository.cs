@@ -43,6 +43,7 @@ namespace AntiGrade.Data.Repositories.Interfaces
         /// </summary>
         /// <param name="items"></param>
         void Update(IEnumerable<TEntity> items);
+        void Update(IEnumerable<TEntity> currentItems, IEnumerable<TEntity> newItems);
 
         /// <summary>
         /// Deletes entity by entity object
@@ -90,8 +91,6 @@ namespace AntiGrade.Data.Repositories.Interfaces
         /// <param name="entry">Db entry</param>
         /// <returns>Detached entry</returns>
         TEntity Detach(TEntity entry);
-
-        void TryUpdateManyToMany(IEnumerable<TEntity> currentItems, IEnumerable<TEntity> newItems);
 
     }
 }

@@ -120,6 +120,12 @@ namespace AntiGrade.Data.Repositories.Implementation
             }
         }
 
+        public void Update(IEnumerable<TEntity> currentItems, IEnumerable<TEntity> newItems)
+        {
+             _context.Set<TEntity>().RemoveRange(currentItems.Except(newItems));
+             _context.Set<TEntity>().AddRange(newItems.Except(currentItems));
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing)
@@ -144,11 +150,6 @@ namespace AntiGrade.Data.Repositories.Implementation
             }
             _context.Dispose();
             _context = null;
-        }
-        public void TryUpdateManyToMany(IEnumerable<TEntity> currentItems, IEnumerable<TEntity> newItems)
-        {
-            _context.Set<TEntity>().RemoveRange(currentItems.Except(newItems));
-            _context.Set<TEntity>().AddRange(newItems.Except(currentItems));
         }
 
         protected AppDbContext _context
