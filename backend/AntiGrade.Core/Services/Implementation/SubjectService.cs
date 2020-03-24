@@ -19,23 +19,22 @@ namespace AntiGrade.Core.Services.Implementation
         {
         }
 
-        public async Task<Subject> CreateSubject(SubjectDto subjectDto)
+        public async Task<bool> CreateSubject(SubjectDto subjectDto)
         {
             var subject = new Subject()
             {
                 Name = subjectDto.Name,
-                Teachers = new List<Employee>()
+                SubjectEmployees = subjectDto.SubjectEmployees
             };
-            var type = await _unitOfWork.GetRepository<ExamType, int>().Find(x => x.Id == subjectDto.ExamTypeId);
-            subject.Type = type;
-            foreach (var item in subjectDto.Teachers)
-            {
-                var employee = await _unitOfWork.GetRepository<Employee, int>().Filter(x => x.Id == item.Id).FirstOrDefaultAsync();
-                subject.Teachers.Add(employee);
-            }
+            var type = await _unitOfWork.GetRepository<ExamType, int>().Find(x => x.Id == subjectDto.ExamType.Id);
+            subject.TypeId = type.Id;
+            // foreach (var item in subjectDto.Teachers)
+            // {
+            //     var employee = await _unitOfWork.GetRepository<Employee, int>().Filter(x => x.Id == item.Id).FirstOrDefaultAsync();
+            //     subject.Teachers.Add(employee);
+            // }
             var result = _unitOfWork.GetRepository<Subject, int>().Create(subject);
-            await _unitOfWork.Save();
-            return result;
+            return await _unitOfWork.Save() >0;
         }
 
 
@@ -76,29 +75,31 @@ namespace AntiGrade.Core.Services.Implementation
             return subject;
         }
 
-        public async Task<Subject> UpdateSubject(int subjectId, SubjectDto subjectDto)
+        public async Task<bool> UpdateSubject(int subjectId, SubjectDto subjectDto)
         {
             if (subjectDto != null)
             {
                 var subject = await _unitOfWork.GetRepository<Subject, int>()
                    .Filter(x => x.Id == subjectId)
+                   .Include(x=>x.SubjectEmployees)
                    .FirstOrDefaultAsync();
                 if (subject != null)
                 {
                    subject.Name = subjectDto.Name;
                    subject.TypeId = subjectDto.ExamTypeId;
-                   var employeesNew = _mapper.Map<List<Employee>>(subjectDto.Teachers);
-                   var employeesOld = subject.Teachers;
-                   subject.Teachers = null;
+
+                   var employeesNew = subjectDto.SubjectEmployees;
+                   var employeesOld = subject.SubjectEmployees;
+
+                   subject.SubjectEmployees = null;
                     _unitOfWork.GetRepository<Subject, int>() .Update(subject);
-                    _unitOfWork.GetRepository<Employee, int>() .Update(employeesOld,employeesNew);
-                    await _unitOfWork.Save();
+                    _unitOfWork.GetRepository<SubjectEmployee, int>() .Update(employeesOld,employeesNew);
+                   return await _unitOfWork.Save() >0;
                 }
                 else
                 {
                     throw new WebsiteException("Дисциплина не существуетs");
                 }
-                return subject;
             }
             else
             {

@@ -10,6 +10,7 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 import { SubjectService } from 'src/app/core/services/subject.service';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
+import { SubjectEmployee } from 'src/app/shared/models/subject-employee.model';
 
 @Component({
   selector: 'app-add-edit-subject',
@@ -22,8 +23,9 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   teachers: Employee[] = [];
   examTypes: ExamType[] = [];
   subject: SubjectDto = new SubjectDto();
+  selectedEmployees: Employee[] = [];
   dropdownList = [];
-  selectedTeachers: Employee[] = [];
+  mainTeacher: Employee = new Employee();
   dropdownSettings = {};
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
@@ -49,10 +51,6 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.initForm();
     this.getExamTypes();
     this.getTeachers();
-    if (!this.isCreate) {
-      this.getSubject();
-      this.fillForm();
-    }
   }
   initForm() {
     this.form = new FormGroup({
@@ -66,16 +64,27 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subscriptions.push(
       this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
         this.subject = response.payload;
+        if (this.subject.subjectEmployees.length) {
+          this.subject.subjectEmployees.forEach(element => {
+            const teacher = this.teachers.find(x => x.id === element.employeeId);
+            this.selectedEmployees.push(teacher);
+            if (element.status === 'MT') {
+              this.mainTeacher = teacher;
+            }
+          });
+        }
+        this.fillForm();
       })
     );
   }
   fillForm() {
     this.form.controls.name.setValue(this.subject.name);
     this.form.controls.examType.setValue(this.subject.examType);
-    this.form.controls.teachers.setValue(this.subject.teachers);
-    this.form.controls.mainTeacher.setValue(this.subject.mainTeacher);
+    this.form.controls.teachers.setValue(this.selectedEmployees);
+    this.form.controls.mainTeacher.setValue(this.mainTeacher);
   }
   onSubmit() {
+    this.convertEmployees();
     if (this.isCreate) {
       this.subscriptions.push(
         this.subjectService.addSubject(this.subject).subscribe(() => {
@@ -90,7 +99,16 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
       );
     }
   }
-
+  convertEmployees() {
+    this.subject.subjectEmployees = [];
+    this.selectedEmployees.forEach(element => {
+      const se = new SubjectEmployee();
+      se.subjectId = +this.subjectId || 0;
+      se.employeeId = element.id;
+      this.subject.subjectEmployees.push(se);
+    });
+    this.subject.subjectEmployees.find(x => x.employeeId === this.mainTeacher.id).status = 'MT';
+  }
   getExamTypes() {
     this.subscriptions.push(
       this.subjectService.getExamTypes().subscribe((responce: ResponseModel<ExamType[]>) => {
@@ -102,7 +120,9 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subscriptions.push(
       this.employeeService.getAllTeachers().subscribe((responce: ResponseModel<Employee[]>) => {
         this.teachers = responce.payload;
-        console.log(this.teachers);
+        if (!this.isCreate) {
+          this.getSubject();
+        }
       })
     );
   }

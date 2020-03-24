@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AntiGrade.Shared.Models.Identity;
 
@@ -14,5 +15,6 @@ namespace AntiGrade.Shared.Models
         public bool IsFired {get;set;}
         public virtual EmployeePosition EmployeePosition {get;set;}
         public virtual User User {get;set;}
+        public virtual List<SubjectEmployee> SubjectEmployees {get;set;}
     }
 }

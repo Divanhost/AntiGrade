@@ -26,6 +26,7 @@ namespace AntiGrade.Data.Context
         public DbSet<StudentCriteria> StudentCriterias { get; set; }
         public DbSet<StudentWork> StudentWorks { get; set; }
         public DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public DbSet<SubjectEmployee> SubjectEmployees { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -70,6 +71,17 @@ namespace AntiGrade.Data.Context
                 .HasOne(sw => sw.Group)
                 .WithMany(w => w.SubjectGroups)
                 .HasForeignKey(sw => sw.GroupId);
+
+            builder.Entity<SubjectEmployee>()
+                .HasKey(sw => new { sw.SubjectId, sw.EmployeeId });
+            builder.Entity<SubjectEmployee>()
+                .HasOne(sw => sw.Subject)
+                .WithMany(s => s.SubjectEmployees)
+                .HasForeignKey(sw => sw.SubjectId);
+            builder.Entity<SubjectEmployee>()
+                .HasOne(sw => sw.Employee)
+                .WithMany(w => w.SubjectEmployees)
+                .HasForeignKey(sw => sw.EmployeeId);
         }
 
         private Role GetRole(int id, string role)

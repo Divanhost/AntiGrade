@@ -17,6 +17,6 @@ namespace AntiGrade.Shared.Models
         [DefaultValue(false)]
         public bool HasPlan {get;set;}
         public virtual List<SubjectGroup> SubjectGroups {get;set;}
-        public virtual List<Employee> Teachers {get;set;}
+        public virtual List<SubjectEmployee> SubjectEmployees {get;set;}
     }
 }

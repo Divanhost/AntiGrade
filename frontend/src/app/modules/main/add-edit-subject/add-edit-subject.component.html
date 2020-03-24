@@ -17,18 +17,18 @@
                 </small>
             </div>
             <div>Вид зачёта</div>
-            <ng-select formControlName="examType" [(ngModel)]="subject.examTypeId">
-                <ng-option *ngFor="let type of examTypes" [value] = "type.id">
+            <ng-select formControlName="examType" [(ngModel)]="subject.examType">
+                <ng-option *ngFor="let type of examTypes" [value] = "type">
                     {{ type.name }}
                 </ng-option>
             </ng-select>
             <div>Список преподавателей</div>
-            <ng-multiselect-dropdown formControlName="teachers" [data]="teachers" [(ngModel)]="subject.teachers"
+            <ng-multiselect-dropdown formControlName="teachers" [data]="teachers" [(ngModel)]="selectedEmployees"
                 [settings]="dropdownSettings">
             </ng-multiselect-dropdown>
             <div>Составитель учебного плана</div>
-            <ng-select [searchable]="false" formControlName="mainTeacher"  [(ngModel)]="subject.mainTeacher">
-                <ng-option *ngFor="let mTeacher of subject.teachers" [value] = "mTeacher">
+            <ng-select [searchable]="false" formControlName="mainTeacher"  [(ngModel)]="mainTeacher">
+                <ng-option *ngFor="let mTeacher of selectedEmployees" [value] = "mTeacher">
                     {{mTeacher.fullName}}
                 </ng-option>
             </ng-select>
