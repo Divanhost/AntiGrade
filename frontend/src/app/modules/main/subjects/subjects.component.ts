@@ -3,6 +3,7 @@ import { SubjectService } from 'src/app/core/services/subject.service';
 import { BaseComponent } from 'src/app/shared/classes';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
+import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 
 @Component({
   selector: 'app-subjects',
@@ -22,6 +23,13 @@ export class SubjectsComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjects().subscribe((responce: ResponseModel<SubjectView[]>) => {
         this.subjects = responce.payload;
+      })
+    );
+  }
+  removeSubject(subject: SubjectView) {
+    this.subscriptions.push(
+      this.subjectService.removeSubject(subject.id).subscribe(() => {
+        this.subjects = this.subjects.filter(x => x !== subject);
       })
     );
   }

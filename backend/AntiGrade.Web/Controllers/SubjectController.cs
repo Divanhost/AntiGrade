@@ -82,5 +82,11 @@ namespace AntiGrade.Controllers
             var result = await _service.UpdateSubjectGroups(id, groups);
             return ResponseModel(result);
         }
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> RemoveSubject(int id)
+        {
+            var result = await _service.DeleteById(id);
+            return ResponseModel(result);
+        }
     }
 }

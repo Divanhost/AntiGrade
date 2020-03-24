@@ -27,6 +27,9 @@ export class SubjectService {
   addSubject(data: SubjectDto): Observable<ResponseModel<boolean>> {
     return this.http.postData(`subject`, data);
   }
+  removeSubject(id: number): Observable<ResponseModel<boolean>> {
+    return this.http.deleteData(`subject/${id}`);
+  }
   getSubjects(): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData('subject/all');
   }
