@@ -76,12 +76,28 @@ export class GroupsComponent extends BaseComponent implements OnInit {
   }
 
   deleteGroup(groupId: number) {
-    this.subscriptions.push(
-      this.groupService.deleteGroup(groupId).subscribe((response: ResponseModel<boolean>) => {
-        if (response.payload) {
-          this.groups = this.groups.filter(x => x.id !== groupId);
+    if(this.subjectId) {
+      this.groups.forEach((element) => {
+        if(element.id !== groupId) {
+          this.subjectGroups.push({groupId: element.id, subjectId: this.subjectId});
         }
-      })
-    );
+      });
+      debugger;
+      this.subscriptions.push(
+        this.subjectService.updateSubjectGroups(this.subjectId,this.subjectGroups).subscribe(() => {
+          this.groups = this.groups.filter(x=>x.id !== groupId);
+          this.subjectGroups =[];
+        })
+      );
+    } else {
+      this.subscriptions.push(
+        this.groupService.deleteGroup(groupId).subscribe((response: ResponseModel<boolean>) => {
+          if (response.payload) {
+            this.groups = this.groups.filter(x => x.id !== groupId);
+          }
+        })
+      );
+    }
+    
   }
 }
