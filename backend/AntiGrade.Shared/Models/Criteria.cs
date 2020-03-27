@@ -20,6 +20,5 @@ namespace AntiGrade.Shared.Models
         public int WorkId {get;set;}
         public virtual Work Work {get;set;}
         public virtual List<StudentCriteria> StudentCriterias {get;set;}
-
     }
 }

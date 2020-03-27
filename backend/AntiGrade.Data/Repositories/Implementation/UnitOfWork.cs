@@ -99,18 +99,6 @@ namespace AntiGrade.Data.Repositories.Implementation
                 return _employeePositionRepository;
             }
         }
-        public IRepository<SubjectDistribution, int> SubjectDistributionRepository
-        {
-            get
-            {
-                if (_subjectDistributionRepository == null)
-                {
-                    _subjectDistributionRepository = new Repository<SubjectDistribution, int>(_context);
-                }
-
-                return _subjectDistributionRepository;
-            }
-        }
 
         public IRepository<Criteria, int> CriteriaRepository 
         {
@@ -222,7 +210,6 @@ namespace AntiGrade.Data.Repositories.Implementation
         private IRepository<Student, int> _studentRepository;
         private IRepository<Subject, int> _subjectRepository;
         private IRepository<EmployeePosition, int> _employeePositionRepository;
-        private IRepository<SubjectDistribution, int> _subjectDistributionRepository;
         private IRepository<Criteria, int> _criteriaRepository;
         private IRepository<Work, int> _workRepository;
         private IRepository<WorkType, int> _workTypeRepository;

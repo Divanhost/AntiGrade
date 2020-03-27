@@ -16,6 +16,7 @@ import { RatingTableComponent } from './rating-table/rating-table.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { GroupsComponent } from './groups/groups.component';
+import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -27,7 +28,8 @@ registerLocaleData(localeRu, 'ru-RU');
     AddEditPlanComponent,
     RatingTableComponent,
     SubjectsComponent,
-    GroupsComponent
+    GroupsComponent,
+    AddEditEmployeeComponent
   ],
   imports: [
     NgbModule,

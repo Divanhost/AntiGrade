@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using AntiGrade.Shared.Enums;
 
 namespace AntiGrade.Shared.Models
 {
@@ -10,6 +11,6 @@ namespace AntiGrade.Shared.Models
         public int EmployeeId {get;set;}
         public virtual Subject Subject {get;set;}
         public virtual Employee Employee {get;set;}
-        public string Status {get;set;}
+        public virtual string Status {get;set;}
     }
 }

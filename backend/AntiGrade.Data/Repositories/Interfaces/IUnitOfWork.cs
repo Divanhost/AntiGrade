@@ -35,10 +35,6 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
-        IRepository<SubjectDistribution, int> SubjectDistributionRepository
-        {
-            get;
-        }
         IRepository<EmployeePosition, int> EmployeePositionRepository
         {
             get;

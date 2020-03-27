@@ -135,10 +135,6 @@ namespace AntiGrade.Core.Services.Implementation
                 
                 work.Criterias = criterias;
                 _unitOfWork.GetRepository<Work, int>().Create(work);
-                if (!subject.HasPlan)
-                {
-                    subject.HasPlan = true;
-                }
             }
             return await _unitOfWork.Save() > 0;
         }
@@ -171,7 +167,6 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var result = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => x.Id == subjectId)
-                                    .SelectMany(x => x.SubjectGroups)
                                     .Select(x => x.Group)
                                     .SelectMany(y => y.Students)
                                     .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
@@ -179,24 +174,24 @@ namespace AntiGrade.Core.Services.Implementation
             return result;
         }
 
-        public async Task<List<GroupView>> UpdateSubjectGroups(int subjectId, List<SubjectGroup> subjectGroups)
-        {
-            var subjectToUpdate = await _unitOfWork.GetRepository<Subject, int>()
-                                                    .Filter(x => x.Id == subjectId)
-                                                    .Include(x=>x.SubjectGroups)
-                                                    .FirstOrDefaultAsync();
-            _unitOfWork.GetRepository<SubjectGroup, int>().Update(subjectToUpdate.SubjectGroups, subjectGroups);
-            await _unitOfWork.Save();
-            var groups = await GetGroups(subjectId);
-            return groups;
-        }
-        public async Task<List<GroupView>> GetGroups(int subjectId){
-            return await _unitOfWork.GetRepository<SubjectGroup, int>()
-                                                    .Filter(x => x.SubjectId == subjectId)
-                                                    .Select(x=>x.Group)
-                                                    .Where(g=>!g.IsDeleted)
-                                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
-                                                    .ToListAsync();
-        }
+        // public async Task<List<GroupView>> UpdateSubjectGroups(int subjectId, List<SubjectGroup> subjectGroups)
+        // {
+        //     var subjectToUpdate = await _unitOfWork.GetRepository<Subject, int>()
+        //                                             .Filter(x => x.Id == subjectId)
+        //                                             .Include(x=>x.SubjectGroups)
+        //                                             .FirstOrDefaultAsync();
+        //     _unitOfWork.GetRepository<SubjectGroup, int>().Update(subjectToUpdate.SubjectGroups, subjectGroups);
+        //     await _unitOfWork.Save();
+        //     var groups = await GetGroups(subjectId);
+        //     return groups;
+        // }
+        // public async Task<List<GroupView>> GetGroups(int subjectId){
+        //     return await _unitOfWork.GetRepository<SubjectGroup, int>()
+        //                                             .Filter(x => x.SubjectId == subjectId)
+        //                                             .Select(x=>x.Group)
+        //                                             .Where(g=>!g.IsDeleted)
+        //                                             .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
+        //                                             .ToListAsync();
+        // }
     }
 }

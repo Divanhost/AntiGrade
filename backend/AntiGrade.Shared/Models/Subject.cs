@@ -11,12 +11,16 @@ namespace AntiGrade.Shared.Models
         public int Id { get; set; }
         [MaxLength(100)]
         public string Name {get;set;}
+
+        [ForeignKey(nameof(ExamType))]
         public int TypeId {get;set;}
-        public ExamType Type {get;set;}
+        
+        [ForeignKey(nameof(Group))]
+        public int GroupId {get;set;}
         public bool IsDeleted {get;set;}
-        [DefaultValue(false)]
-        public bool HasPlan {get;set;}
-        public virtual List<SubjectGroup> SubjectGroups {get;set;}
+        public virtual ExamType Type {get;set;}
+        public virtual Group Group {get;set;}
+        public virtual List<Work> Works {get;set;}
         public virtual List<SubjectEmployee> SubjectEmployees {get;set;}
     }
 }

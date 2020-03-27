@@ -8,8 +8,16 @@ namespace AntiGrade.Shared.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [MaxLength(70)]
         public string FirstName {get;set;}
+
+        [MaxLength(70)]
+
         public string LastName {get;set;}
+        
+        [MaxLength(70)]
+        public string Patronymic {get;set;}
         public int UserId {get;set;}
         public int EmployeePositionId {get;set;}
         public bool IsFired {get;set;}

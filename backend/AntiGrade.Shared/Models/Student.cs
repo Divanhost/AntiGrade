@@ -8,10 +8,12 @@ namespace AntiGrade.Shared.Models
     {
         [Key]
         public int Id {get;set;}
-        [MaxLength(50)]
+        [MaxLength(70)]
         public string FirstName {get;set;}
-        [MaxLength(50)]
+        [MaxLength(70)]
         public string LastName {get;set;}
+        [MaxLength(70)]
+        public string Patronymic {get;set;}
 
         [ForeignKey(nameof(Group))]
         public int GroupId {get;set;}

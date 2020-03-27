@@ -76,12 +76,12 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
 
-        [HttpPut("groups/{id:int}")]
-        public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<SubjectGroup> groups)
-        {
-            var result = await _service.UpdateSubjectGroups(id, groups);
-            return ResponseModel(result);
-        }
+        // [HttpPut("groups/{id:int}")]
+        // public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<SubjectGroup> groups)
+        // {
+        //     var result = await _service.UpdateSubjectGroups(id, groups);
+        //     return ResponseModel(result);
+        // }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> RemoveSubject(int id)
         {

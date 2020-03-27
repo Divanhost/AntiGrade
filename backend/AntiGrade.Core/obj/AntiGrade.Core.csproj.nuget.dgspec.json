@@ -1,37 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj": {}
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj",
         "projectName": "AntiGrade.Core",
-        "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj",
-        "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\obj\\",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/AntiGrade.Core.csproj",
+        "packagesPath": "/home/gtaslenko/.nuget/packages/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Core/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\George\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/gtaslenko/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
-                "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj"
+              "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj": {
+                "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj"
               }
             }
           }
@@ -132,34 +130,32 @@
         }
       }
     },
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj",
         "projectName": "AntiGrade.Data",
-        "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
-        "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\obj\\",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj",
+        "packagesPath": "/home/gtaslenko/.nuget/packages/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\George\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/gtaslenko/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
-                "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj"
+              "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj": {
+                "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj"
               }
             }
           }
@@ -198,27 +194,25 @@
         }
       }
     },
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj",
         "projectName": "AntiGrade.Shared",
-        "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
-        "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\obj\\",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj",
+        "packagesPath": "/home/gtaslenko/.nuget/packages/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\George\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/gtaslenko/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

@@ -64,12 +64,11 @@ namespace AntiGrade.Core.Services.Implementation
             return group;
         }
 
-        public async Task<List<GroupView>> GetGroupsBySubjectId(int id)
+        public async Task<List<GroupView>> GetGroupBySubjectId(int id)
         {
             var group = await _unitOfWork.GetRepository<Subject, int>()
                                    .Filter(x => x.Id == id)
-                                   .SelectMany(x => x.SubjectGroups)
-                                   .Select(g => g.Group)
+                                   .Select(x => x.Group)
                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
                                    .ToListAsync();
             return group;

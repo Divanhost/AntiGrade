@@ -19,13 +19,11 @@ namespace AntiGrade.Data.Context
         public DbSet<Group> Groups { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<SubjectDistribution> SubjectDistribution { get; set; }
         public DbSet<Criteria> Criterias { get; set; }
         public DbSet<Work> Works { get; set; }
         public DbSet<WorkType> WorkTypes { get; set; }
         public DbSet<StudentCriteria> StudentCriterias { get; set; }
         public DbSet<StudentWork> StudentWorks { get; set; }
-        public DbSet<SubjectGroup> SubjectGroups { get; set; }
         public DbSet<SubjectEmployee> SubjectEmployees { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -61,17 +59,6 @@ namespace AntiGrade.Data.Context
                 .WithMany(w => w.StudentWorks)
                 .HasForeignKey(sw => sw.WorkId);
             
-            builder.Entity<SubjectGroup>()
-                .HasKey(sw => new { sw.SubjectId, sw.GroupId });
-            builder.Entity<SubjectGroup>()
-                .HasOne(sw => sw.Subject)
-                .WithMany(s => s.SubjectGroups)
-                .HasForeignKey(sw => sw.SubjectId);
-            builder.Entity<SubjectGroup>()
-                .HasOne(sw => sw.Group)
-                .WithMany(w => w.SubjectGroups)
-                .HasForeignKey(sw => sw.GroupId);
-
             builder.Entity<SubjectEmployee>()
                 .HasKey(sw => new { sw.SubjectId, sw.EmployeeId });
             builder.Entity<SubjectEmployee>()
