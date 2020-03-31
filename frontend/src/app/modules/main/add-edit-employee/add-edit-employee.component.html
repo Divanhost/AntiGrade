@@ -1,1 +1,35 @@
-<p>add-edit-employee works!</p>
+<div class="container-fluid row">
+    <div class="col-6">
+            <h2 *ngIf="isCreate; else edit">Создание Сотрудника</h2>
+            <ng-template #edit>
+                <h2>Изменение сотрудника</h2>
+            </ng-template>
+            <label>UserId</label>
+            <ng-select [(ngModel)]="employee.userId">
+                <ng-option *ngFor="let user of users" [value] = "user.id">
+                    {{ user.id }}
+                </ng-option>
+            </ng-select>
+            <div>
+                <label>Фамилия</label>
+                <input class="form-control border-style"  [(ngModel)]="employee.lastName" type="text">
+            </div>
+            <div>
+                <label>Имя</label>
+                <input class="form-control border-style"  [(ngModel)]="employee.firstName" type="text">
+            </div>
+            <div>
+                <label>Отчество</label>
+                <input class="form-control border-style"  [(ngModel)]="employee.patronymic" type="text">
+            </div>
+            <!-- <ng-select [(ngModel)]="employee.userId">
+                <ng-option *ngFor="let user of users" [value] = "user.id">
+                    {{ user.id }}
+                </ng-option>
+            </ng-select> -->
+            <div class="buttons mt-3">
+                <button type="button" class="btn btn-success" (click)="createEmployee()">Save</button>
+                <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
+            </div>
+    </div>
+</div>

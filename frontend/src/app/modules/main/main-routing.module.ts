@@ -10,6 +10,7 @@ import { AddEditPlanComponent } from './add-edit-plan/add-edit-plan.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { RatingTableComponent } from './rating-table/rating-table.component';
 import { GroupsComponent } from './groups/groups.component';
+import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -22,39 +23,58 @@ const appRoutes: Routes = [
         path: 'dashboard',
         component: DashboardComponent
       },
-      { path: 'users',
+      {
+        path: 'users',
         component: UserEditCreateComponent
       },
-      { path: 'subjects',
+      {
+        path: 'subjects',
         component: SubjectsComponent
       },
-      { path: 'subjects/edit/:id',
+      {
+        path: 'subjects/edit/:id',
         component: AddEditSubjectComponent
       },
-      { path: 'subjects/add',
+      {
+        path: 'subjects/add',
         component: AddEditSubjectComponent
       },
-      { path: 'groups/edit/:id',
+      {
+        path: 'groups/edit/:id',
         component: AddEditGroupComponent
       },
-      { path: 'groups/add',
+      {
+        path: 'groups/add',
         component: AddEditGroupComponent
       },
-      { path: 'plan/edit/:id',
+      {
+        path: 'plan/edit/:id',
         component: AddEditPlanComponent
       },
-      { path: 'plan/add/:id',
+      {
+        path: 'plan/add/:id',
         component: AddEditPlanComponent
       },
-      { path: 'subjects/rating/:id',
+      {
+        path: 'subjects/rating/:id',
         component: RatingTableComponent
       },
-      { path: 'subjects/groups/:id',
+      {
+        path: 'subjects/groups/:id',
         component: GroupsComponent
       },
-      { path: 'groups',
+      {
+        path: 'groups',
         component: GroupsComponent
-      }
+      },
+      {
+        path: 'employee/edit/:id',
+        component: AddEditEmployeeComponent
+      },
+      {
+        path: 'employee/add',
+        component: AddEditEmployeeComponent
+      },
     ]
   }
 ];
@@ -62,4 +82,4 @@ const appRoutes: Routes = [
   imports: [RouterModule.forChild(appRoutes)],
   exports: [RouterModule]
 })
-export class MainRoutingModule {}
+export class MainRoutingModule { }

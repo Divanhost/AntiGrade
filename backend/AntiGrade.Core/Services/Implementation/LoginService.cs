@@ -122,10 +122,10 @@ namespace AntiGrade.Core.Services.Implementation
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.NameId, appUser.Id.ToString())
             };
-            // if (appUser.Employee != null)
-            // {
-            //     claims.Add(new Claim(CustomClaims.EmployeeId, appUser.Employee.Id.ToString()));
-            // }
+            if (appUser.Employee != null)
+            {
+                claims.Add(new Claim(CustomClaims.EmployeeId, appUser.Employee.Id.ToString()));
+            }
 
             claims.AddRange(roleClaims);
 

@@ -19,12 +19,11 @@ namespace AntiGrade.Core.Services.Implementation
         {
         }
 
-        public async Task<Employee> CreateEmployee(EmployeeDto EmployeeDto)
+        public async Task<bool> CreateEmployee(EmployeeDto EmployeeDto)
         {
             var employee =_mapper.Map<Employee>(EmployeeDto);
             var result = _unitOfWork.GetRepository<Employee,int>().Create(employee);
-            await _unitOfWork.Save();
-            return result;
+            return await _unitOfWork.Save() > 0;
         }
 
         public async Task<bool> DeleteById(int employeeId)
@@ -64,12 +63,19 @@ namespace AntiGrade.Core.Services.Implementation
         }
 
 
-        public async Task<EmployeeView> GetEmployeeById(int employeeId)
+        public async Task<EmployeeDto> GetEmployeeById(int employeeId)
         {
             var employee = await _unitOfWork.GetRepository<Employee,int>()
                                     .Filter(x=>x.Id == employeeId)
-                                    .ProjectTo<EmployeeView>()
+                                    .ProjectTo<EmployeeDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
+            return employee;
+        }
+        public async Task<List<EmployeePosition>> GetEmployeePositions()
+        {
+            var employee = await _unitOfWork.GetRepository<EmployeePosition,int>()
+                                    .All()
+                                    .ToListAsync();
             return employee;
         }
 

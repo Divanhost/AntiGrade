@@ -67,5 +67,11 @@ namespace AntiGrade.Web.Controllers.Configuration
             bool result = await _service.DeleteById(userId);
             return ResponseModel(result);
         }
+        [HttpGet("without_employee")]
+        public async Task<IActionResult> GetUsersWithoutEmployee()
+        {
+            var result = await _service.GetWithoutEmployee();
+            return Ok(result);
+        }
     }
 }

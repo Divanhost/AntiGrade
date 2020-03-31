@@ -52,4 +52,7 @@ export class UserService {
   deleteUser(userId): Observable<ResponseModel<UserDtoModel>> {
     return this.http.deleteData(`users/delete_user/${userId}`);
   }
+  getUsersWithoutEmployee(): Observable<UserViewModel[]> {
+    return this.http.getData(`users/without_employee`);
+  }
 }

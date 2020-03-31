@@ -24,8 +24,10 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x => x.FirstName, _ => _.MapFrom(r => r.FirstName))
                 .ForMember(x => x.LastName, _ => _.MapFrom(r => r.LastName))
                 .ForMember(x => x.UserId, _ => _.MapFrom(r => r.UserId))
+                .ForMember(x => x.Patronymic, _ => _.MapFrom(r => r.Patronymic))
                 .ForMember(x => x.Id, _ => _.MapFrom(r => r.Id));
-             CreateMap<Subject,SubjectView>()
+            CreateMap<Employee,EmployeeDto>().ReverseMap();
+            CreateMap<Subject,SubjectView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
             CreateMap<Subject,SubjectDto>()

@@ -1,8 +1,7 @@
-export class Employee {
+export class EmployeeDtoModel {
     id: number;
     firstName: string;
     lastName: string;
     patronymic: string;
-    fullName: string;
     userId: number;
 }

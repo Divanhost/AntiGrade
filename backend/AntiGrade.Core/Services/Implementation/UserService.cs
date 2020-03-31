@@ -184,5 +184,14 @@ namespace AntiGrade.Core.Services.Implementation
             !x.IsDeleted;
             return result;
         }
+        public async Task<List<UserView>> GetWithoutEmployee()
+        {
+            var result = await _unitOfWork.UserRepository
+                .Filter(x => !x.IsDeleted && x.Employee == null)
+                .Include(x => x.Roles)
+                .ProjectTo<UserView>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+            return result;
+        }
     }
 }

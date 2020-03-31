@@ -16,5 +16,6 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<string> CheckUserNameExists(string username);
         Task<string> CheckEmailExists(string email);
         Task<bool> CheckPasswordAsync(string userName, string password);
+        Task<List<UserView>> GetWithoutEmployee();
     }
 }
