@@ -34,7 +34,7 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getUsersWithoutEmployee();
-    this.getEmployeePositions();
+    // this.getEmployeePositions();
     if (!this.isCreate) {
       this.getEmployee();
     }
@@ -58,16 +58,16 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
         })
     );
   }
-  getEmployeePositions() {
-    this.subscriptions.push(
-      this.employeeService
-        .getEmployeePositions()
-        .subscribe((response) => {
-          debugger;
-          this.employeePositions = response.payload;
-        })
-    );
-  }
+  // getEmployeePositions() {
+  //   this.subscriptions.push(
+  //     this.employeeService
+  //       .getEmployeePositions()
+  //       .subscribe((response:ResponseModel<EmployeeDtoModel[]>) => {
+  //         debugger;
+  //         this.employeePositions = response.payload;
+  //       })
+  //   );
+  // }
   createEmployee() {
     this.subscriptions.push(
       this.employeeService.createEmployee(this.employee).subscribe()

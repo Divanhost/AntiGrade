@@ -2,6 +2,22 @@
   <table class="table table-bordered table-responsive-md table-striped text-center">
     <thead>
       <tr>
+        <th >
+          Вид работы
+        </th>
+        <th *ngIf="lects" [attr.colspan] = "lects">
+          Лекция
+        </th>
+        <th *ngIf="practs" [attr.colspan] = "practs">
+          Практика
+        </th>
+        <th *ngIf="labs" [attr.colspan] = "labs">
+          Лабораторная
+        </th>
+        <th>
+        </th>
+      </tr>
+      <tr>
         <th>
           Студент
         </th>
@@ -24,7 +40,7 @@
             </span>
           </td>
           <td>
-            Сумма баллов
+            {{row.sumOfPoints}}
           </td>
         </tr>
     </tbody>

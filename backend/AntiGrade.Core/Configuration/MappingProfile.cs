@@ -49,6 +49,7 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
                 .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.MaxPoints))
+                .ForMember(x=> x.WorkTypeId, opt=>opt.MapFrom(src => src.WorkType.Id))
                 .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias));
              CreateMap<WorkDto,Work>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))

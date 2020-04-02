@@ -75,7 +75,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetStudents(id);
             return ResponseModel(result);
         }
-
+         [HttpGet("distinct")]
+        public async Task<IActionResult> GetDistinctSubjects()
+        {
+            var result = await _service.GetDistinctSubjects();
+            return ResponseModel(result);
+        }
         // [HttpPut("groups/{id:int}")]
         // public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<SubjectGroup> groups)
         // {

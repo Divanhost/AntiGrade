@@ -74,6 +74,17 @@ namespace AntiGrade.Core.Services.Implementation
             return group;
         }
 
+        public async Task<List<GroupView>> GetGroupsBySubjectName(string name)
+        {
+            var group = await _unitOfWork.GetRepository<Subject, int>()
+                                   .Filter(x => x.Name == name)
+                                   .Select(x => x.Group)
+                                   .OrderBy(g=>g.Name)
+                                   .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
+                                   .ToListAsync();
+            return group;
+        }
+
         public async Task<bool> UpdateGroup(int GroupId, GroupDto groupDto)
         {
             if (groupDto != null)

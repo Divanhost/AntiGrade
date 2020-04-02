@@ -15,7 +15,9 @@ import { StudentWork } from 'src/app/shared/models/student-work.model';
   styleUrls: ['./rating-table.component.scss']
 })
 export class RatingTableComponent extends BaseComponent implements OnInit {
-
+  lects = 0;
+  practs = 0;
+  labs = 0;
   subject: SubjectDto;
   works: Work[];
   students: Student[];
@@ -47,9 +49,28 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
         this.works = response.payload;
+        console.log(this.works);
+        this.countWorks();
         this.getStudents();
       })
     );
+  }
+  countWorks() {
+    this.works.forEach(element => {
+     switch (element.workTypeId) {
+       case 1:
+         this.lects += 1;
+         break;
+      case 2:
+          this.practs += 1;
+          break;
+      case 3:
+          this.labs += 1;
+          break;
+       default:
+         break;
+     }
+    });
   }
   getStudents() {
     this.subscriptions.push(
@@ -81,7 +102,6 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.studentService.getStudentWorks(studentIds).subscribe((response: ResponseModel<StudentWork[]>) => {
         this.studentWorks = response.payload;
         this.createRatingCells();
-        console.log(this.data);
       })
     );
   }
@@ -95,16 +115,16 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
 
   updateWorkPoints(studentWork: StudentWork, event: any) {
     const editField = event.target.textContent;
-
-    studentWork.SumOfPoints = editField;
-    if ( studentWork.SumOfPoints.toString() !== '' && studentWork.SumOfPoints !== null) {
+    studentWork.sumOfPoints = editField;
+    if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
       const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
       if (!hasWork) {
         this.studentWorks.push(studentWork);
       }
     } else {
-      studentWork.SumOfPoints = 0;
+      studentWork.sumOfPoints = 0;
     }
+    this.createRatingCells();
   }
 
   changeValue(studentWork: StudentWork, event: any) {
@@ -113,11 +133,14 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
 
   createRatingCells() {
     let row = [];
+    this.data = [];
     this.students.forEach(student => {
+      let rowSum = 0;
       this.works.forEach(work => {
         const sp = this.studentWorks.find(x => x.workId === work.id && x.studentId === student.id);
         if (sp) {
           row.push(sp);
+          rowSum += +sp.sumOfPoints;
         } else {
           const studentWork = new StudentWork();
           studentWork.workId = work.id;
@@ -125,11 +148,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
           row.push(studentWork);
         }
       });
-      // debugger;
-      // let sum = row.map((sp: StudentWork) => {
-      //   return sp.SumOfPoints;
-      // });
-      this.data.push({ works: row, currentStudent: student });
+      this.data.push({ works: row, currentStudent: student, sumOfPoints: rowSum});
       row = [];
     });
   }

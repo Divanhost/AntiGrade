@@ -159,6 +159,7 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var result = await _unitOfWork.GetRepository<Work, int>()
                                     .Filter(x => x.SubjectId == subjectId)
+                                    .OrderBy(x=>x.WorkType.Id)
                                     .ProjectTo<WorkView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return result;
@@ -172,6 +173,18 @@ namespace AntiGrade.Core.Services.Implementation
                                     .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return result;
+        }
+
+        public async Task<List<SubjectView>> GetDistinctSubjects()
+        {
+            var subjects = await _unitOfWork.GetRepository<Subject, int>()
+                                    .Filter(x => !x.IsDeleted)
+                                    .GroupBy(x => x.Name)
+                                    .Select(y => y.First())
+                                    .OrderBy(y=>y.Name)
+                                    .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return subjects;
         }
 
         // public async Task<List<GroupView>> UpdateSubjectGroups(int subjectId, List<SubjectGroup> subjectGroups)

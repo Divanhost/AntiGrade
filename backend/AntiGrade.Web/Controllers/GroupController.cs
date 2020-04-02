@@ -47,6 +47,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetGroupBySubjectId(id);
             return ResponseModel(result);
         }
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetGroupsBySubjectName(string name)
+        {
+            var result = await _service.GetGroupsBySubjectName(name);
+            return ResponseModel(result);
+        }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteGroup(int id)
         {

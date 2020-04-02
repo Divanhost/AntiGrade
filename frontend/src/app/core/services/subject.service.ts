@@ -33,6 +33,9 @@ export class SubjectService {
   getSubjects(): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData('subject/all');
   }
+  getDistinctSubjects(): Observable<ResponseModel<SubjectView[]>> {
+    return this.http.getData('subject/distinct');
+  }
   getSubject(id: number): Observable<ResponseModel<SubjectDto>> {
     return this.http.getData(`subject/${id}`);
   }

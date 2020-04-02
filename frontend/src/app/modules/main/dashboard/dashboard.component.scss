@@ -8,12 +8,35 @@
     margin-bottom: 3em;
     border: 0;
 }
-.card-title{
+.group-title{
     text-align: center;
+    padding: .5em;
 }
 .group-container{
     background-color: rgba(228, 228, 228, 0.897);
 }
 .not-found{
     text-align: center;
+}
+.page-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1em;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+.s-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.group-card {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
 }

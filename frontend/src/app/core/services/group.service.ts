@@ -19,6 +19,9 @@ export class GroupService {
   getGroups(): Observable<ResponseModel<Group[]>> {
     return this.http.getData(`group`);
   }
+  getSubjectGroupsByName(name: string): Observable<ResponseModel<Group[]>> {
+    return this.http.getData(`group/${name}`);
+  }
   getGroup(id: number): Observable<ResponseModel<Group>> {
     return this.http.getData(`group/${id}`);
   }
