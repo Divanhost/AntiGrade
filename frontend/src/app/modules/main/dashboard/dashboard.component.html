@@ -1,13 +1,53 @@
-<div class="page-container mt-3">
-    <h1>Дисциплины</h1>
-    <div *ngFor="let item of subjectGroups" class="mt-3">
-        <h3 class="mb-3">{{item.subject.name}}</h3>
-        <div class="s-container ">
-            <a [routerLink]="[ '/subjects/rating/', item.subject.id ]" *ngFor="let group of item.groups">
-                <div class="card group-card">
+<div class="d-flex">
+    <div class="page-container mt-3 col-6" *ngIf="mode === 1">
+        <h1>Текущий учет</h1>
+        <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
+            <h3 class="mb-3">{{item.subject.name}}</h3>
+            <div class="s-container">
+                <div class="card group-card mb-3" *ngFor="let group of item.groups">
                     <h5 class="group-title">{{group.name}}</h5>
+                    <div class="buttons d-flex flex-column">
+                        <div class="btn btn-warning">Рейтинг</div>
+                    </div>
                 </div>
-            </a>
+            </div>
         </div>
+    </div>
+    <div class="page-container mt-3 col-6" *ngIf="mode === 2">
+        <h1>Сессия</h1>
+        <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
+            <ng-container *ngIf="item.subject.examType.id === 1">
+                <h3 class="mb-3">{{item.subject.name}}</h3>
+                <div class="s-container ">
+                    <div class="card group-card" *ngFor="let group of item.groups">
+                        <h5 class="group-title">{{group.name}}</h5>
+                        <div class="buttons d-flex flex-column">
+                            <div class="btn btn-primary mb-2">Экзамен</div>
+                            <div class="btn btn-warning">Рейтинг</div>
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="page-container mt-3 col-6" *ngIf="mode === 3">
+        <h1>Добор и пересдача</h1>
+        <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
+            <h3 class="mb-3">{{item.subject.name}}</h3>
+            <div class="s-container ">
+                <div class="card group-card" *ngFor="let group of item.groups">
+                    <h5 class="group-title">{{group.name}}</h5>
+                    <div class="buttons d-flex flex-column">
+                        <div class="btn btn-success mb-2" *ngIf="item.subject.examType.id === 1">Пересдача</div>
+                        <div class="btn btn-danger mb-2">Добор</div>
+                        <div class="btn btn-warning">Рейтинг</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-5 page-container mt-3">
+        <h1>Быстрое редактирование</h1>
     </div>
 </div>

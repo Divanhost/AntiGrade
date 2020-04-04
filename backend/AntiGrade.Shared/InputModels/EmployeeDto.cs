@@ -6,6 +6,6 @@ namespace AntiGrade.Shared.InputModels
         public string FirstName {get;set;}
         public string LastName {get;set;}
         public string Patronymic {get;set;}
-        public int UserId {get;set;}
+        public int? UserId {get;set;}
     }
 }

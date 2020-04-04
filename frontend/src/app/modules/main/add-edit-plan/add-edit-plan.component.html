@@ -11,6 +11,14 @@
                     <label>Макс. баллов</label>
                     <input class="form-control border-style" [(ngModel)]="work.points" type="number">
                 </div>
+                <div class="pr-5">
+                    <label> Вид занятия</label>
+                    <ng-select [(ngModel)]="work.workTypeId" appendTo="body" class="type-select">
+                        <ng-option *ngFor="let type of workTypes" [value] = "type.id">
+                            {{ type.value }}
+                        </ng-option>
+                    </ng-select>
+                </div>
                 <div (click)="toggleCriterias()">
                     <img src="assets/arrow.png" alt="" class="arrow-icon">
                 </div>
@@ -37,3 +45,8 @@
     <!-- <h4>Предпросмотр</h4> -->
     <!-- <app-rating-table [works]='plan.works' [students]='students'></app-rating-table> -->
 </div>
+<ng-select >
+    <ng-option *ngFor="let type of workTypes" [value] = "type.id">
+        {{ type.value }}
+    </ng-option>
+</ng-select>

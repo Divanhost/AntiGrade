@@ -29,11 +29,13 @@ namespace AntiGrade.Core.Configuration
             CreateMap<Employee,EmployeeDto>().ReverseMap();
             CreateMap<Subject,SubjectView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.ExamType, opt=>opt.MapFrom(src => src.Type))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
             CreateMap<Subject,SubjectDto>()
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
                 .ForMember(x=> x.SubjectEmployees, opt=>opt.MapFrom(src => src.SubjectEmployees))
                 .ForMember(x=> x.ExamType, opt=>opt.MapFrom(src => src.Type))
+                .ForMember(x=> x.Group, opt=>opt.MapFrom(src => src.Group))
                 .ForMember(x=> x.ExamTypeId, opt=>opt.MapFrom(src => src.TypeId));
                 
             CreateMap<CriteriaDto,Criteria>()

@@ -20,7 +20,7 @@ namespace AntiGrade.Shared.Models
         [MaxLength(70)]
         public string Patronymic {get;set;}
         [ForeignKey(nameof(User))]
-        public int UserId {get;set;}
+        public int? UserId {get;set;}
         public int? EmployeePositionId {get;set;}
         public bool IsFired {get;set;}
         public virtual EmployeePosition EmployeePosition {get;set;}

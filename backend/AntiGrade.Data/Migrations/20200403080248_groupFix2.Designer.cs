@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200403080248_groupFix2")]
+    partial class groupFix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,15 +61,14 @@ namespace AntiGrade.Data.Migrations
                     b.Property<string>("Patronymic")
                         .HasMaxLength(70);
 
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeePositionId");
 
                     b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -144,35 +145,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "497bab4a-102c-4b50-82ab-bfd7af8f9263",
+                            ConcurrencyStamp = "740ecaee-d054-443f-b2b3-5adb5b12fc98",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2df844be-e597-4c41-891d-0a56ca3ded2a",
+                            ConcurrencyStamp = "3c6929a1-840c-48ba-900a-d399901b0beb",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "1d8bc83f-18d9-4548-82a5-43513846b74f",
+                            ConcurrencyStamp = "ce906b95-1cd4-49d0-b9ed-0a1306dab6f1",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "39d20041-47e5-4aac-9768-87680419dfd3",
+                            ConcurrencyStamp = "e2595e85-315a-40b2-9f6c-aabdac801ac3",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "51e4f52a-c393-46f5-b50f-71035919f85b",
+                            ConcurrencyStamp = "974af4c9-3ce4-438b-b6e9-056e4143a45d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -498,7 +499,8 @@ namespace AntiGrade.Data.Migrations
 
                     b.HasOne("AntiGrade.Shared.Models.Identity.User", "User")
                         .WithOne("Employee")
-                        .HasForeignKey("AntiGrade.Shared.Models.Employee", "UserId");
+                        .HasForeignKey("AntiGrade.Shared.Models.Employee", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AntiGrade.Shared.Models.Identity.UserRole", b =>

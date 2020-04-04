@@ -48,7 +48,7 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var employees = await _unitOfWork.GetRepository<Employee,int>()
                                     .All()
-                                    .ProjectTo<EmployeeView>()
+                                    .ProjectTo<EmployeeView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return employees;
         }
@@ -77,6 +77,23 @@ namespace AntiGrade.Core.Services.Implementation
                                     .All()
                                     .ToListAsync();
             return employee;
+        }
+
+        public async Task<List<EmployeeView>> GetEmployeesList(List<int> ids)
+        {
+             var employees = await _unitOfWork.GetRepository<Employee,int>()
+                                            .Filter(x => ids.Contains(x.Id))
+                                            .ProjectTo<EmployeeView>(_mapper.ConfigurationProvider)
+                                            .ToListAsync();
+            return employees;
+        }
+
+        public async Task<List<SubjectEmployee>> GetSubjectEmployees(int subjectId)
+        {
+            var subjectEmployees = await _unitOfWork.GetRepository<SubjectEmployee,int>()
+                                            .Filter(x => x.SubjectId == subjectId)
+                                            .ToListAsync();
+            return subjectEmployees;
         }
 
         public async Task<Employee> UpdateEmployee(int EmployeeId, EmployeeDto employeeDto)

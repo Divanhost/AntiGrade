@@ -5,12 +5,14 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 import { GroupService } from 'src/app/core/services/group.service';
 import { Group } from 'src/app/shared/models/group.model';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  mode = 2;
   subjects: SubjectView[];
   subjectGroups = [];
   constructor(

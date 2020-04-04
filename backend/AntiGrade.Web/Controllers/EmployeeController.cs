@@ -15,10 +15,10 @@ namespace AntiGrade.Controllers
     {
         public EmployeeController(IEmployeeService employeeService) : base(employeeService)
         { }
-        [HttpGet("teachers")]
-        public async Task<IActionResult> GetAllTeachers()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllEmployees()
         {
-            var result = await _service.GetAllTeachers();
+            var result = await _service.GetAllEmployees();
             return ResponseModel(result);
         }
         [HttpGet("{id:int}")]
@@ -33,7 +33,18 @@ namespace AntiGrade.Controllers
             var result = await _service.GetEmployeePositions();
             return ResponseModel(result);
         }
-
+        [HttpGet("list")]
+        public async Task<IActionResult> GetEmployeesList([FromQuery] List<int> employeeIds)
+        {
+            var result = await _service.GetEmployeesList(employeeIds);
+            return ResponseModel(result);
+        }   
+        [HttpGet("subject/{id}")]
+        public async Task<IActionResult> GetSubjectEmployees(int id)
+        {
+            var result = await _service.GetSubjectEmployees(id);
+            return ResponseModel(result);
+        }
         [HttpPost]
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeDto)
         {

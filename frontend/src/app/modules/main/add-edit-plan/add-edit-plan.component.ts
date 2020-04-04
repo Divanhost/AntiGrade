@@ -19,6 +19,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   isCreate: boolean;
   subjectId: number;
   mode: string;
+  workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
   plan: SubjectPlan = new SubjectPlan();
   students: Student[] = [];
   isCriteraisShown = false;

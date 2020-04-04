@@ -11,6 +11,8 @@ import { SubjectService } from 'src/app/core/services/subject.service';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
 import { SubjectEmployee } from 'src/app/shared/models/subject-employee.model';
+import { Group } from 'src/app/shared/models/group.model';
+import { GroupService } from 'src/app/core/services/group.service';
 
 @Component({
   selector: 'app-add-edit-subject',
@@ -21,6 +23,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   isCreate: boolean;
   subjectId: number;
   teachers: Employee[] = [];
+  groups: Group[] = [];
   examTypes: ExamType[] = [];
   subject: SubjectDto = new SubjectDto();
   selectedEmployees: Employee[] = [];
@@ -30,7 +33,8 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly employeeService: EmployeeService,
-              private readonly subjectService: SubjectService) {
+              private readonly subjectService: SubjectService,
+              private readonly groupService: GroupService) {
     super();
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
@@ -51,13 +55,15 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.initForm();
     this.getExamTypes();
     this.getTeachers();
+    this.getGroups();
   }
   initForm() {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       examType: new FormControl('', [Validators.required]),
       teachers: new FormControl('', [Validators.required]),
-      mainTeacher: new FormControl(null, Validators.required)
+      mainTeacher: new FormControl(null, Validators.required),
+      group: new FormControl(null, Validators.required)
     });
   }
   getSubject() {
@@ -116,9 +122,16 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
       })
     );
   }
+  getGroups() {
+    this.subscriptions.push(
+      this.groupService.getGroups().subscribe((responce: ResponseModel<Group[]>) => {
+        this.groups = responce.payload;
+      })
+    );
+  }
   getTeachers() {
     this.subscriptions.push(
-      this.employeeService.getAllTeachers().subscribe((responce: ResponseModel<Employee[]>) => {
+      this.employeeService.getAllEmployees().subscribe((responce: ResponseModel<Employee[]>) => {
         this.teachers = responce.payload;
         if (!this.isCreate) {
           this.getSubject();

@@ -1,4 +1,4 @@
-using AntiGrade.Shared.InputModels;
+using AntiGrade.Shared.Models;
 
 namespace AntiGrade.Shared.ViewModels
 {
@@ -6,6 +6,6 @@ namespace AntiGrade.Shared.ViewModels
     {
         public int Id {get;set;}
         public string Name {get;set;}
-        public bool HasPlan {get;set;}
+        public ExamType ExamType {get;set;}
     }
 }

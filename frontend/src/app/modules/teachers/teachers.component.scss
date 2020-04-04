@@ -1,0 +1,29 @@
+.teachers {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #dedede;
+    overflow: auto;
+    max-width: -webkit-max-content;
+    max-width: -moz-max-content;
+    max-width: max-content;
+    padding: 1em;
+}
+.status, .teacher {
+    width: 300px;
+}
+.se-holder {
+    display: flex;
+    flex-direction: row;
+}
+.del-img {
+    width: 30px;
+    height: 30px;
+}
+.img-holder {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 5px;
+}
+.mteacher{
+    width: 625px;
+}

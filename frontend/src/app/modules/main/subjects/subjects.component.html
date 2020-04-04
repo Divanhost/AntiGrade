@@ -13,16 +13,19 @@
                     <div class="btn btn-primary" [routerLink]="['groups',subject.id]">
                         Групппы
                     </div>
-                    <div *ngIf="subject.hasPlan" [routerLink]="['/plan/edit',subject.id]" class="btn btn-success mx-2"
+                    <div  [routerLink]="['/plan/edit',subject.id]" class="btn btn-success mx-2"
                         click>
                         Редактировать план
                     </div>
-                    <div *ngIf="!subject.hasPlan" [routerLink]="['/plan/add',subject.id]" class="btn btn-success mx-2"
+                    <div  [routerLink]="['/plan/add',subject.id]" class="btn btn-success mx-2"
                         click>
                         Добавить план
                     </div>
-                    <div *ngIf="subject.hasPlan" class="btn btn-warning" [routerLink]="['rating',subject.id]">
+                    <div  class="btn btn-warning" [routerLink]="['rating',subject.id]">
                         Оценки
+                    </div>
+                    <div class="btn btn-danger ml-1"  [routerLink]="[subject.id, 'teachers']">
+                        Преподы
                     </div>
                     <div class="btn btn-danger ml-1" (click)="removeSubject(subject)">
                         Удалить

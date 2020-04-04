@@ -21,8 +21,9 @@
         <th>
           Студент
         </th>
-        <th *ngFor="let work of works">
-          {{work.name}}
+        <th *ngFor="let work of works" >
+            {{work.name}}
+            <small>Max: {{work.points}}</small>
         </th>
         <th>
           Итого

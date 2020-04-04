@@ -11,6 +11,7 @@ import { SubjectsComponent } from './subjects/subjects.component';
 import { RatingTableComponent } from './rating-table/rating-table.component';
 import { GroupsComponent } from './groups/groups.component';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
+import { TeachersComponent } from '../teachers/teachers.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -74,6 +75,10 @@ const appRoutes: Routes = [
       {
         path: 'employee/add',
         component: AddEditEmployeeComponent
+      },
+      {
+        path: 'subjects/:id/teachers',
+        component: TeachersComponent
       },
     ]
   }

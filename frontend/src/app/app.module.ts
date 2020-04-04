@@ -11,6 +11,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TeachersComponent } from './modules/teachers/teachers.component';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -57,6 +58,7 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
   declarations: [
     AppComponent,
+    TeachersComponent,
   ],
   imports: [
     NgbModule,

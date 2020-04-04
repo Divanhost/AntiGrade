@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="m-teacher ">
+        <div>
+            <label>Ответственный</label>
+            <ng-select [(ngModel)]="mainTeacher" appendTo="body" class="type-select">
+                <ng-option *ngFor="let teacher of teachers" [value] = "teacher">
+                    {{ teacher.fullName }}
+                </ng-option>
+            </ng-select>
+        </div>
+    </div>
+    <div class="btn btn-primary mt-3"(click)="addSubjectEmployee()">Добавить Преподавателя</div>
+    <div class="teachers mt-3">
+        <div *ngFor="let teacher of subjectEmployees" class="se-holder">
+            <div class="mr-2 teacher">
+                <label>Преподаватель</label>
+                <ng-select [(ngModel)]="teacher.employeeId" appendTo="body" class="type-select">
+                    <ng-option *ngFor="let teacher of teachers" [value] = "teacher.id">
+                        {{ teacher.fullName }}
+                    </ng-option>
+                </ng-select>
+            </div>
+            <div class="status">
+                <label>Роль</label>
+                <ng-select [(ngModel)]="teacher.status" appendTo="body" class="type-select">
+                    <ng-option *ngFor="let status of statuses" [value] = "status">
+                        {{ status }}
+                    </ng-option>
+                </ng-select>
+            </div>
+            <div class="img-holder" (click)="removeSubjectEmployee(teacher)">
+                <img src="assets/remove.png" alt="" class="del-img">
+            </div>
+        </div>
+    </div>
+    <div class="buttons mt-3">
+    <div class="btn btn-success mr-2">Сохранить</div>
+    <div class="btn btn-warning">Отмена</div>
+        
+    </div>
+</div>

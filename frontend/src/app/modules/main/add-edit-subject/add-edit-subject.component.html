@@ -1,9 +1,9 @@
 <div class="container-fluid row">
     <div class="col-6">
         <form (ngSubmit)="onSubmit()" [formGroup]="form">
-            <h2 *ngIf="isCreate; else edit">Создание дисциплины</h2>
+            <h2 *ngIf="isCreate; else edit">Создание ведомости</h2>
             <ng-template #edit>
-                <h2>Изменение дисциплины</h2>
+                <h2>Изменение ведомости</h2>
             </ng-template>
             <div>
                 <label for="input-name">Название</label>
@@ -32,9 +32,15 @@
                     {{mTeacher.fullName}}
                 </ng-option>
             </ng-select>
-            <div class="buttons">
-                <button type="submit" class="btn btn-success">Save</button>
-                <button type="button" [routerLink]="[ '/subjects' ]" class="btn btn-dark">Cancel</button>
+            <div>Группа</div>
+            <ng-select [searchable]="false" formControlName="group"  [(ngModel)]="subject.group">
+                <ng-option *ngFor="let group of groups" [value] = "group">
+                    {{group.name}}
+                </ng-option>
+            </ng-select>
+            <div class="buttons mt-3">
+                <button type="submit" class="btn btn-success mr-1">Сохранить</button>
+                <button type="button" [routerLink]="[ '/subjects' ]" class="btn btn-dark">Отмена</button>
             </div>
         </form>
     </div>
