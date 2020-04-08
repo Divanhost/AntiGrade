@@ -49,7 +49,7 @@ namespace AntiGrade.Data.Repositories.Implementation
 
         public TEntity Create(TEntity t)
         {
-            // _context.Entry<TEntity>(t).State = EntityState.Added;
+           // _context.Entry<TEntity>(t).State = EntityState.Added;
             _context.Add(t);
             return t;
         }
@@ -58,7 +58,7 @@ namespace AntiGrade.Data.Repositories.Implementation
         {
             foreach (var item in items)
             {
-                //_context.Entry(item).State = EntityState.Added;
+                // _context.Entry(item).State = EntityState.Added;
                 _context.Add(item);
             }
         }

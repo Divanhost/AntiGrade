@@ -12,6 +12,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TeachersComponent } from './modules/teachers/teachers.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -70,7 +71,8 @@ const customNotifierOptions: NotifierOptions = {
     NgSelectModule,
     HttpClientModule,
     NotifierModule.withConfig(customNotifierOptions),
-    FontAwesomeModule
+    FontAwesomeModule,
+    BrowserAnimationsModule
   ],
   providers: [
     HttpService,

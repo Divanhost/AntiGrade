@@ -11,6 +11,7 @@ import { Work } from 'src/app/shared/models/work.model';
 import { Student } from 'src/app/shared/models/student.model';
 import { Group } from 'src/app/shared/models/group.model';
 import { SubjectGroup } from 'src/app/shared/models/subject-group.model';
+import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class SubjectService {
   getSubjects(): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData('subject/all');
   }
-  getDistinctSubjects(): Observable<ResponseModel<SubjectView[]>> {
+  getDistinctSubjects(): Observable<ResponseModel<MainSubjectView[]>> {
     return this.http.getData('subject/distinct');
   }
   getSubject(id: number): Observable<ResponseModel<SubjectDto>> {

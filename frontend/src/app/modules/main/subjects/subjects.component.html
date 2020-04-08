@@ -5,6 +5,9 @@
             <div class="card-header d-flex justify-content-between">
                 <h5 class="card-title">
                     {{subject.name}}
+                    <div *ngIf="subject.group">
+                        {{subject.group.name}}
+                    </div>
                 </h5>
                 <div class="btn btn-info" [routerLink]="['edit',subject.id]"> Изменить</div>
             </div>

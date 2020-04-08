@@ -4,6 +4,7 @@ import { SubjectView } from 'src/app/shared/models/subject-view.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { GroupService } from 'src/app/core/services/group.service';
 import { Group } from 'src/app/shared/models/group.model';
+import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
 
 
 @Component({
@@ -12,8 +13,8 @@ import { Group } from 'src/app/shared/models/group.model';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  mode = 2;
-  subjects: SubjectView[];
+  mode = 1;
+  subjects: MainSubjectView[];
   subjectGroups = [];
   constructor(
     private readonly subjectService: SubjectService,
@@ -24,7 +25,7 @@ export class DashboardComponent implements OnInit {
     this.getSubjects();
   }
   getSubjects() {
-    this.subjectService.getDistinctSubjects().subscribe((response: ResponseModel<SubjectView[]>) => {
+    this.subjectService.getDistinctSubjects().subscribe((response: ResponseModel<MainSubjectView[]>) => {
       this.subjects = response.payload;
       console.log(this.subjects);
       this.getSubjectGroups();
@@ -34,7 +35,7 @@ export class DashboardComponent implements OnInit {
     this.subjects.forEach(element => {
       this.groupService.getSubjectGroupsByName(element.name).subscribe((response: ResponseModel<Group[]>) => {
         this.subjectGroups.push({subject: element, groups: response.payload});
-        console.log(this.subjectGroups);
+        this.subjectGroups.sort((a, b) => a.subject.name.localeCompare(b.subject.name));
       });
     });
   }

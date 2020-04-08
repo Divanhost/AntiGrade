@@ -99,18 +99,26 @@ namespace AntiGrade.Core.Services.Implementation
                     groupDb.Name = groupDto.Name;
 
                     var newStudents = _mapper.Map<List<Student>>(groupDto.Students);
-                    newStudents.ForEach(x => x.GroupId = groupDb.Id);
-                    if (oldStudents.Count == 0)
-                    {
-                        _unitOfWork.GetRepository<Student, int>()
-                                .Create(newStudents);
-                    }
-                    else
-                    {
-                        _unitOfWork.GetRepository<Student, int>()
-                                                .Update(oldStudents, newStudents);
-                    }
+                   // groupDb.Students = newStudents;
+                    // newStudents.ForEach(x => x.GroupId = groupDb.Id);
+                    // if (oldStudents.Count == 0)
+                    // {
+                    //     _unitOfWork.GetRepository<Student, int>()
+                    //             .Create(newStudents);
+                    // }
+                    // else
+                    // {
+                    //     
+                    // }
 
+                    //await UpdateStudents(oldStudents, newStudents);
+                    foreach (var item in newStudents)
+                    {
+                        item.Patronymic = "";
+                        _unitOfWork.StudentRepository.Create(item);
+                         _unitOfWork.GetRepository<Student, int>().Create(item);
+                        await _unitOfWork.Save();
+                    }
                     groupDb.Students = null;
                     _unitOfWork.GetRepository<Group, int>()
                         .Update(groupDb);
@@ -125,6 +133,22 @@ namespace AntiGrade.Core.Services.Implementation
             {
                 throw new WebsiteException("Группа не существует");
             }
+        }
+    
+        private async Task<bool> UpdateStudents(List<Student> oldStudents,List<Student> newStudents)
+        {
+            var existingIds = oldStudents.Select(x => x.Id);
+            var studentsForDelete = existingIds
+                .Where(sl => !newStudents.Any(c => c.Id == sl)).ToList();
+            _unitOfWork.GetRepository<Student, int>().Delete(x => studentsForDelete.Contains(x.Id));
+            
+            var studentsForUpdate = newStudents.Where(x => x.Id != 0).ToList();
+            _unitOfWork.GetRepository<Student, int>().Update(studentsForUpdate);
+
+            var studentsForCreate = newStudents.Where(x => x.Id == 0).ToList();
+            _unitOfWork.GetRepository<Student, int>().Create(studentsForCreate);
+
+            return await _unitOfWork.Save() > 0;
         }
     }
 }

@@ -14,7 +14,8 @@
         <th *ngIf="labs" [attr.colspan] = "labs">
           Лабораторная
         </th>
-        <th>
+        <th colspan="4">
+          Итоги
         </th>
       </tr>
       <tr>
@@ -28,6 +29,15 @@
         <th>
           Итого
         </th>
+        <th>
+          Всего за семестр
+        </th>
+        <th>
+          Добор
+        </th>
+        <th>
+          Экзамен
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -35,13 +45,19 @@
           <td>
             {{row.currentStudent.lastName}}
           </td>
-          <td *ngFor="let sWork of row.works">
-            <span (keyup)="changeValue(sWork, $event)"
-              (blur)="updateWorkPoints(sWork, $event)" contenteditable="true">{{sWork.sumOfPoints}}
-            </span>
+          <td *ngFor="let sWork of row.works" (keyup)="changeValue(sWork, $event)" (keydown.enter)="$event.target.blur();"
+          (blur)="updateWorkPoints(sWork, $event)" contenteditable="true">
+            {{sWork.sumOfPoints}}
           </td>
           <td>
             {{row.sumOfPoints}}
+          </td>
+          <td>
+            {{row.sumOfPoints}}
+          </td>
+          <td>
+          </td>
+          <td>
           </td>
         </tr>
     </tbody>

@@ -12,6 +12,7 @@ import { RatingTableComponent } from './rating-table/rating-table.component';
 import { GroupsComponent } from './groups/groups.component';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 import { TeachersComponent } from '../teachers/teachers.component';
+import { ExamTableComponent } from './exam-table/exam-table.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -79,6 +80,10 @@ const appRoutes: Routes = [
       {
         path: 'subjects/:id/teachers',
         component: TeachersComponent
+      },
+      {
+        path: 'subjects/exam/:id',
+        component: ExamTableComponent
       },
     ]
   }

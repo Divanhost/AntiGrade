@@ -10,7 +10,7 @@
 }
 .group-title{
     text-align: center;
-    padding: .5em;
+    // padding: .5em;
 }
 .group-container{
     background-color: rgba(228, 228, 228, 0.897);
@@ -23,12 +23,14 @@
     flex-wrap: wrap;
     justify-content: space-between;
     flex-direction: column;
-    min-width: 0;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #dedede;
+    overflow: auto;
+    max-width: -webkit-max-content;
+    max-width: -moz-max-content;
+    max-width: max-content;
     padding: 1em;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
 }
 .s-container {
     display: flex;

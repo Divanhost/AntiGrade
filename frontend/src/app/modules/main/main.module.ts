@@ -18,6 +18,11 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { GroupsComponent } from './groups/groups.component';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ExamTableComponent } from './exam-table/exam-table.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {TabsModule} from 'ngx-tabset';
+import { SubjectTabsetComponent } from './subject-tabset/subject-tabset.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -31,7 +36,9 @@ registerLocaleData(localeRu, 'ru-RU');
     SubjectsComponent,
     GroupsComponent,
     AddEditEmployeeComponent,
-    DashboardComponent
+    DashboardComponent,
+    ExamTableComponent,
+    SubjectTabsetComponent
   ],
   imports: [
     NgbModule,
@@ -40,8 +47,11 @@ registerLocaleData(localeRu, 'ru-RU');
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    MatCheckboxModule,
+    MatSidenavModule,
     NgMultiSelectDropDownModule.forRoot(),
     MDBBootstrapModule.forRoot(),
+    TabsModule.forRoot(),
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'always' }),
   ],
   providers: [

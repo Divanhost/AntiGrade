@@ -34,7 +34,7 @@ namespace AntiGrade.Core.Services.Implementation
             //     subject.Teachers.Add(employee);
             // }
             var result = _unitOfWork.GetRepository<Subject, int>().Create(subject);
-            return await _unitOfWork.Save() >0;
+            return await _unitOfWork.Save() > 0;
         }
 
 
@@ -81,20 +81,23 @@ namespace AntiGrade.Core.Services.Implementation
             {
                 var subject = await _unitOfWork.GetRepository<Subject, int>()
                    .Filter(x => x.Id == subjectId)
-                   .Include(x=>x.SubjectEmployees)
+                   .Include(x => x.SubjectEmployees)
+                   .FirstOrDefaultAsync();
+                var group = await _unitOfWork.GetRepository<Group, int>()
+                   .Filter(x => x.Id == subjectDto.Group.Id)
                    .FirstOrDefaultAsync();
                 if (subject != null)
                 {
-                   subject.Name = subjectDto.Name;
-                   subject.TypeId = subjectDto.ExamTypeId;
+                    subject.Name = subjectDto.Name;
+                    subject.TypeId = subjectDto.ExamTypeId;
+                    subject.Group = group;
+                    var employeesNew = subjectDto.SubjectEmployees;
+                    var employeesOld = subject.SubjectEmployees;
 
-                   var employeesNew = subjectDto.SubjectEmployees;
-                   var employeesOld = subject.SubjectEmployees;
-
-                   subject.SubjectEmployees = null;
-                    _unitOfWork.GetRepository<Subject, int>() .Update(subject);
-                    _unitOfWork.GetRepository<SubjectEmployee, int>() .Update(employeesOld,employeesNew);
-                   return await _unitOfWork.Save() >0;
+                    subject.SubjectEmployees = null;
+                    _unitOfWork.GetRepository<Subject, int>().Update(subject);
+                    _unitOfWork.GetRepository<SubjectEmployee, int>().Update(employeesOld, employeesNew);
+                    return await _unitOfWork.Save() > 0;
                 }
                 else
                 {
@@ -132,7 +135,7 @@ namespace AntiGrade.Core.Services.Implementation
                     SubjectId = plan.SubjectId
                 };
                 var criterias = _mapper.Map<List<CriteriaDto>, List<Criteria>>(workDto.Criterias);
-                
+
                 work.Criterias = criterias;
                 _unitOfWork.GetRepository<Work, int>().Create(work);
             }
@@ -140,13 +143,14 @@ namespace AntiGrade.Core.Services.Implementation
         }
         public async Task<bool> UpdateSubjectPlan(SubjectPlan plan)
         {
-            var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == plan.SubjectId).Include(x=>x.Criterias).ToListAsync();
+            var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == plan.SubjectId).Include(x => x.Criterias).ToListAsync();
             var worksNew = _mapper.Map<List<Work>>(plan.Works);
 
-            var oldCriterias = worksOld.SelectMany(x=>x.Criterias).ToList();
-            var newCriterias = worksNew.SelectMany(x=>x.Criterias).ToList();
-            
-            worksNew.ForEach(x=> {
+            var oldCriterias = worksOld.SelectMany(x => x.Criterias).ToList();
+            var newCriterias = worksNew.SelectMany(x => x.Criterias).ToList();
+
+            worksNew.ForEach(x =>
+            {
                 x.SubjectId = plan.SubjectId;
                 x.Criterias = null;
             });
@@ -159,7 +163,7 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var result = await _unitOfWork.GetRepository<Work, int>()
                                     .Filter(x => x.SubjectId == subjectId)
-                                    .OrderBy(x=>x.WorkType.Id)
+                                    .OrderBy(x => x.WorkType.Id)
                                     .ProjectTo<WorkView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return result;
@@ -175,13 +179,22 @@ namespace AntiGrade.Core.Services.Implementation
             return result;
         }
 
-        public async Task<List<SubjectView>> GetDistinctSubjects()
+        public async Task<List<MainSubjectView>> GetDistinctSubjects()
         {
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => !x.IsDeleted)
                                     .GroupBy(x => x.Name)
                                     .Select(y => y.First())
-                                    .OrderBy(y=>y.Name)
+                                    .OrderBy(y => y.Name)
+                                    .ProjectTo<MainSubjectView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return subjects;
+        }
+
+        public async Task<List<SubjectView>> GetSubjectsWithWorks()
+        {
+            var subjects = await _unitOfWork.GetRepository<Subject, int>()
+                                    .Filter(x => !x.IsDeleted && x.Works.Any())
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return subjects;

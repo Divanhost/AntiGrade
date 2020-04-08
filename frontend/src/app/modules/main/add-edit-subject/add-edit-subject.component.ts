@@ -30,6 +30,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   dropdownList = [];
   mainTeacher: Employee = new Employee();
   dropdownSettings = {};
+  active = 'top';
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly employeeService: EmployeeService,

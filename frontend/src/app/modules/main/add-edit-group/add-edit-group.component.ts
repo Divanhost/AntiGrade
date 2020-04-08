@@ -49,7 +49,12 @@ export class AddEditGroupComponent extends BaseFormComponent implements OnInit {
     }
   }
   addStudent() {
-    this.group.students.push(new Student());
+    const student = new Student();
+    student.groupId = this.groupId;
+    this.group.students.push(student);
+  }
+  removeStudent(student: Student) {
+    this.group.students = this.group.students.filter(x => x !== student);
   }
   onSubmit() {
     this.group.students = this.group.students.filter(x => x.lastName !== '' && x.firstName !== '');
