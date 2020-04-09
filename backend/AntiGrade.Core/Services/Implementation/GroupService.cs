@@ -91,37 +91,20 @@ namespace AntiGrade.Core.Services.Implementation
             {
                 var groupDb = await _unitOfWork.GetRepository<Group, int>()
                    .Filter(x => x.Id == GroupId)
-                   .Include(x => x.Students)
                    .FirstOrDefaultAsync();
-                var oldStudents = groupDb.Students;
                 if (groupDb != null)
                 {
                     groupDb.Name = groupDto.Name;
-
                     var newStudents = _mapper.Map<List<Student>>(groupDto.Students);
-                   // groupDb.Students = newStudents;
-                    // newStudents.ForEach(x => x.GroupId = groupDb.Id);
-                    // if (oldStudents.Count == 0)
-                    // {
-                    //     _unitOfWork.GetRepository<Student, int>()
-                    //             .Create(newStudents);
-                    // }
-                    // else
-                    // {
-                    //     
-                    // }
-
-                    //await UpdateStudents(oldStudents, newStudents);
-                    foreach (var item in newStudents)
-                    {
-                        item.Patronymic = "";
-                        _unitOfWork.StudentRepository.Create(item);
-                         _unitOfWork.GetRepository<Student, int>().Create(item);
-                        await _unitOfWork.Save();
-                    }
-                    groupDb.Students = null;
+                     groupDb.Students = null;
                     _unitOfWork.GetRepository<Group, int>()
                         .Update(groupDb);
+                    foreach (var item in newStudents)
+                    {
+                        item.Group = groupDb;
+                    }
+                    await UpdateStudents(newStudents, groupDb.Id);
+                   
                     return await _unitOfWork.Save() > 0;
                 }
                 else
@@ -135,9 +118,9 @@ namespace AntiGrade.Core.Services.Implementation
             }
         }
     
-        private async Task<bool> UpdateStudents(List<Student> oldStudents,List<Student> newStudents)
+        private async Task UpdateStudents(List<Student> newStudents, int groupId)
         {
-            var existingIds = oldStudents.Select(x => x.Id);
+            var existingIds = await GetStudentIdsForGroup(groupId);
             var studentsForDelete = existingIds
                 .Where(sl => !newStudents.Any(c => c.Id == sl)).ToList();
             _unitOfWork.GetRepository<Student, int>().Delete(x => studentsForDelete.Contains(x.Id));
@@ -147,8 +130,17 @@ namespace AntiGrade.Core.Services.Implementation
 
             var studentsForCreate = newStudents.Where(x => x.Id == 0).ToList();
             _unitOfWork.GetRepository<Student, int>().Create(studentsForCreate);
+            //return await _unitOfWork.Save() > 0;
+        }
 
-            return await _unitOfWork.Save() > 0;
+        private async Task<List<int>> GetStudentIdsForGroup(int id)
+        {
+            var result = await _unitOfWork.GetRepository<Group, int>()
+                .Filter(x => x.Id == id)
+                .SelectMany(x => x.Students)
+                .Select(x=>x.Id)
+                .ToListAsync();
+            return result;
         }
     }
 }
