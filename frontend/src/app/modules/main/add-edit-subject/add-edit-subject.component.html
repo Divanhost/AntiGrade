@@ -1,47 +1,19 @@
-<div class="container-fluid row">
-    <div class="col-6">
-        <form (ngSubmit)="onSubmit()" [formGroup]="form">
-            <h2 *ngIf="isCreate; else edit">Создание ведомости</h2>
-            <ng-template #edit>
-                <h2>Изменение ведомости</h2>
-            </ng-template>
-            <div>
-                <label for="input-name">Название</label>
-                <input class="form-control border-style" formControlName="name" id="input-name" [(ngModel)]="subject.name"
-                    [ngClass]="{ 'is-invalid': isInputHasErrors(controls.name) }" type="text">
-                <div *ngIf="isInputHasErrors(controls.name)" class="invalid-feedback">
-                    <div *ngIf="controls.name.errors.required">Название обязательно</div>
-                </div>
-                <small class="form-text text-muted">
-                    Введите название дисциплины
-                </small>
-            </div>
-            <div>Вид зачёта</div>
-            <ng-select formControlName="examType" [(ngModel)]="subject.examType">
-                <ng-option *ngFor="let type of examTypes" [value] = "type">
-                    {{ type.name }}
-                </ng-option>
-            </ng-select>
-            <div>Список преподавателей</div>
-            <ng-multiselect-dropdown formControlName="teachers" [data]="teachers" [(ngModel)]="selectedEmployees"
-                [settings]="dropdownSettings">
-            </ng-multiselect-dropdown>
-            <div>Составитель учебного плана</div>
-            <ng-select [searchable]="false" formControlName="mainTeacher"  [(ngModel)]="mainTeacher">
-                <ng-option *ngFor="let mTeacher of selectedEmployees" [value] = "mTeacher">
-                    {{mTeacher.fullName}}
-                </ng-option>
-            </ng-select>
-            <div>Группа</div>
-            <ng-select [searchable]="false" formControlName="group"  [(ngModel)]="subject.group">
-                <ng-option *ngFor="let group of groups" [value] = "group">
-                    {{group.name}}
-                </ng-option>
-            </ng-select>
-            <div class="buttons mt-3">
-                <button type="submit" class="btn btn-success mr-1">Сохранить</button>
-                <button type="button" [routerLink]="[ '/subjects' ]" class="btn btn-dark">Отмена</button>
-            </div>
-        </form>
+<div class="subject-container">
+    <div class="buttons m-3">
+        <div class="btn btn-primary mr-2" (click)="toggleCommons()">Commons</div>
+        <div class="btn btn-primary mr-2" (click)="togglePlan()">Plan</div>
+        <div class="btn btn-primary" (click)="toggleTeachers()">Teachers</div>
     </div>
+    <div class="items">
+        <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">
+            <app-subject-commons [subjectId] = "subjectId" (changeData) = changeSubject($event)></app-subject-commons>
+        </div>
+        <div class="plan" [ngClass]="{'d-none': !isPlanVisible}">
+            <app-add-edit-plan [subjectId] = "subjectId" (changeData) = changeWorks($event)></app-add-edit-plan>
+        </div>
+        <div class="teachers" [ngClass]="{'d-none': !isTeachersVisible}">
+            <app-teachers [subjectId] = "subjectId"  (changeData) = changeTeachers($event)></app-teachers>
+        </div>
+    </div>
+      <div class="btn button-success" (click)="createSubject()"> Create</div>
 </div>

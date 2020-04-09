@@ -6,4 +6,5 @@ export class Work {
     points: number;
     workTypeId: number;
     criterias: Criteria[];
+    subjectId: number;
 }

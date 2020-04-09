@@ -21,18 +21,9 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<bool> CreateSubject(SubjectDto subjectDto)
         {
-            var subject = new Subject()
-            {
-                Name = subjectDto.Name,
-                SubjectEmployees = subjectDto.SubjectEmployees
-            };
+            var subject = _mapper.Map<Subject>(subjectDto);
             var type = await _unitOfWork.GetRepository<ExamType, int>().Find(x => x.Id == subjectDto.ExamType.Id);
             subject.TypeId = type.Id;
-            // foreach (var item in subjectDto.Teachers)
-            // {
-            //     var employee = await _unitOfWork.GetRepository<Employee, int>().Filter(x => x.Id == item.Id).FirstOrDefaultAsync();
-            //     subject.Teachers.Add(employee);
-            // }
             var result = _unitOfWork.GetRepository<Subject, int>().Create(subject);
             return await _unitOfWork.Save() > 0;
         }

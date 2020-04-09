@@ -1,7 +1,7 @@
 <div class="m-2">
     <div class="btn btn-success my-3" (click)="addWork()">Добавить работу</div>
     <div class="work-wrapper">
-        <div *ngFor="let work of plan.works" class="d-flex">
+        <div *ngFor="let work of works" class="d-flex">
             <div class="work-holder">
                 <div class="mr-3">
                     <label>Название работы</label>
@@ -42,11 +42,4 @@
     </div>
     <div class="btn btn-warning my-3" (click)="savePlan()">Сохранить</div>
     <div class="btn btn-secondary m-3" [routerLink]="[ '/subjects' ]">Назад</div>
-    <!-- <h4>Предпросмотр</h4> -->
-    <!-- <app-rating-table [works]='plan.works' [students]='students'></app-rating-table> -->
 </div>
-<ng-select >
-    <ng-option *ngFor="let type of workTypes" [value] = "type.id">
-        {{ type.value }}
-    </ng-option>
-</ng-select>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GroupService } from 'src/app/core/services/group.service';
 import { BaseFormComponent } from 'src/app/shared/classes';
@@ -17,10 +17,12 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
 
   isCreate: boolean;
-  subjectId: number;
+  @Input() subjectId: number;
+  @Output() changeData: EventEmitter<Work[]> = new EventEmitter();
   mode: string;
   workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
-  plan: SubjectPlan = new SubjectPlan();
+  // plan: SubjectPlan = new SubjectPlan();
+  works: Work[] = [];
   students: Student[] = [];
   isCriteraisShown = false;
   constructor(private readonly router: Router,
@@ -28,68 +30,69 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
               private readonly subjectService: SubjectService) {
     super();
     this.subscriptions.push(
-      this.route.params.subscribe(params => this.subjectId = params.id),
-      this.route.url.subscribe(params => this.mode = params[1].path)
+      // this.route.params.subscribe(params => this.subjectId = params.id),
+      // this.route.url.subscribe(params => this.mode = params[1].path)
     );
     this.isCreate = this.mode === 'add';
   }
 
   ngOnInit(): void {
-    if (!this.isCreate) {
-      this.getPlan();
-    } else {
-      this.plan.works = [];
-      this.addWork();
-    }
-    this.plan.subjectId = this.subjectId;
+    // if (!this.isCreate) {
+    //   this.getPlan();
+    // } else {
+    //   this.plan.works = [];
+    //   this.addWork();
+    // }
+    this.addWork();
   }
   addWork() {
     const work = new Work();
     work.criterias = [];
+    work.subjectId = this.subjectId;
     this.addCriteria(work);
-    this.plan.works.push(work);
+    this.works.push(work);
   }
-  getPlan() {
-    this.subscriptions.push(
-      this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
-        this.plan.works = response.payload;
-        this.plan.works.forEach(element => {
-          if (!element.criterias.length) {
-            this.addCriteria(element);
-          }
-        });
-      })
-    );
-  }
+  // getPlan() {
+  //   this.subscriptions.push(
+  //     this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
+  //       this.plan.works = response.payload;
+  //       this.plan.works.forEach(element => {
+  //         if (!element.criterias.length) {
+  //           this.addCriteria(element);
+  //         }
+  //       });
+  //     })
+  //   );
+  // }
   addCriteria(work: Work) {
     const criteria = new Criteria();
     criteria.workId = work.id;
     criteria.name = '';
-    work.
-    criterias.push(criteria);
+    work.criterias.push(criteria);
   }
   removeCriteria(work: Work, criteria: Criteria) {
     work.criterias.filter(x => x !== criteria);
   }
   savePlan() {
-    const plan = Object.assign(this.plan);
-    plan.works = plan.works.filter(x => x.name !== '' && x.name !== null);
-    plan.works.forEach(element => {
-        element.criterias = element.criterias.filter(x => x.name !== '' &&  x.name !== null);
-    });
-    if (this.isCreate) {
-      this.subscriptions.push(
-        this.subjectService.addSubjectPlan(plan).subscribe(() => {
-          this.router.navigate(['/subjects']);
-        })
-      );
-    } else {
-      this.subscriptions.push(
-        this.subjectService.updateSubjectPlan(plan).subscribe(() => {
-          this.router.navigate(['/subjects']);
-        })
-      );
-    }
+    // const plan = Object.assign(this.plan);
+    // plan.works = plan.works.filter(x => x.name !== '' && x.name !== null);
+    // plan.works.forEach(element => {
+    //     element.criterias = element.criterias.filter(x => x.name !== '' &&  x.name !== null);
+    // });
+    // if (this.isCreate) {
+    //   this.subscriptions.push(
+    //     this.subjectService.addSubjectPlan(plan).subscribe(() => {
+    //       this.router.navigate(['/subjects']);
+    //     })
+    //   );
+    // } else {
+    //   this.subscriptions.push(
+    //     this.subjectService.updateSubjectPlan(plan).subscribe(() => {
+    //       this.router.navigate(['/subjects']);
+    //     })
+    //   );
+    // }
+    this.changeData.emit(this.works);
   }
   toggleCriterias() {
     this.isCriteraisShown = !this.isCriteraisShown;

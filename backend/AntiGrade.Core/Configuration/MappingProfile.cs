@@ -41,7 +41,12 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.ExamType, opt=>opt.MapFrom(src => src.Type))
                 .ForMember(x=> x.Group, opt=>opt.MapFrom(src => src.Group))
                 .ForMember(x=> x.ExamTypeId, opt=>opt.MapFrom(src => src.TypeId));
-                
+            CreateMap<SubjectDto,Subject>()
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.SubjectEmployees, opt=>opt.MapFrom(src => src.SubjectEmployees))
+                .ForMember(x=> x.Type, opt=>opt.MapFrom(src => src.ExamType))
+                .ForMember(x=> x.Group, opt=>opt.MapFrom(src => src.Group))
+                .ForMember(x=> x.TypeId, opt=>opt.Ignore());
             CreateMap<CriteriaDto,Criteria>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
@@ -71,6 +76,10 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
                 .ForMember(x=> x.Students, opt=>opt.MapFrom(src => src.Students));
+             CreateMap<GroupView,Group>().ReverseMap();
+                // .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                // .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                // .ForMember(x=> x.Students, opt=>opt.MapFrom(src => src.Students));
             CreateMap<GroupDto,Group>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))

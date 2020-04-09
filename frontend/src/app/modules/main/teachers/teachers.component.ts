@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { EmployeeService } from 'src/app/core/services/employee.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,8 @@ import { BaseComponent } from 'src/app/shared/classes';
   styleUrls: ['./teachers.component.scss']
 })
 export class TeachersComponent extends BaseComponent implements OnInit {
-  subjectId: number;
+  @Input() subjectId: number;
+  @Output() changeData: EventEmitter<SubjectEmployee[]> = new EventEmitter();
   statuses = ['Лектор', 'Преподаватель практики', 'Преподаватель лабораторных занятий', 'Экзаменатор'];
   teachers: Employee[] = [];
   mainTeacher: Employee = new Employee();
@@ -21,9 +22,9 @@ export class TeachersComponent extends BaseComponent implements OnInit {
   constructor(private readonly employeeService: EmployeeService,
               private readonly route: ActivatedRoute) {
     super();
-    this.subscriptions.push(
-      this.route.params.subscribe(params => this.subjectId = params.id)
-    );
+    // this.subscriptions.push(
+    //   this.route.params.subscribe(params => this.subjectId = params.id)
+    // );
   }
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class TeachersComponent extends BaseComponent implements OnInit {
       console.log(this.teachers);
       this.getSubjectEmployees();
     });
+    this.addSubjectEmployee();
   }
   getSubjectEmployees() {
     this.employeeService.getSubjectEmployees(this.subjectId).subscribe((response: ResponseModel<SubjectEmployee[]>) => {
@@ -60,5 +62,8 @@ export class TeachersComponent extends BaseComponent implements OnInit {
     const index = this.subjectEmployees.indexOf(teacher);
     this.subjectEmployees.splice(index, 1);
     // this.subjectEmployees.filter(x => x !== teacher); // ({employeeId: null, subjectId: this.subjectId, status: null});
+  }
+  addTeachersToSubject() {
+    this.changeData.emit(this.subjectEmployees);
   }
 }

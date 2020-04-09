@@ -1,5 +1,5 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainRoutingModule } from './main-routing.module';
 import localeRu from '@angular/common/locales/ru';
@@ -23,6 +23,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {TabsModule} from 'ngx-tabset';
 import { SubjectTabsetComponent } from './subject-tabset/subject-tabset.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { TeachersComponent } from './teachers/teachers.component';
+import { SubjectCommonsComponent } from './subject-commons/subject-commons.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -38,7 +40,9 @@ registerLocaleData(localeRu, 'ru-RU');
     AddEditEmployeeComponent,
     DashboardComponent,
     ExamTableComponent,
-    SubjectTabsetComponent
+    SubjectTabsetComponent,
+    TeachersComponent,
+    SubjectCommonsComponent
   ],
   imports: [
     NgbModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BaseComponent, BaseFormComponent } from 'src/app/shared/classes';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -13,6 +13,12 @@ import { SubjectView } from 'src/app/shared/models/subject-view.model';
 import { SubjectEmployee } from 'src/app/shared/models/subject-employee.model';
 import { Group } from 'src/app/shared/models/group.model';
 import { GroupService } from 'src/app/core/services/group.service';
+import { SubjectCommonsComponent } from '../subject-commons/subject-commons.component';
+import { AddEditPlanComponent } from '../add-edit-plan/add-edit-plan.component';
+import { TeachersComponent } from '../teachers/teachers.component';
+import { Work } from 'src/app/shared/models/work.model';
+import { NotifierService } from 'angular-notifier';
+
 
 @Component({
   selector: 'app-add-edit-subject',
@@ -20,22 +26,25 @@ import { GroupService } from 'src/app/core/services/group.service';
   styleUrls: ['./add-edit-subject.component.scss']
 })
 export class AddEditSubjectComponent extends BaseFormComponent implements OnInit {
+  @ViewChild(SubjectCommonsComponent) subjectCommonsComponent: SubjectCommonsComponent;
+  @ViewChild(AddEditPlanComponent) planComponent: AddEditPlanComponent;
+  @ViewChild(TeachersComponent) teachersComponent: TeachersComponent;
+  isCommonsVisible = true;
+  isPlanVisible = false;
+  isTeachersVisible = false;
   isCreate: boolean;
   subjectId: number;
-  teachers: Employee[] = [];
-  groups: Group[] = [];
-  examTypes: ExamType[] = [];
   subject: SubjectDto = new SubjectDto();
-  selectedEmployees: Employee[] = [];
-  dropdownList = [];
+  teachers: Employee[] = [];
+  works: Work[] = [];
+  group: Group = new Group();
   mainTeacher: Employee = new Employee();
-  dropdownSettings = {};
-  active = 'top';
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly employeeService: EmployeeService,
               private readonly subjectService: SubjectService,
-              private readonly groupService: GroupService) {
+              private readonly groupService: GroupService,
+              private readonly notifierService: NotifierService) {
     super();
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
@@ -44,100 +53,59 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'fullName',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-    this.initForm();
-    this.getExamTypes();
-    this.getTeachers();
-    this.getGroups();
+
   }
-  initForm() {
-    this.form = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      examType: new FormControl('', [Validators.required]),
-      teachers: new FormControl('', [Validators.required]),
-      mainTeacher: new FormControl(null, Validators.required),
-      group: new FormControl(null, Validators.required)
-    });
-  }
-  getSubject() {
-    this.subscriptions.push(
-      this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
-        this.subject = response.payload;
-        if (this.subject.subjectEmployees.length) {
-          this.subject.subjectEmployees.forEach(element => {
-            const teacher = this.teachers.find(x => x.id === element.employeeId);
-            this.selectedEmployees.push(teacher);
-            if (element.status === 'MT') {
-              this.mainTeacher = teacher;
-            }
-          });
-        }
-        this.fillForm();
-      })
-    );
-  }
-  fillForm() {
-    this.form.controls.name.setValue(this.subject.name);
-    this.form.controls.examType.setValue(this.subject.examType);
-    this.form.controls.teachers.setValue(this.selectedEmployees);
-    this.form.controls.mainTeacher.setValue(this.mainTeacher);
-  }
-  onSubmit() {
-    this.convertEmployees();
-    if (this.isCreate) {
-      this.subscriptions.push(
-        this.subjectService.addSubject(this.subject).subscribe(() => {
-          this.router.navigate(['/subjects']);
-        })
-      );
-    } else {
-      this.subscriptions.push(
-        this.subjectService.updateSubject(this.subjectId, this.subject).subscribe(() => {
-          this.router.navigate(['/subjects']);
-        })
-      );
+  toggleCommons() {
+    if (this.isPlanVisible) {
+      this.togglePlan();
     }
+    if (this.isTeachersVisible) {
+      this.toggleTeachers();
+    }
+    this.isCommonsVisible = ! this.isCommonsVisible;
   }
-  convertEmployees() {
-    this.subject.subjectEmployees = [];
-    this.selectedEmployees.forEach(element => {
-      const se = new SubjectEmployee();
-      se.subjectId = +this.subjectId || 0;
-      se.employeeId = element.id;
-      this.subject.subjectEmployees.push(se);
-    });
-    this.subject.subjectEmployees.find(x => x.employeeId === this.mainTeacher.id).status = 'MT';
+  togglePlan() {
+    if (this.isCommonsVisible) {
+      this.toggleCommons();
+    }
+    if (this.isTeachersVisible) {
+      this.toggleTeachers();
+    }
+    this.isPlanVisible = ! this.isPlanVisible;
   }
-  getExamTypes() {
+  toggleTeachers() {
+    if (this.isPlanVisible) {
+      this.togglePlan();
+    }
+    if (this.isCommonsVisible) {
+      this.toggleCommons();
+    }
+    this.isTeachersVisible = ! this.isTeachersVisible;
+
+  }
+  changeSubject(subjectDto: SubjectDto) {
+    this.subject.name = subjectDto.name;
+    this.subject.examType = subjectDto.examType;
+    this.subject.group = subjectDto.group;
+    console.log(this.subject);
+  }
+  changeTeachers(teachers: SubjectEmployee[]) {
+    this.subject.subjectEmployees = teachers;
+    console.log(this.subject);
+  }
+  changeWorks(works: Work[]) {
+    this.subject.works = works;
+    console.log(this.subject);
+  }
+  createSubject() {
     this.subscriptions.push(
-      this.subjectService.getExamTypes().subscribe((responce: ResponseModel<ExamType[]>) => {
-        this.examTypes = responce.payload;
-      })
-    );
-  }
-  getGroups() {
-    this.subscriptions.push(
-      this.groupService.getGroups().subscribe((responce: ResponseModel<Group[]>) => {
-        this.groups = responce.payload;
-      })
-    );
-  }
-  getTeachers() {
-    this.subscriptions.push(
-      this.employeeService.getAllEmployees().subscribe((responce: ResponseModel<Employee[]>) => {
-        this.teachers = responce.payload;
-        if (!this.isCreate) {
-          this.getSubject();
-        }
-      })
-    );
+          this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
+            if (response.payload) {
+              this.notifierService.notify('success', 'Subject successfully created');
+            } else {
+              this.notifierService.notify('error', 'Cannot create subject');
+            }
+          })
+        );
   }
 }
