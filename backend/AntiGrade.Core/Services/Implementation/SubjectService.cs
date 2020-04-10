@@ -28,8 +28,6 @@ namespace AntiGrade.Core.Services.Implementation
             return await _unitOfWork.Save() > 0;
         }
 
-
-
         public async Task<bool> DeleteById(int subjectId)
         {
             var subject = await _unitOfWork.GetRepository<Subject, int>()
@@ -63,6 +61,25 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Filter(x => x.Id == subjectId)
                                     .ProjectTo<SubjectDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
+            // var dbWorks = await _unitOfWork.GetRepository<Work, int>()
+            //                         .Filter(x => x.SubjectId == subjectId)
+            //                         .Include(x=>x.Criterias)
+            //                         .Include(x=>x.WorkType)
+            //                         .ToListAsync();
+            // var works = new List<WorkDto>();
+            // foreach (var item in dbWorks)
+            // {
+            //     var work = new WorkDto {
+            //         Id = item.Id,
+            //         Name = item.Name,
+            //         Points = item.MaxPoints,
+            //         SubjectId = item.SubjectId,
+            //         WorkTypeId = item.WorkType.Id,
+            //         Criterias = _mapper.Map<List<CriteriaDto>>(item.Criterias)
+            //     };
+            //     works.Add(work);
+            // }
+            // subject.Works = works;
             return subject;
         }
 
@@ -80,9 +97,9 @@ namespace AntiGrade.Core.Services.Implementation
                 if (subject != null)
                 {
                     subject.Name = subjectDto.Name;
-                    subject.TypeId = subjectDto.ExamTypeId;
+                    subject.Type = subjectDto.ExamType;
                     subject.Group = group;
-                    var employeesNew = subjectDto.SubjectEmployees;
+                    var employeesNew = _mapper.Map<List<SubjectEmployee>>(subjectDto.SubjectEmployees);
                     var employeesOld = subject.SubjectEmployees;
 
                     subject.SubjectEmployees = null;

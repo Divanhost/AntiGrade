@@ -53,7 +53,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-
+    this.getSubject();
   }
   toggleCommons() {
     if (this.isPlanVisible) {
@@ -107,5 +107,13 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
             }
           })
         );
+  }
+  getSubject() {
+    this.subscriptions.push(
+      this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
+        this.subject = response.payload;
+        console.log(this.subject);
+      })
+    );
   }
 }

@@ -7,7 +7,6 @@ import { Work } from './work.model';
 export class SubjectDto {
     id: number;
     name: string;
-    examTypeId: number;
     examType: ExamType;
     subjectEmployees: SubjectEmployee[];
     works: Work[];

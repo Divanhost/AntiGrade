@@ -8,6 +8,7 @@ namespace AntiGrade.Shared.InputModels
         public string Name {get;set;}
         public decimal Points {get;set;}
         public int WorkTypeId {get;set;}
+        public int SubjectId {get;set;}
         public List<CriteriaDto> Criterias{get;set;}
     }
 }

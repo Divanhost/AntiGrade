@@ -19,14 +19,9 @@ export class TeachersComponent extends BaseComponent implements OnInit {
   mainTeacher: Employee = new Employee();
   subjectEmployees: SubjectEmployee[] = [];
   selectedTeachers: Employee[] = [];
-  constructor(private readonly employeeService: EmployeeService,
-              private readonly route: ActivatedRoute) {
+  constructor(private readonly employeeService: EmployeeService) {
     super();
-    // this.subscriptions.push(
-    //   this.route.params.subscribe(params => this.subjectId = params.id)
-    // );
   }
-
   ngOnInit(): void {
     this.getTeachers();
   }
@@ -61,7 +56,6 @@ export class TeachersComponent extends BaseComponent implements OnInit {
   removeSubjectEmployee(teacher: SubjectEmployee) {
     const index = this.subjectEmployees.indexOf(teacher);
     this.subjectEmployees.splice(index, 1);
-    // this.subjectEmployees.filter(x => x !== teacher); // ({employeeId: null, subjectId: this.subjectId, status: null});
   }
   addTeachersToSubject() {
     this.changeData.emit(this.subjectEmployees);
