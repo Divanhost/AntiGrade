@@ -61,25 +61,6 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Filter(x => x.Id == subjectId)
                                     .ProjectTo<SubjectDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
-            // var dbWorks = await _unitOfWork.GetRepository<Work, int>()
-            //                         .Filter(x => x.SubjectId == subjectId)
-            //                         .Include(x=>x.Criterias)
-            //                         .Include(x=>x.WorkType)
-            //                         .ToListAsync();
-            // var works = new List<WorkDto>();
-            // foreach (var item in dbWorks)
-            // {
-            //     var work = new WorkDto {
-            //         Id = item.Id,
-            //         Name = item.Name,
-            //         Points = item.MaxPoints,
-            //         SubjectId = item.SubjectId,
-            //         WorkTypeId = item.WorkType.Id,
-            //         Criterias = _mapper.Map<List<CriteriaDto>>(item.Criterias)
-            //     };
-            //     works.Add(work);
-            // }
-            // subject.Works = works;
             return subject;
         }
 
@@ -91,6 +72,7 @@ namespace AntiGrade.Core.Services.Implementation
                    .Filter(x => x.Id == subjectId)
                    .Include(x => x.SubjectEmployees)
                    .FirstOrDefaultAsync();
+                subject = _mapper.Map<Subject>(subjectDto);
                 var group = await _unitOfWork.GetRepository<Group, int>()
                    .Filter(x => x.Id == subjectDto.Group.Id)
                    .FirstOrDefaultAsync();
@@ -99,6 +81,7 @@ namespace AntiGrade.Core.Services.Implementation
                     subject.Name = subjectDto.Name;
                     subject.Type = subjectDto.ExamType;
                     subject.Group = group;
+                    // subject.Works = subjectDto.Works
                     var employeesNew = _mapper.Map<List<SubjectEmployee>>(subjectDto.SubjectEmployees);
                     var employeesOld = subject.SubjectEmployees;
 

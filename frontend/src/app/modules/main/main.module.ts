@@ -25,6 +25,8 @@ import { SubjectTabsetComponent } from './subject-tabset/subject-tabset.componen
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { TeachersComponent } from './teachers/teachers.component';
 import { SubjectCommonsComponent } from './subject-commons/subject-commons.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -53,6 +55,7 @@ registerLocaleData(localeRu, 'ru-RU');
     NgSelectModule,
     MatCheckboxModule,
     MatSidenavModule,
+    FontAwesomeModule,
     NgMultiSelectDropDownModule.forRoot(),
     MDBBootstrapModule.forRoot(),
     TabsModule.forRoot(),

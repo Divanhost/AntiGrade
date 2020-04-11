@@ -34,11 +34,12 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   isTeachersVisible = false;
   isCreate: boolean;
   subjectId: number;
-  subject: SubjectDto = new SubjectDto();
+  subject: SubjectDto;
   teachers: Employee[] = [];
   works: Work[] = [];
   group: Group = new Group();
   mainTeacher: Employee = new Employee();
+  loaded = false;
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly employeeService: EmployeeService,
@@ -53,7 +54,12 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.getSubject();
+    if(!this.isCreate) {
+      this.getSubject();
+    } else {
+      this.subject = new SubjectDto();
+      this.loaded = true;
+    }
   }
   toggleCommons() {
     if (this.isPlanVisible) {
@@ -98,21 +104,28 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     console.log(this.subject);
   }
   createSubject() {
-    this.subscriptions.push(
-          this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
-            if (response.payload) {
-              this.notifierService.notify('success', 'Subject successfully created');
-            } else {
-              this.notifierService.notify('error', 'Cannot create subject');
-            }
-          })
-        );
+    // this.subscriptions.push(
+    //       this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
+    //         if (response.payload) {
+    //           this.notifierService.notify('success', 'Subject successfully created');
+    //         } else {
+    //           this.notifierService.notify('error', 'Cannot create subject');
+    //         }
+    //       })
+    //     );
+  }
+  updateSubject() {
+    // this.subscriptions.push(
+    //       this.subjectService.updateSubject(this.subjectId, this.subject).subscribe(() => {
+    //           this.notifierService.notify('success', 'Subject successfully created');
+    //       })
+    //     );
   }
   getSubject() {
     this.subscriptions.push(
       this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
         this.subject = response.payload;
-        console.log(this.subject);
+        this.loaded = true;
       })
     );
   }

@@ -99,8 +99,8 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.GroupId, opt=>opt.MapFrom(src => src.GroupId));
             CreateMap<SubjectEmployee,SubjectEmployeeDto>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
-                .ForMember(x=> x.Subject, opt=>opt.MapFrom(src => src.Subject))
-                .ForMember(x=> x.Employee, opt=>opt.MapFrom(src => src.Employee))
+                // .ForMember(x=> x.Subject, opt=>opt.MapFrom(src => src.Subject))
+                // .ForMember(x=> x.Employee, opt=>opt.MapFrom(src => src.Employee))
                 .ForMember(x=> x.Status, opt=>opt.MapFrom(src => src.Status));
             CreateMap<SubjectEmployeeDto,SubjectEmployee>().ReverseMap();
         }

@@ -21,52 +21,37 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
 
   isCreate: boolean;
   @Input() subjectId: number;
+  @Input() subject: SubjectDto = new SubjectDto();
   @Output() changeData: EventEmitter<SubjectDto> = new EventEmitter();
   teachers: Employee[] = [];
   groups: Group[] = [];
   examTypes: ExamType[] = [];
-  subject: SubjectDto = new SubjectDto();
   selectedEmployees: Employee[] = [];
   dropdownList = [];
   mainTeacher: Employee = new Employee();
-  dropdownSettings = {};
+  dropdownSettings = {
+    singleSelection: false,
+    idField: 'id',
+    textField: 'fullName',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 3,
+    allowSearchFilter: true
+  };
   active = 'top';
-  constructor(private readonly router: Router,
-              private readonly route: ActivatedRoute,
-              private readonly employeeService: EmployeeService,
+  constructor(private readonly employeeService: EmployeeService,
               private readonly subjectService: SubjectService,
               private readonly groupService: GroupService) {
     super();
-    // this.subscriptions.push(
-    //   this.route.params.subscribe(params => this.subjectId = params.id)
-    // );
-    this.isCreate = this.subjectId === undefined;
   }
 
   ngOnInit(): void {
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'fullName',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-    //this.initForm();
+
     this.getExamTypes();
     this.getTeachers();
     this.getGroups();
   }
-  // initForm() {
-  //   this.form = new FormGroup({
-  //     name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-  //     examType: new FormControl('', [Validators.required]),
-  //     teachers: new FormControl('', [Validators.required]),
-  //     mainTeacher: new FormControl(null, Validators.required),
-  //     group: new FormControl(null, Validators.required)
-  //   });
-  // }
+
   getSubject() {
     this.subscriptions.push(
       this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {

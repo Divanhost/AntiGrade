@@ -4,16 +4,17 @@
         <div class="btn btn-primary mr-2" (click)="togglePlan()">Plan</div>
         <div class="btn btn-primary" (click)="toggleTeachers()">Teachers</div>
     </div>
-    <div class="items">
+    <div class="items" *ngIf="loaded">
         <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">
-            <app-subject-commons [subjectId] = "subjectId" (changeData) = changeSubject($event)></app-subject-commons>
+            <app-subject-commons [subjectId] = "subjectId" [subject] = "subject" (changeData) = changeSubject($event)></app-subject-commons>
         </div>
         <div class="plan" [ngClass]="{'d-none': !isPlanVisible}">
-            <app-add-edit-plan [subjectId] = "subjectId" (changeData) = changeWorks($event)></app-add-edit-plan>
+            <app-add-edit-plan [subjectId] = "subjectId" [subject] = "subject" (changeData) = changeWorks($event)></app-add-edit-plan>
         </div>
         <div class="teachers" [ngClass]="{'d-none': !isTeachersVisible}">
-            <app-teachers [subjectId] = "subjectId"  (changeData) = changeTeachers($event)></app-teachers>
+            <app-teachers [subjectId] = "subjectId" [subject] = "subject"></app-teachers>
         </div>
     </div>
-      <div class="btn button-success" (click)="createSubject()"> Create</div>
+      <div class="btn button-info" (click)="createSubject()"> Create</div>
+      <div class="btn button-info" (click)="updateSubject()"> Update</div>
 </div>

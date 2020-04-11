@@ -9,8 +9,6 @@ namespace AntiGrade.Shared.InputModels
         public int Id {get;set;}
         public int SubjectId {get;set;}
         public int EmployeeId {get;set;}
-        public SubjectDto Subject {get;set;}
-        public EmployeeDto Employee {get;set;}
         public string Status {get;set;}
     }
 }

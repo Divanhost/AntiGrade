@@ -8,6 +8,7 @@ import { Criteria } from 'src/app/shared/models/criteria.model';
 import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
 import { SubjectService } from 'src/app/core/services/subject.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
+import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 
 @Component({
   selector: 'app-add-edit-plan',
@@ -18,6 +19,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
 
   isCreate: boolean;
   @Input() subjectId: number;
+  @Input() subject: SubjectDto = new SubjectDto();
   @Output() changeData: EventEmitter<Work[]> = new EventEmitter();
   mode: string;
   workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
@@ -29,11 +31,6 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
               private readonly route: ActivatedRoute,
               private readonly subjectService: SubjectService) {
     super();
-    this.subscriptions.push(
-      // this.route.params.subscribe(params => this.subjectId = params.id),
-      // this.route.url.subscribe(params => this.mode = params[1].path)
-    );
-    this.isCreate = this.mode === 'add';
   }
 
   ngOnInit(): void {
@@ -43,6 +40,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     //   this.plan.works = [];
     //   this.addWork();
     // }
+    this.works = this.subject.works;
     this.addWork();
   }
   addWork() {

@@ -88,10 +88,11 @@ namespace AntiGrade.Core.Services.Implementation
             return employees;
         }
 
-        public async Task<List<SubjectEmployee>> GetSubjectEmployees(int subjectId)
+        public async Task<List<SubjectEmployeeDto>> GetSubjectEmployees(int subjectId)
         {
             var subjectEmployees = await _unitOfWork.GetRepository<SubjectEmployee,int>()
                                             .Filter(x => x.SubjectId == subjectId)
+                                            .ProjectTo<SubjectEmployeeDto>(_mapper.ConfigurationProvider)
                                             .ToListAsync();
             return subjectEmployees;
         }
