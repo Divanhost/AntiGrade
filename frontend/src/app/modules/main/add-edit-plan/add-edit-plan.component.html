@@ -1,45 +1,51 @@
-<div class="m-2">
-    <div class="btn btn-success my-3" (click)="addWork()">Добавить работу</div>
-    <div class="work-wrapper">
-        <div *ngFor="let work of works" class="d-flex">
-            <div class="work-holder">
-                <div class="mr-3">
-                    <label>Название работы</label>
-                    <input class="form-control border-style" [(ngModel)]="work.name" type="text">
+<div class="content">
+    <div *ngFor="let work of works" class="content-wrapper work-wrapper mb-3">
+        <div class="work-holder">
+            <div class="mr-3">
+                <div class="md-form">
+                    <input  type="text" class="form-control" placeholder="Название работы"
+                        [(ngModel)]="work.name">
                 </div>
-                <div class="mr-3">
-                    <label>Макс. баллов</label>
-                    <input class="form-control border-style" [(ngModel)]="work.points" type="number">
+            </div>
+            <div class="mr-3">
+                <div class="md-form">
+                    <input mdbInput type="number" class="form-control" placeholder="Макс. балл"
+                        [(ngModel)]="work.points">
                 </div>
-                <div class="pr-5">
-                    <label> Вид занятия</label>
-                    <ng-select [(ngModel)]="work.workTypeId" appendTo="body" class="type-select">
-                        <ng-option *ngFor="let type of workTypes" [value] = "type.id">
+            </div>
+            <div class="pr-3 type">
+                <div class="md-form">
+                    <ng-select [(ngModel)]="work.workTypeId" appendTo="body" placeholder="Вид занятия"
+                        class="type-select">
+                        <ng-option *ngFor="let type of workTypes" [value]="type.id">
                             {{ type.value }}
                         </ng-option>
                     </ng-select>
                 </div>
-                <div (click)="toggleCriterias()">
-                    <img src="assets/arrow.png" alt="" class="arrow-icon">
+            </div>
+            <div class="img-holder color-plus">
+                <fa-icon [icon]="faPlusCircle" size="2x" (click)="addCriteria(work)"></fa-icon>
+            </div>
+        </div>
+        <div class="criteria-holder" *ngFor="let criteria of work.criterias">
+            <div class="mr-3">
+                <div class="md-form form-sm">
+                    <input type="text" [attr.id]="'cname' + work.id" class="form-control form-control-sm" placeholder="Название критерия"
+                        [(ngModel)]="criteria.name">
                 </div>
             </div>
-            <div *ngIf="isCriteraisShown">
-                
-                <div class="criteria-holder" *ngFor="let criteria of work.criterias">
-                    <div class="mr-3">
-                        <label>Название критерия</label>
-                        <input class="form-control border-style" [(ngModel)]="criteria.name" type="text">
-                    </div>
-                    <div>
-                        <label>Балл</label>
-                        <input class="form-control border-style" [(ngModel)]="criteria.points" type="number">
-                    </div>
-                    <div class="btn btn-primary mx-3" (click)="addCriteria(work)">Добавить</div>
-                    <div class="btn btn-danger" (click)="removeCriteria(work, criteria)">Удалить</div>
+            <div>
+                <div class="md-form form-sm pr-3">
+                    <input type="number" [attr.id]="'cpoints' + work.id" class="form-control form-control-sm" placeholder="Макс. балл"
+                        [(ngModel)]="criteria.points">
                 </div>
+            </div>
+            <div class="img-holder color-minus">
+                <fa-icon [icon]="faMinusCircle" size="2x" (click)="removeCriteria(work, criteria)"></fa-icon>
             </div>
         </div>
     </div>
-    <div class="btn btn-warning my-3" (click)="savePlan()">Сохранить</div>
-    <div class="btn btn-secondary m-3" [routerLink]="[ '/subjects' ]">Назад</div>
+    <div class="btn btn-success my-3" (click)="addWork()">Добавить работу</div>
 </div>
+<div class="btn btn-warning my-3" (click)="savePlan()">Сохранить</div>
+<div class="btn btn-secondary m-3" [routerLink]="[ '/subjects' ]">Назад</div>

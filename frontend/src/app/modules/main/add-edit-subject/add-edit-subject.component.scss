@@ -5,3 +5,18 @@
 .items{
     margin: 1em;
 }
+.img-holder {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 0.5em;
+    padding-bottom: 3px;
+}
+.type{
+    margin-top: 28px;
+}
+.color-minus {
+color: rgb(241, 75, 75);
+}
+.color-plus {
+    color: rgb(84, 252, 69);
+}

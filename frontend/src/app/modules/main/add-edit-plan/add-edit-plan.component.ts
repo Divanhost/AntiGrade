@@ -9,6 +9,7 @@ import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
 import { SubjectService } from 'src/app/core/services/subject.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
+import { faPlusSquare, faMinusSquare, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-add-edit-plan',
@@ -16,17 +17,12 @@ import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
   styleUrls: ['./add-edit-plan.component.scss']
 })
 export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
-
-  isCreate: boolean;
+  faPlusCircle = faPlusCircle;
+  faMinusCircle = faMinusCircle;
   @Input() subjectId: number;
   @Input() subject: SubjectDto = new SubjectDto();
-  @Output() changeData: EventEmitter<Work[]> = new EventEmitter();
-  mode: string;
   workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
-  // plan: SubjectPlan = new SubjectPlan();
   works: Work[] = [];
-  students: Student[] = [];
-  isCriteraisShown = false;
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly subjectService: SubjectService) {
@@ -34,42 +30,32 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (!this.isCreate) {
-    //   this.getPlan();
-    // } else {
-    //   this.plan.works = [];
-    //   this.addWork();
-    // }
     this.works = this.subject.works;
-    this.addWork();
+    if (!this.works) {
+      this.works = [];
+      this.addWork();
+    }
   }
   addWork() {
     const work = new Work();
+    work.name = null;
+    work.points = null;
+    work.workTypeId = null;
     work.criterias = [];
     work.subjectId = this.subjectId;
-    this.addCriteria(work);
     this.works.push(work);
   }
-  // getPlan() {
-  //   this.subscriptions.push(
-  //     this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
-  //       this.plan.works = response.payload;
-  //       this.plan.works.forEach(element => {
-  //         if (!element.criterias.length) {
-  //           this.addCriteria(element);
-  //         }
-  //       });
-  //     })
-  //   );
-  // }
+
   addCriteria(work: Work) {
     const criteria = new Criteria();
     criteria.workId = work.id;
-    criteria.name = '';
+    criteria.name = null;
     work.criterias.push(criteria);
   }
+
   removeCriteria(work: Work, criteria: Criteria) {
-    work.criterias.filter(x => x !== criteria);
+    const index = work.criterias.indexOf(criteria);
+    work.criterias.splice(index, 1);
   }
   savePlan() {
     // const plan = Object.assign(this.plan);
@@ -90,9 +76,10 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     //     })
     //   );
     // }
-    this.changeData.emit(this.works);
+   // this.changeData.emit(this.works);
+   console.log(this.works);
   }
-  toggleCriterias() {
-    this.isCriteraisShown = !this.isCriteraisShown;
+  getWorksData() {
+    return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null);
   }
 }

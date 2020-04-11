@@ -54,7 +54,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-    if(!this.isCreate) {
+    if (!this.isCreate) {
       this.getSubject();
     } else {
       this.subject = new SubjectDto();

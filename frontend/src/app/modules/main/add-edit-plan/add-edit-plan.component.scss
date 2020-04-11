@@ -3,7 +3,6 @@
     overflow:auto;
 }
 .work-wrapper{
-    height: 500px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px #dedede;
@@ -20,16 +19,33 @@
 }
 .criteria-holder{
     display: flex;
-    align-items: flex-end;
+    align-items: baseline;
     justify-content: flex-start;
     margin-bottom: 1em;
+    margin-left: 200px;
 }
 .work-holder{
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     margin-bottom: 1em;
 }
 .type-select {
     width: 150px;
+}
+.content-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: max-content;
+}
+.img-holder {
+    display: flex;
+    align-items: center;
+    // margin-left: 0.5em;
+    // padding-bottom: 3px;
 }
