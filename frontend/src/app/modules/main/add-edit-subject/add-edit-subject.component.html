@@ -1,8 +1,10 @@
 <div class="subject-container">
     <div class="buttons m-3">
-        <div class="btn btn-primary mr-2" (click)="toggleCommons()">Commons</div>
-        <div class="btn btn-primary mr-2" (click)="togglePlan()">Plan</div>
-        <div class="btn btn-primary" (click)="toggleTeachers()">Teachers</div>
+        <div class="btn btn-primary mr-2" (click)="toggleCommons()" [ngClass]="{'d-none': isCommonsVisible}">Общие сведения</div>
+        <div class="btn btn-primary mr-2" (click)="togglePlan()" [ngClass]="{'d-none': isPlanVisible}">Мероприятия</div>
+        <div class="btn btn-primary  mr-2" (click)="toggleTeachers()" [ngClass]="{'d-none': isTeachersVisible}">Преподаватели</div>
+        <div class="btn btn-primary mr-2" (click)="toggleGroup()" [ngClass]="{'d-none': isGroupVisible}">Группа</div>
+        <div class="btn btn-warning" >Перейти к оцениванию</div>
     </div>
     <div class="items" *ngIf="loaded">
         <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">
@@ -14,7 +16,11 @@
         <div class="teachers" [ngClass]="{'d-none': !isTeachersVisible}">
             <app-teachers [subjectId] = "subjectId" [subject] = "subject"></app-teachers>
         </div>
+        <div class="group" [ngClass]="{'d-none': !isGroupVisible}">
+            <app-group [subjectId] = "subjectId" [subject] = "subject"></app-group>
+        </div>
     </div>
-      <div class="btn button-info" (click)="createSubject()"> Create</div>
-      <div class="btn button-info" (click)="updateSubject()"> Update</div>
+    <div>
+      <div class="btn btn-info" (click)="createOrUpdateSubject()">Сохранить</div>
+    </div>
 </div>

@@ -71,6 +71,7 @@ namespace AntiGrade.Core.Services.Implementation
                 var subject = await _unitOfWork.GetRepository<Subject, int>()
                    .Filter(x => x.Id == subjectId)
                    .Include(x => x.SubjectEmployees)
+                   .Include(x => x.Works)
                    .FirstOrDefaultAsync();
                 subject = _mapper.Map<Subject>(subjectDto);
                 var group = await _unitOfWork.GetRepository<Group, int>()
@@ -81,13 +82,18 @@ namespace AntiGrade.Core.Services.Implementation
                     subject.Name = subjectDto.Name;
                     subject.Type = subjectDto.ExamType;
                     subject.Group = group;
-                    // subject.Works = subjectDto.Works
+
+                    var works = subject.Works;
+                    subject.Works = null;
+
                     var employeesNew = _mapper.Map<List<SubjectEmployee>>(subjectDto.SubjectEmployees);
                     var employeesOld = subject.SubjectEmployees;
 
                     subject.SubjectEmployees = null;
+
                     _unitOfWork.GetRepository<Subject, int>().Update(subject);
                     _unitOfWork.GetRepository<SubjectEmployee, int>().Update(employeesOld, employeesNew);
+                    await UpdateWorks(works,subjectId);
                     return await _unitOfWork.Save() > 0;
                 }
                 else
@@ -106,48 +112,68 @@ namespace AntiGrade.Core.Services.Implementation
             return examTypes;
         }
 
-        public async Task<bool> CreateSubjectPlan(SubjectPlan plan)
-        {
-            var subject = await _unitOfWork.GetRepository<Subject, int>().Find(x => x.Id == plan.SubjectId);
-            if (subject == null)
-            {
-                throw new WebsiteException("Такого предмета не существует");
-            }
-            foreach (var workDto in plan.Works)
-            {
-                if (workDto.Name == null)
-                {
-                    continue;
-                }
-                var work = new Work
-                {
-                    Name = workDto.Name,
-                    MaxPoints = workDto.Points,
-                    SubjectId = plan.SubjectId
-                };
-                var criterias = _mapper.Map<List<CriteriaDto>, List<Criteria>>(workDto.Criterias);
+        // public async Task<bool> CreateSubjectPlan(SubjectPlan plan)
+        // {
+        //     var subject = await _unitOfWork.GetRepository<Subject, int>().Find(x => x.Id == plan.SubjectId);
+        //     if (subject == null)
+        //     {
+        //         throw new WebsiteException("Такого предмета не существует");
+        //     }
+        //     foreach (var workDto in plan.Works)
+        //     {
+        //         if (workDto.Name == null)
+        //         {
+        //             continue;
+        //         }
+        //         var work = new Work
+        //         {
+        //             Name = workDto.Name,
+        //             MaxPoints = workDto.Points,
+        //             SubjectId = plan.SubjectId
+        //         };
+        //         var criterias = _mapper.Map<List<CriteriaDto>, List<Criteria>>(workDto.Criterias);
 
-                work.Criterias = criterias;
-                _unitOfWork.GetRepository<Work, int>().Create(work);
-            }
-            return await _unitOfWork.Save() > 0;
-        }
-        public async Task<bool> UpdateSubjectPlan(SubjectPlan plan)
-        {
-            var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == plan.SubjectId).Include(x => x.Criterias).ToListAsync();
-            var worksNew = _mapper.Map<List<Work>>(plan.Works);
+        //         work.Criterias = criterias;
+        //         _unitOfWork.GetRepository<Work, int>().Create(work);
+        //     }
+        //     return await _unitOfWork.Save() > 0;
+        // }
+        // public async Task<bool> UpdateSubjectPlan(SubjectPlan plan)
+        // {
+        //     var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == plan.SubjectId).Include(x => x.Criterias).ToListAsync();
+        //     var worksNew = _mapper.Map<List<Work>>(plan.Works);
+
+        //     var oldCriterias = worksOld.SelectMany(x => x.Criterias).ToList();
+        //     var newCriterias = worksNew.SelectMany(x => x.Criterias).ToList();
+
+        //     worksNew.ForEach(x =>
+        //     {
+        //         x.SubjectId = plan.SubjectId;
+        //         x.Criterias = null;
+        //     });
+        //     _unitOfWork.GetRepository<Work, int>().Update(worksOld, worksNew);
+        //     _unitOfWork.GetRepository<Criteria, int>().Update(oldCriterias, newCriterias);
+        //     return await _unitOfWork.Save() > 0;
+        // }
+        private async Task UpdateWorks(List<Work> works,int subjectId) {
+            var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == subjectId).Include(x => x.Criterias).ToListAsync();
+            var worksNew = works;
 
             var oldCriterias = worksOld.SelectMany(x => x.Criterias).ToList();
             var newCriterias = worksNew.SelectMany(x => x.Criterias).ToList();
 
             worksNew.ForEach(x =>
             {
-                x.SubjectId = plan.SubjectId;
+                x.SubjectId = subjectId;
                 x.Criterias = null;
             });
             _unitOfWork.GetRepository<Work, int>().Update(worksOld, worksNew);
             _unitOfWork.GetRepository<Criteria, int>().Update(oldCriterias, newCriterias);
-            return await _unitOfWork.Save() > 0;
+            //await _unitOfWork.Save();
+        }
+        private async Task CreateWorks(List<Work> works) {
+            _unitOfWork.GetRepository<Work, int>().Create(works);
+            await _unitOfWork.Save();
         }
 
         public async Task<List<WorkView>> GetWorks(int subjectId)

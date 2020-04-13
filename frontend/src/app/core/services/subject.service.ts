@@ -40,7 +40,7 @@ export class SubjectService {
   getSubject(id: number): Observable<ResponseModel<SubjectDto>> {
     return this.http.getData(`subject/${id}`);
   }
-  updateSubject(id: number, data: SubjectDto): Observable<ResponseModel<SubjectDto>> {
+  updateSubject(id: number, data: SubjectDto): Observable<ResponseModel<boolean>> {
     return this.http.putData(`subject/${id}`, data);
   }
   addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {

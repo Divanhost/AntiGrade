@@ -12,7 +12,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 const customNotifierOptions: NotifierOptions = {
   position: {
     horizontal: {
@@ -56,7 +55,7 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     NgbModule,

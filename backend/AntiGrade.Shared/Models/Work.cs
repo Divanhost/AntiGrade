@@ -17,9 +17,12 @@ namespace AntiGrade.Shared.Models
 
         [ForeignKey(nameof(Subject))]
         public int SubjectId {get;set;}
+
+        [ForeignKey(nameof(WorkType))]
+        public int WorkTypeId {get;set;}
         public virtual Subject Subject {get;set;}
         public virtual List<Criteria> Criterias {get;set;}
-        public WorkType WorkType {get;set;}
+        public virtual WorkType WorkType {get;set;}
         public virtual List<StudentWork> StudentWorks {get;set;}
 
     }

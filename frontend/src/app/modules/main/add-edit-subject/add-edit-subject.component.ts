@@ -18,6 +18,7 @@ import { AddEditPlanComponent } from '../add-edit-plan/add-edit-plan.component';
 import { TeachersComponent } from '../teachers/teachers.component';
 import { Work } from 'src/app/shared/models/work.model';
 import { NotifierService } from 'angular-notifier';
+import { GroupComponent } from '../group/group.component';
 
 
 @Component({
@@ -29,9 +30,11 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   @ViewChild(SubjectCommonsComponent) subjectCommonsComponent: SubjectCommonsComponent;
   @ViewChild(AddEditPlanComponent) planComponent: AddEditPlanComponent;
   @ViewChild(TeachersComponent) teachersComponent: TeachersComponent;
+  @ViewChild(GroupComponent) groupComponent: GroupComponent;
   isCommonsVisible = true;
   isPlanVisible = false;
   isTeachersVisible = false;
+  isGroupVisible = false;
   isCreate: boolean;
   subjectId: number;
   subject: SubjectDto;
@@ -40,11 +43,8 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   group: Group = new Group();
   mainTeacher: Employee = new Employee();
   loaded = false;
-  constructor(private readonly router: Router,
-              private readonly route: ActivatedRoute,
-              private readonly employeeService: EmployeeService,
+  constructor(private readonly route: ActivatedRoute,
               private readonly subjectService: SubjectService,
-              private readonly groupService: GroupService,
               private readonly notifierService: NotifierService) {
     super();
     this.subscriptions.push(
@@ -68,7 +68,10 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     if (this.isTeachersVisible) {
       this.toggleTeachers();
     }
-    this.isCommonsVisible = ! this.isCommonsVisible;
+    if (this.isGroupVisible) {
+      this.toggleGroup();
+    }
+    this.isCommonsVisible = !this.isCommonsVisible;
   }
   togglePlan() {
     if (this.isCommonsVisible) {
@@ -77,7 +80,10 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     if (this.isTeachersVisible) {
       this.toggleTeachers();
     }
-    this.isPlanVisible = ! this.isPlanVisible;
+    if (this.isGroupVisible) {
+      this.toggleGroup();
+    }
+    this.isPlanVisible = !this.isPlanVisible;
   }
   toggleTeachers() {
     if (this.isPlanVisible) {
@@ -86,8 +92,22 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     if (this.isCommonsVisible) {
       this.toggleCommons();
     }
-    this.isTeachersVisible = ! this.isTeachersVisible;
-
+    if (this.isGroupVisible) {
+      this.toggleGroup();
+    }
+    this.isTeachersVisible = !this.isTeachersVisible;
+  }
+  toggleGroup() {
+    if (this.isPlanVisible) {
+      this.togglePlan();
+    }
+    if (this.isCommonsVisible) {
+      this.toggleCommons();
+    }
+    if (this.isTeachersVisible) {
+      this.toggleTeachers();
+    }
+    this.isGroupVisible = !this.isGroupVisible;
   }
   changeSubject(subjectDto: SubjectDto) {
     this.subject.name = subjectDto.name;
@@ -103,23 +123,35 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subject.works = works;
     console.log(this.subject);
   }
+  createOrUpdateSubject() {
+    this.uniteData();
+    if (this.isCreate) {
+      this.createSubject();
+    } else {
+      this.updateSubject();
+    }
+  }
   createSubject() {
-    // this.subscriptions.push(
-    //       this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
-    //         if (response.payload) {
-    //           this.notifierService.notify('success', 'Subject successfully created');
-    //         } else {
-    //           this.notifierService.notify('error', 'Cannot create subject');
-    //         }
-    //       })
-    //     );
+    this.subscriptions.push(
+      this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
+        if (response.payload) {
+          this.notifierService.notify('success', 'Subject successfully created');
+        } else {
+          this.notifierService.notify('error', 'Cannot create subject');
+        }
+      })
+    );
   }
   updateSubject() {
-    // this.subscriptions.push(
-    //       this.subjectService.updateSubject(this.subjectId, this.subject).subscribe(() => {
-    //           this.notifierService.notify('success', 'Subject successfully created');
-    //       })
-    //     );
+    this.subscriptions.push(
+      this.subjectService.updateSubject(this.subjectId, this.subject).subscribe((response: ResponseModel<boolean>) => {
+        if (response.payload) {
+          this.notifierService.notify('success', 'Subject successfully created');
+        } else {
+          this.notifierService.notify('error', 'Cannot create subject');
+        }
+      })
+    );
   }
   getSubject() {
     this.subscriptions.push(
@@ -128,5 +160,12 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
         this.loaded = true;
       })
     );
+  }
+  uniteData() {
+    this.subject.name = this.subjectCommonsComponent.name;
+    this.subject.examType = this.subjectCommonsComponent.examType;
+    this.subject.works = this.planComponent.getWorksData();
+    this.subject.subjectEmployees = this.teachersComponent.getEmployeesData();
+    this.subject.group = this.groupComponent.getGroupData();
   }
 }

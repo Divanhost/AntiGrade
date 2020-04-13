@@ -1,5 +1,6 @@
 .subject-container{
     display: flex;
+    justify-content: center;
     flex-direction: column;
 }
 .items{
@@ -19,4 +20,15 @@ color: rgb(241, 75, 75);
 }
 .color-plus {
     color: rgb(84, 252, 69);
+}
+.items{
+    display: flex;
+    justify-content: center;
+}
+.commons, .plan, .teachers, .group {
+    min-width: 310px;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
 }

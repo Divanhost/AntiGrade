@@ -4,35 +4,15 @@
         <h2>Изменение ведомости</h2>
     </ng-template>
     <div>
-        <label for="input-name">Название</label>
-        <input class="form-control border-style" id="input-name" [(ngModel)]="subject.name" type="text">
-        <small class="form-text text-muted">
-            Введите название дисциплины
-        </small>
+        <div class="md-form">
+            <label for="input-name">Название</label>
+            <input mdbInput class="form-control border-style" id="input-name" [(ngModel)]="name" type="text">
+        </div>
     </div>
     <div>Вид зачёта</div>
-    <ng-select [(ngModel)]="subject.examType">
+    <ng-select [(ngModel)]="examType">
         <ng-option *ngFor="let type of examTypes" [value]="type">
             {{ type.name }}
         </ng-option>
     </ng-select>
-    <div>Список преподавателей</div>
-    <ng-multiselect-dropdown [data]="teachers" [(ngModel)]="selectedEmployees" [settings]="dropdownSettings">
-    </ng-multiselect-dropdown>
-    <div>Составитель учебного плана</div>
-    <ng-select [searchable]="false" [(ngModel)]="mainTeacher">
-        <ng-option *ngFor="let mTeacher of selectedEmployees" [value]="mTeacher">
-            {{mTeacher.fullName}}
-        </ng-option>
-    </ng-select>
-    <div>Группа</div>
-    <ng-select [searchable]="false" [(ngModel)]="subject.group">
-        <ng-option *ngFor="let group of groups" [value]="group">
-            {{group.name}}
-        </ng-option>
-    </ng-select>
-    <div class="buttons mt-3">
-        <button type="button" class="btn btn-success mr-1" (click)="submit()">Сохранить</button>
-        <button type="button" [routerLink]="[ '/subjects' ]" class="btn btn-dark">Отмена</button>
-    </div>
 </div>

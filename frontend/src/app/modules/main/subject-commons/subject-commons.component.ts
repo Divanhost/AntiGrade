@@ -22,23 +22,10 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   isCreate: boolean;
   @Input() subjectId: number;
   @Input() subject: SubjectDto = new SubjectDto();
-  @Output() changeData: EventEmitter<SubjectDto> = new EventEmitter();
-  teachers: Employee[] = [];
-  groups: Group[] = [];
+  // @Output() changeData: EventEmitter<SubjectDto> = new EventEmitter();
   examTypes: ExamType[] = [];
-  selectedEmployees: Employee[] = [];
-  dropdownList = [];
-  mainTeacher: Employee = new Employee();
-  dropdownSettings = {
-    singleSelection: false,
-    idField: 'id',
-    textField: 'fullName',
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 3,
-    allowSearchFilter: true
-  };
-  active = 'top';
+  name: string;
+  examType: ExamType = new ExamType();
   constructor(private readonly employeeService: EmployeeService,
               private readonly subjectService: SubjectService,
               private readonly groupService: GroupService) {
@@ -46,29 +33,19 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-
+    this.name = this.subject.name;
+    //this.examType = this.subject.examType;
     this.getExamTypes();
-    this.getTeachers();
-    this.getGroups();
   }
 
-  getSubject() {
-    this.subscriptions.push(
-      this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
-        this.subject = response.payload;
-        if (this.subject.subjectEmployees.length) {
-          this.subject.subjectEmployees.forEach(element => {
-            const teacher = this.teachers.find(x => x.id === element.employeeId);
-            this.selectedEmployees.push(teacher);
-            if (element.status === 'MT') {
-              this.mainTeacher = teacher;
-            }
-          });
-        }
-        // this.fillForm();
-      })
-    );
-  }
+  // getSubject() {
+  //   this.subscriptions.push(
+  //     this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
+  //       this.subject = response.payload;
+  //       this.subject.examType = this.examTypes
+  //     })
+  //   );
+  // }
   // fillForm() {
   //   this.form.controls.name.setValue(this.subject.name);
   //   this.form.controls.examType.setValue(this.subject.examType);
@@ -90,41 +67,23 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
     //     })
     //   );
     // }
-    this.changeData.emit(this.subject);
-  }
-  convertEmployees() {
-    this.subject.subjectEmployees = [];
-    this.selectedEmployees.forEach(element => {
-      const se = new SubjectEmployee();
-      se.subjectId = +this.subjectId || 0;
-      se.employeeId = element.id;
-      this.subject.subjectEmployees.push(se);
-    });
-    this.subject.subjectEmployees.find(x => x.employeeId === this.mainTeacher.id).status = 'MT';
+    // this.changeData.emit(this.subject);
   }
   getExamTypes() {
     this.subscriptions.push(
       this.subjectService.getExamTypes().subscribe((responce: ResponseModel<ExamType[]>) => {
         this.examTypes = responce.payload;
-      })
-    );
-  }
-  getGroups() {
-    this.subscriptions.push(
-      this.groupService.getGroups().subscribe((responce: ResponseModel<Group[]>) => {
-        this.groups = responce.payload;
-      })
-    );
-  }
-  getTeachers() {
-    this.subscriptions.push(
-      this.employeeService.getAllEmployees().subscribe((responce: ResponseModel<Employee[]>) => {
-        this.teachers = responce.payload;
-        if (!this.isCreate) {
-          this.getSubject();
+        if (this.subject) {
+          this.examType = this.examTypes.find(x => x.id === this.subject.examType.id);
         }
       })
     );
   }
-
+  // getGroups() {
+  //   this.subscriptions.push(
+  //     this.groupService.getGroups().subscribe((responce: ResponseModel<Group[]>) => {
+  //       this.groups = responce.payload;
+  //     })
+  //   );
+  // }
 }
