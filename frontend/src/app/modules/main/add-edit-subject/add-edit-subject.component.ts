@@ -109,20 +109,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     }
     this.isGroupVisible = !this.isGroupVisible;
   }
-  changeSubject(subjectDto: SubjectDto) {
-    this.subject.name = subjectDto.name;
-    this.subject.examType = subjectDto.examType;
-    this.subject.group = subjectDto.group;
-    console.log(this.subject);
-  }
-  changeTeachers(teachers: SubjectEmployee[]) {
-    this.subject.subjectEmployees = teachers;
-    console.log(this.subject);
-  }
-  changeWorks(works: Work[]) {
-    this.subject.works = works;
-    console.log(this.subject);
-  }
+
   createOrUpdateSubject() {
     this.uniteData();
     if (this.isCreate) {

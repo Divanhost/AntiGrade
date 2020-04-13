@@ -73,27 +73,23 @@ namespace AntiGrade.Core.Services.Implementation
                    .Include(x => x.SubjectEmployees)
                    .Include(x => x.Works)
                    .FirstOrDefaultAsync();
-                subject = _mapper.Map<Subject>(subjectDto);
                 var group = await _unitOfWork.GetRepository<Group, int>()
                    .Filter(x => x.Id == subjectDto.Group.Id)
                    .FirstOrDefaultAsync();
                 if (subject != null)
                 {
                     subject.Name = subjectDto.Name;
-                    subject.Type = subjectDto.ExamType;
+                    subject.TypeId = subjectDto.ExamType.Id;
                     subject.Group = group;
-
-                    var works = subject.Works;
-                    subject.Works = null;
-
+                    var works = _mapper.Map<List<Work>>(subjectDto.Works);
                     var employeesNew = _mapper.Map<List<SubjectEmployee>>(subjectDto.SubjectEmployees);
-                    var employeesOld = subject.SubjectEmployees;
-
-                    subject.SubjectEmployees = null;
 
                     _unitOfWork.GetRepository<Subject, int>().Update(subject);
-                    _unitOfWork.GetRepository<SubjectEmployee, int>().Update(employeesOld, employeesNew);
+
+                    _unitOfWork.GetRepository<SubjectEmployee, int>().Update(subject.SubjectEmployees, employeesNew);
+
                     await UpdateWorks(works,subjectId);
+
                     return await _unitOfWork.Save() > 0;
                 }
                 else

@@ -57,28 +57,6 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     const index = work.criterias.indexOf(criteria);
     work.criterias.splice(index, 1);
   }
-  savePlan() {
-    // const plan = Object.assign(this.plan);
-    // plan.works = plan.works.filter(x => x.name !== '' && x.name !== null);
-    // plan.works.forEach(element => {
-    //     element.criterias = element.criterias.filter(x => x.name !== '' &&  x.name !== null);
-    // });
-    // if (this.isCreate) {
-    //   this.subscriptions.push(
-    //     this.subjectService.addSubjectPlan(plan).subscribe(() => {
-    //       this.router.navigate(['/subjects']);
-    //     })
-    //   );
-    // } else {
-    //   this.subscriptions.push(
-    //     this.subjectService.updateSubjectPlan(plan).subscribe(() => {
-    //       this.router.navigate(['/subjects']);
-    //     })
-    //   );
-    // }
-   // this.changeData.emit(this.works);
-   console.log(this.works);
-  }
   getWorksData() {
     return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null);
   }
