@@ -1,8 +1,29 @@
 <div class="container-fluid mt-2 table-editable">
-  <table class="table table-bordered table-responsive-md table-striped text-center">
+  <table class="table table-bordered table-responsive-md">
     <thead>
       <tr>
-        <th >
+        <th>
+          Вид работы
+        </th>
+      </tr>
+      <tr>
+        <th>
+          Студент
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of students">
+          <td>
+            {{student.lastName}} {{student.firstName}}
+          </td>
+        </tr>
+    </tbody>
+  </table>
+  <!-- <table class="table table-bordered table-responsive-md table-striped text-center">
+    <thead>
+      <tr>
+        <th>
           Вид работы
         </th>
         <th *ngIf="lects" [attr.colspan] = "lects">
@@ -61,7 +82,10 @@
           </td>
         </tr>
     </tbody>
-  </table>
+  </table> -->
+  <div *ngIf="loaded">
+    <app-partial-table title = "Лабы" [works] = "lects" [students] = "students" [subjectId] = "subjectId"></app-partial-table>
+  </div>
   <div class="btn btn-success" (click)="updateRating()"> Сохранить</div>
   <div class="btn btn-primary ml-3" [routerLink]="['/subjects']"> Назад</div>
 </div>

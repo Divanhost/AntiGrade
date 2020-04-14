@@ -27,6 +27,7 @@ import { TeachersComponent } from './teachers/teachers.component';
 import { SubjectCommonsComponent } from './subject-commons/subject-commons.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GroupComponent } from './group/group.component';
+import { PartialTableComponent } from './partial-table/partial-table.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -45,7 +46,8 @@ registerLocaleData(localeRu, 'ru-RU');
     SubjectTabsetComponent,
     TeachersComponent,
     SubjectCommonsComponent,
-    GroupComponent
+    GroupComponent,
+    PartialTableComponent
   ],
   imports: [
     NgbModule,

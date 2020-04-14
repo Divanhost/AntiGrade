@@ -15,9 +15,9 @@ import { StudentWork } from 'src/app/shared/models/student-work.model';
   styleUrls: ['./rating-table.component.scss']
 })
 export class RatingTableComponent extends BaseComponent implements OnInit {
-  lects = 0;
-  practs = 0;
-  labs = 0;
+  lects: Work[] = [];
+  practs: Work[] = [];
+  labs: Work[] = [];
   subject: SubjectDto;
   works: Work[];
   students: Student[];
@@ -26,6 +26,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   editField: string;
   data = [];
+  loaded = false;
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
@@ -49,7 +50,6 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
         this.works = response.payload;
-        console.log(this.works);
         this.countWorks();
         this.getStudents();
       })
@@ -59,13 +59,13 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.works.forEach(element => {
      switch (element.workTypeId) {
        case 1:
-         this.lects += 1;
+         this.lects.push(element);
          break;
       case 2:
-          this.practs += 1;
+          this.practs.push(element);
           break;
       case 3:
-          this.labs += 1;
+          this.labs.push(element);
           break;
        default:
          break;
@@ -76,6 +76,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
+        this.loaded = true;
         this.getStudentWorks();
         this.getStudentCriteria();
       })

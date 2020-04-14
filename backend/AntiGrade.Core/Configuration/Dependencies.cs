@@ -63,6 +63,7 @@ namespace AntiGrade.Core.Configuration
             services.AddScoped<ISubjectService, SubjectService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IContextAccessor, ContextAccessor>();
+            services.AddScoped<IWorkService, WorkService>();
 
             services.AddScoped<UserManager<User>>();
         }
