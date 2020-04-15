@@ -1,23 +1,30 @@
-<table class="table table-bordered table-responsive-md table-striped text-center">
-    <thead>
-      <tr>
-        <th colspan="100%">
-          {{title}}
-        </th>
-      </tr>
-      <tr>
-        <th *ngFor="let work of works" >
-            {{work.name}}
-            <small>Max: {{work.points}}</small>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let row of data">
-          <td *ngFor="let sWork of row.studentWorks" (keydown.enter)="$event.target.blur();"
+<table class="table table-bordered table-responsive-md table-striped text-center" [ngClass]="{'disabled': disabled}">
+  <thead>
+    <tr>
+      <th colspan="100%">
+        {{title}}
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let work of works">
+        {{work.name}}
+        <small>Max: {{work.points}}</small>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <ng-container *ngIf="disabled; else elseTemplate">
+        <td *ngFor="let sWork of row.studentWorks">
+          {{sWork.sumOfPoints}}
+        </td>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <td *ngFor="let sWork of row.studentWorks" (keydown.enter)="$event.target.blur();"
           (blur)="updateWorkPoints(sWork, $event)" contenteditable="true">
-            {{sWork.sumOfPoints}} 
-          </td>
-        </tr>
-    </tbody>
-  </table>
+          {{sWork.sumOfPoints}}
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+</table>

@@ -61,5 +61,7 @@ export class SubjectService {
   updateSubjectGroups(id: number, data: SubjectGroup[]): Observable<ResponseModel<Group[]>> {
     return this.http.putData(`subject/groups/${id}`, data);
   }
-
+  getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<string[]>> {
+    return this.http.getData(`subject/roles?subjectId=${subjectId}&employeeId=${employeeId}`);
+  }
 }

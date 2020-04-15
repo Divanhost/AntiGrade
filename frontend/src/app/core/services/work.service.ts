@@ -35,5 +35,4 @@ export class WorkService {
   updateStudentWorks(data: StudentWork[]): Observable<ResponseModel<boolean>> {
     return this.http.putData(`work/studentworks`, data);
   }
-
 }

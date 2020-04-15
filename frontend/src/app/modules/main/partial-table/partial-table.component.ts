@@ -17,6 +17,8 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @Input() subjectId: number;
   @Input() works: Work[] = [];
   @Input() students: Student[] = [];
+  @Input() disabled = false;
+  regex = new RegExp('^-?[0-9][0-9,\.]+$');
   studentWorks: StudentWork[] = [];
   data = [];
   constructor(private readonly workService: WorkService) {
@@ -24,10 +26,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.title);
-    console.log(this.subjectId);
-    console.log(this.works);
-    console.log(this.students);
     this.getStudentWorks();
   }
 
@@ -49,10 +47,16 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       this.data.push({studentWorks: row, currentStudent: student});
       row = [];
     });
-    console.log(this.data);
   }
   updateWorkPoints(studentWork: StudentWork, event: any) {
     const editField = event.target.textContent;
+    const work = this.works.find(x => x.id === studentWork.workId);
+    if ( editField > work.points || !this.regex.test(editField)) {
+      event.target.classList.add('off-limits');
+      return;
+    } else {
+      event.target.classList.remove('off-limits');
+    }
     studentWork.sumOfPoints = editField;
     if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
       const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);

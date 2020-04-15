@@ -49,14 +49,13 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
 
-        // [HttpPost("plan")]
-        // public async Task<IActionResult> AddSubjectPlan([FromBody] SubjectPlan plan)
-        // {
-        //     var result = await _service.CreateSubjectPlan(plan);
-        //     return ResponseModel(result);
-        // }
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetEmployeeRole([FromQuery] int employeeId,[FromQuery] int subjectId)
+        {
+            var result = await _service.GetEmployeeRoles(subjectId,employeeId);
+            return ResponseModel(result);
+        }
    
-
         [HttpGet("works/{id:int}")]
         public async Task<IActionResult> GetSubjectWorks(int id)
         {

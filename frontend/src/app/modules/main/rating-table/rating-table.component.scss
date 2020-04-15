@@ -10,3 +10,11 @@
       }
     }
   }
+.rating-holder{
+  display: flex;
+  width: 100%;
+  overflow: auto;
+}
+.cell {
+  display: table-cell;
+}

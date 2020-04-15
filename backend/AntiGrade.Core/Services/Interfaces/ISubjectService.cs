@@ -19,5 +19,6 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<List<WorkView>> GetWorks(int subjectId);
         Task<List<StudentView>> GetStudents(int subjectId);
         Task<List<SubjectView>> GetSubjectsWithWorks();
+        Task<List<string>> GetEmployeeRoles(int subjectId, int employeeId);
     }
 }

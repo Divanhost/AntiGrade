@@ -108,49 +108,6 @@ namespace AntiGrade.Core.Services.Implementation
             return examTypes;
         }
 
-        // public async Task<bool> CreateSubjectPlan(SubjectPlan plan)
-        // {
-        //     var subject = await _unitOfWork.GetRepository<Subject, int>().Find(x => x.Id == plan.SubjectId);
-        //     if (subject == null)
-        //     {
-        //         throw new WebsiteException("Такого предмета не существует");
-        //     }
-        //     foreach (var workDto in plan.Works)
-        //     {
-        //         if (workDto.Name == null)
-        //         {
-        //             continue;
-        //         }
-        //         var work = new Work
-        //         {
-        //             Name = workDto.Name,
-        //             MaxPoints = workDto.Points,
-        //             SubjectId = plan.SubjectId
-        //         };
-        //         var criterias = _mapper.Map<List<CriteriaDto>, List<Criteria>>(workDto.Criterias);
-
-        //         work.Criterias = criterias;
-        //         _unitOfWork.GetRepository<Work, int>().Create(work);
-        //     }
-        //     return await _unitOfWork.Save() > 0;
-        // }
-        // public async Task<bool> UpdateSubjectPlan(SubjectPlan plan)
-        // {
-        //     var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == plan.SubjectId).Include(x => x.Criterias).ToListAsync();
-        //     var worksNew = _mapper.Map<List<Work>>(plan.Works);
-
-        //     var oldCriterias = worksOld.SelectMany(x => x.Criterias).ToList();
-        //     var newCriterias = worksNew.SelectMany(x => x.Criterias).ToList();
-
-        //     worksNew.ForEach(x =>
-        //     {
-        //         x.SubjectId = plan.SubjectId;
-        //         x.Criterias = null;
-        //     });
-        //     _unitOfWork.GetRepository<Work, int>().Update(worksOld, worksNew);
-        //     _unitOfWork.GetRepository<Criteria, int>().Update(oldCriterias, newCriterias);
-        //     return await _unitOfWork.Save() > 0;
-        // }
         private async Task UpdateWorks(List<Work> works,int subjectId) {
             var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == subjectId).Include(x => x.Criterias).ToListAsync();
             var worksNew = works;
@@ -213,24 +170,14 @@ namespace AntiGrade.Core.Services.Implementation
             return subjects;
         }
 
-        // public async Task<List<GroupView>> UpdateSubjectGroups(int subjectId, List<SubjectGroup> subjectGroups)
-        // {
-        //     var subjectToUpdate = await _unitOfWork.GetRepository<Subject, int>()
-        //                                             .Filter(x => x.Id == subjectId)
-        //                                             .Include(x=>x.SubjectGroups)
-        //                                             .FirstOrDefaultAsync();
-        //     _unitOfWork.GetRepository<SubjectGroup, int>().Update(subjectToUpdate.SubjectGroups, subjectGroups);
-        //     await _unitOfWork.Save();
-        //     var groups = await GetGroups(subjectId);
-        //     return groups;
-        // }
-        // public async Task<List<GroupView>> GetGroups(int subjectId){
-        //     return await _unitOfWork.GetRepository<SubjectGroup, int>()
-        //                                             .Filter(x => x.SubjectId == subjectId)
-        //                                             .Select(x=>x.Group)
-        //                                             .Where(g=>!g.IsDeleted)
-        //                                             .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
-        //                                             .ToListAsync();
-        // }
+        public async Task<List<string>> GetEmployeeRoles(int subjectId, int employeeId) {
+            var roles = await _unitOfWork.GetRepository<Subject, int>()
+                                    .Filter(x => !x.IsDeleted && x.Id == subjectId)
+                                    .SelectMany(x => x.SubjectEmployees)
+                                    .Where(y => y.EmployeeId == employeeId)
+                                    .Select(y => y.Status)
+                                    .ToListAsync();
+            return roles;
+        }
     }
 }

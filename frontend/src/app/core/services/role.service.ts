@@ -22,6 +22,12 @@ export class RoleService {
     };
     return currentUser;
   }
+  getCurrentUserEmployeeId() {
+    const token = localStorage.getItem('jwtToken');
+    const decodedToken = jwtDecode(token);
+    const employeeId = decodedToken.employeeId;
+    return employeeId;
+  }
 
   checkIfRole(role: string) {
     const token = localStorage.getItem('jwtToken');

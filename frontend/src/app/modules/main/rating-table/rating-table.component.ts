@@ -9,6 +9,9 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from 'src/app/core/services/student.service';
 import { StudentWork } from 'src/app/shared/models/student-work.model';
+import { RoleService } from 'src/app/core/services/role.service';
+import { WorkService } from 'src/app/core/services/work.service';
+import { Status } from 'src/app/shared/enums/status.enum';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
@@ -16,8 +19,11 @@ import { StudentWork } from 'src/app/shared/models/student-work.model';
 })
 export class RatingTableComponent extends BaseComponent implements OnInit {
   lects: Work[] = [];
+  disableLects = true;
   practs: Work[] = [];
+  disablePracts = true;
   labs: Work[] = [];
+  disableLabs = true;
   subject: SubjectDto;
   works: Work[];
   students: Student[];
@@ -30,6 +36,8 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
+    private readonly workService: WorkService,
+    private readonly roleService: RoleService,
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
@@ -39,6 +47,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.checkStatus();
     this.initializeTable();
   }
 
@@ -156,5 +165,32 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
 
   updateRating() {
     this.updateStudentWorks();
+  }
+  // Works only to 9 user
+  checkStatus() {
+    const employeeId = this.roleService.getCurrentUserEmployeeId();
+    this.subjectService.getRoles(this.subjectId, 9).subscribe((response: ResponseModel<string[]>) => {
+      console.log(response.payload);
+      response.payload.forEach(element => {
+        switch (element) {
+          case Status.Main:
+            this.disableLabs = false;
+            this.disablePracts = false;
+            this.disableLects = false;
+            break;
+          case Status.Lecturer:
+            this.disableLabs = false;
+            break;
+          case Status.Practice:
+            this.disablePracts = false;
+            break;
+          case Status.Lab:
+            this.disableLabs = false;
+            break;
+          default:
+            break;
+        }
+      });
+    });
   }
 }
