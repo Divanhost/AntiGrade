@@ -25,11 +25,11 @@
     </div>
     <div class="cell">
       <div class="d-flex">
-        <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects">
+        <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects" (changeData) = updateData($event)>
         </app-partial-table>
-        <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts">
+        <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts" (changeData) = updateData($event)>
         </app-partial-table>
-        <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs">
+        <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs" (changeData) = updateData($event)>
         </app-partial-table>
       </div>
     </div>
@@ -57,9 +57,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of data">
+          <tr *ngFor="let sum of totals">
             <td>
-              {{row.sumOfPoints}}
+              {{sum.totals}}
             </td>
             <td>
             </td>

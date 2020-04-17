@@ -17,23 +17,23 @@ namespace AntiGrade.Controllers
         public WorkController(IWorkService workService) : base(workService)
         { }
 
-        // [HttpGet("criteria")]
-        // public async Task<IActionResult> GetStudentCriteria([FromQuery] List<int> studentIds)
-        // {
-        //     var result = await _service.GetStudentCriteria(studentIds);
-        //     return ResponseModel(result);
-        // }
-        // [HttpPut("criteria")]
-        // public async Task<IActionResult> UpdateStudentCriteria([FromBody] List<StudentCriteria> studentCriteria)
-        // {
-        //     var result = await _service.UpdateStudentCriteria(studentCriteria);
-        //     return ResponseModel(result);
-        // }
+        [HttpGet("criteria/{id:int}")]
+        public async Task<IActionResult> GetStudentCriteria(int id)
+        {
+            var result = await _service.GetStudentCriteria(id);
+            return ResponseModel(result);
+        }
+        [HttpPut("criteria")]
+        public async Task<IActionResult> UpdateStudentCriteria([FromBody] List<StudentCriteriaDto> studentCriteria)
+        {
+            var result = await _service.UpdateStudentCriteria(studentCriteria);
+            return ResponseModel(result);
+        }
 
         [HttpGet("studentworks/{id:int}")]
-        public async Task<IActionResult> GetStudentWorks([FromQuery] List<int> workIds, int id)
+        public async Task<IActionResult> GetStudentWorks(int id)
         {
-            var result = await _service.GetStudentWorks(id,workIds);
+            var result = await _service.GetStudentWorks(id);
             return ResponseModel(result);
         }
 

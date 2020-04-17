@@ -20,22 +20,30 @@ namespace AntiGrade.Core.Services.Implementation
         {
         }
 
-        public async Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds)
+        public async Task<List<StudentCriteriaDto>> GetStudentCriteria(int workId)
         {
-            var result = await _unitOfWork.GetRepository<StudentCriteria, int>()
-                                            .Filter(x => studentIds.Contains(x.StudentId))
+            var result = await _unitOfWork.GetRepository<Work, int>()
+                                            .Filter(x => x.Id == workId)
+                                            .SelectMany(x => x.Criterias)
+                                            .SelectMany(y=>y.StudentCriterias)
+                                            .ProjectTo<StudentCriteriaDto>(_mapper.ConfigurationProvider)
                                             .ToListAsync();
             return result;
         }
 
-        public async Task<bool> UpdateStudentCriteria(List<StudentCriteria> studentCriteria)
+        public async Task<bool> UpdateStudentCriteria(List<StudentCriteriaDto> studentCriteria)
         {
+            var criteriasForUpdate = studentCriteria.Where(x => x.Touched).ToList();
+            var criteriaForCreate = studentCriteria.Where(x => !x.Touched).ToList();
+            criteriaForCreate.ForEach(x=>x.Touched = true);
 
-            var criteriaForCreate = studentCriteria.Where(x => x.Id == 0).ToList();
-            _unitOfWork.GetRepository<StudentCriteria, int>().Create(criteriaForCreate);
 
-            var criteriasForUpdate = studentCriteria.Where(x => x.Id != 0).ToList();
-            _unitOfWork.GetRepository<StudentCriteria, int>().Update(criteriasForUpdate);
+            var dbCriteriaCreate = _mapper.Map<List<StudentCriteria>>(criteriaForCreate);
+            var dbCriteriaUpdate = _mapper.Map<List<StudentCriteria>>(criteriasForUpdate);
+
+            _unitOfWork.GetRepository<StudentCriteria, int>().Create(dbCriteriaCreate);
+
+            _unitOfWork.GetRepository<StudentCriteria, int>().Update(dbCriteriaUpdate);
 
 
             return await _unitOfWork.Save() > 0;
@@ -43,12 +51,11 @@ namespace AntiGrade.Core.Services.Implementation
         }
 
 
-        public async Task<List<StudentWork>> GetStudentWorks(int subjectId, List<int> workIds)
+        public async Task<List<StudentWork>> GetStudentWorks(int subjectId)
         {
             var result = await _unitOfWork.GetRepository<Subject, int>()
                                             .Filter(x => x.Id == subjectId)
                                             .SelectMany(x=>x.Works)
-                                            .Where(y=> workIds.Contains(y.Id))
                                             .SelectMany(y => y.StudentWorks)
                                             .ToListAsync();
             return result;

@@ -104,6 +104,14 @@ namespace AntiGrade.Core.Configuration
                 // .ForMember(x=> x.Employee, opt=>opt.MapFrom(src => src.Employee))
                 .ForMember(x=> x.Status, opt=>opt.MapFrom(src => src.Status));
             CreateMap<SubjectEmployeeDto,SubjectEmployee>().ReverseMap();
+            CreateMap<StudentCriteriaDto,StudentCriteria>()
+                .ForMember(x=> x.Id, opt=>opt.Ignore())
+                .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))
+                .ForMember(x=> x.CriteriaId, opt=>opt.MapFrom(src => src.CriteriaId))
+                .ForMember(x=> x.Touched, opt=>opt.MapFrom(src => src.Touched))
+                .ForMember(x=> x.TotalPoints, opt=>opt.MapFrom(src => src.Points));
+            CreateMap<StudentCriteria,StudentCriteriaDto>()
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.TotalPoints));
         }
     }
 }

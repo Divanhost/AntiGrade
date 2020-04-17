@@ -32,6 +32,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   editField: string;
   data = [];
+  totals = [];
   loaded = false;
   constructor(
     private readonly subjectService: SubjectService,
@@ -59,6 +60,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
         this.works = response.payload;
+        console.log(this.works);
         this.countWorks();
         this.getStudents();
       })
@@ -86,35 +88,35 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
         this.loaded = true;
-        this.getStudentWorks();
-        this.getStudentCriteria();
+        // this.getStudentWorks();
+        // this.getStudentCriteria();
       })
     );
   }
 
-  getStudentCriteria() {
-    const studentIds = this.students.map(({ id }) => id);
-    this.subscriptions.push(
-      this.studentService.getStudentCriterias(studentIds).subscribe((response: ResponseModel<StudentCriteria[]>) => {
-        this.studentCriteria = response.payload;
-      })
-    );
-  }
-  updateStudentCriteria() {
-    this.subscriptions.push(
-      this.studentService.updateStudentCriterias(this.studentCriteria).subscribe()
-    );
-  }
+  // getStudentCriteria() {
+  //   const studentIds = this.students.map(({ id }) => id);
+  //   this.subscriptions.push(
+  //     this.studentService.getStudentCriterias(studentIds).subscribe((response: ResponseModel<StudentCriteria[]>) => {
+  //       this.studentCriteria = response.payload;
+  //     })
+  //   );
+  // }
+  // updateStudentCriteria() {
+  //   this.subscriptions.push(
+  //     this.studentService.updateStudentCriterias(this.studentCriteria).subscribe()
+  //   );
+  // }
 
-  getStudentWorks() {
-    const studentIds = this.students.map(({ id }) => id);
-    this.subscriptions.push(
-      this.studentService.getStudentWorks(studentIds).subscribe((response: ResponseModel<StudentWork[]>) => {
-        this.studentWorks = response.payload;
-        this.createRatingCells();
-      })
-    );
-  }
+  // getStudentWorks() {
+  //   const studentIds = this.students.map(({ id }) => id);
+  //   this.subscriptions.push(
+  //     this.studentService.getStudentWorks(studentIds).subscribe((response: ResponseModel<StudentWork[]>) => {
+  //       this.studentWorks = response.payload;
+  //       this.createRatingCells();
+  //     })
+  //   );
+  // }
   updateStudentWorks() {
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
@@ -123,45 +125,45 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     );
   }
 
-  updateWorkPoints(studentWork: StudentWork, event: any) {
-    const editField = event.target.textContent;
-    studentWork.sumOfPoints = editField;
-    if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
-      const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
-      if (!hasWork) {
-        this.studentWorks.push(studentWork);
-      }
-    } else {
-      studentWork.sumOfPoints = 0;
-    }
-    this.createRatingCells();
-  }
+  // updateWorkPoints(studentWork: StudentWork, event: any) {
+  //   const editField = event.target.textContent;
+  //   studentWork.sumOfPoints = editField;
+  //   if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
+  //     const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
+  //     if (!hasWork) {
+  //       this.studentWorks.push(studentWork);
+  //     }
+  //   } else {
+  //     studentWork.sumOfPoints = 0;
+  //   }
+  //   this.createRatingCells();
+  // }
 
   changeValue(studentWork: StudentWork, event: any) {
     this.editField = event.target.textContent;
   }
 
-  createRatingCells() {
-    let row = [];
-    this.data = [];
-    this.students.forEach(student => {
-      let rowSum = 0;
-      this.works.forEach(work => {
-        const sp = this.studentWorks.find(x => x.workId === work.id && x.studentId === student.id);
-        if (sp) {
-          row.push(sp);
-          rowSum += +sp.sumOfPoints;
-        } else {
-          const studentWork = new StudentWork();
-          studentWork.workId = work.id;
-          studentWork.studentId = student.id;
-          row.push(studentWork);
-        }
-      });
-      this.data.push({ works: row, currentStudent: student, sumOfPoints: rowSum});
-      row = [];
-    });
-  }
+  // createRatingCells() {
+  //   let row = [];
+  //   this.data = [];
+  //   this.students.forEach(student => {
+  //     let rowSum = 0;
+  //     this.works.forEach(work => {
+  //       const sp = this.studentWorks.find(x => x.workId === work.id && x.studentId === student.id);
+  //       if (sp) {
+  //         row.push(sp);
+  //         rowSum += +sp.sumOfPoints;
+  //       } else {
+  //         const studentWork = new StudentWork();
+  //         studentWork.workId = work.id;
+  //         studentWork.studentId = student.id;
+  //         row.push(studentWork);
+  //       }
+  //     });
+  //     this.data.push({ works: row, currentStudent: student, sumOfPoints: rowSum});
+  //     row = [];
+  //   });
+  // }
 
   updateRating() {
     this.updateStudentWorks();
@@ -191,6 +193,33 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
             break;
         }
       });
+    });
+  }
+  updateData(studentWorks: StudentWork[]) {
+    studentWorks.forEach((item: StudentWork) => {
+      const sw = this.studentWorks.find(x => x.studentId === item.studentId && x.workId === item.workId);
+      if (sw) {
+        sw.sumOfPoints = item.sumOfPoints;
+      } else {
+        this.studentWorks.push(item);
+      }
+    });
+    this.updateSum();
+  }
+  updateSum() {
+    this.students.forEach(student => {
+      let studentTotals = 0;
+      this.studentWorks.forEach((item) => {
+        if (item.studentId === student.id) {
+          studentTotals += item.sumOfPoints;
+        }
+      });
+      const st = this.totals.find(x => x.studentId === student.id);
+      if (st) {
+        st.totals = studentTotals;
+      } else {
+        this.totals.push({studentId: student.id, totals: studentTotals});
+      }
     });
   }
 }

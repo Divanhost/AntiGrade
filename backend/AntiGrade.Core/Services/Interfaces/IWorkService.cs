@@ -9,10 +9,10 @@ namespace AntiGrade.Core.Services.Interfaces
 {
     public interface IWorkService
     {
-        Task<List<StudentCriteria>> GetStudentCriteria(List<int> studentIds);
-        Task<bool> UpdateStudentCriteria(List<StudentCriteria> studentCriteria);
+        Task<List<StudentCriteriaDto>> GetStudentCriteria(int workId);
+        Task<bool> UpdateStudentCriteria(List<StudentCriteriaDto> studentCriteria);
 
-        Task<List<StudentWork>> GetStudentWorks(int subjectId, List<int> workIds);
+        Task<List<StudentWork>> GetStudentWorks(int subjectId);
         Task<bool> UpdateStudentWorks(List<StudentWork> studentWorks);
     }
 }

@@ -18,18 +18,16 @@ export class WorkService {
   constructor(private http: HttpService) {
 
   }
-  getStudentCriterias(ids: number[]): Observable<ResponseModel<StudentCriteria[]>> {
-    const params = HttpService.toHttpParams(ids);
-    return this.http.getData(`student/criteria`, params);
+  getStudentCriterias(id: number): Observable<ResponseModel<StudentCriteria[]>> {
+    return this.http.getData(`work/criteria/${id}`);
   }
 
   updateStudentCriterias(data: StudentCriteria[]): Observable<ResponseModel<boolean>> {
-    return this.http.putData(`student/criteria`, data);
+    return this.http.putData(`work/criteria`, data);
   }
 
-  getStudentWorks(id: number, ids: number[]): Observable<ResponseModel<StudentWork[]>> {
-    const params = HttpService.toHttpParams({workIds: ids});
-    return this.http.getData(`work/studentworks/${id}?${params}`);
+  getStudentWorks(id: number): Observable<ResponseModel<StudentWork[]>> {
+    return this.http.getData(`work/studentworks/${id}`);
   }
 
   updateStudentWorks(data: StudentWork[]): Observable<ResponseModel<boolean>> {
