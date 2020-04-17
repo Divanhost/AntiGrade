@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
 import { Student } from 'src/app/shared/models/student.model';
 import { Criteria } from 'src/app/shared/models/criteria.model';
 import { BaseComponent } from 'src/app/shared/classes';
 import { StudentCriteria } from 'src/app/shared/models/student-criteria.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { WorkService } from 'src/app/core/services/work.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { StudentWork } from 'src/app/shared/models/student-work.model';
 
 @Component({
   selector: 'app-criterias',
@@ -15,16 +17,16 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
   @Input() workId: number;
   @Input() criterias: Criteria[] = [];
   @Input() students: Student[] = [];
+  @Output() changeData: EventEmitter<StudentWork[]> = new EventEmitter();
   studentCriterias: StudentCriteria[] = [];
+  studentWorks: StudentWork[] = [];
   data = [];
-  constructor(private readonly workService: WorkService) {
+  constructor(private readonly workService: WorkService,
+              public activeModal: NgbActiveModal) {
     super();
   }
 
   ngOnInit(): void {
-   console.log(this.workId);
-   console.log(this.criterias);
-   console.log(this.students);
    this.getStudentCriteria();
   }
   updateCriteriaPoints(studentCriteria: StudentCriteria, event: any) {
@@ -59,7 +61,6 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
         }
       });
       this.data.push({criterias: row, currentStudent: student, sumOfPoints: rowSum });
-      console.log(this.data);
       row = [];
     });
   }
@@ -74,7 +75,21 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
   }
   updateStudentCriteria() {
     this.subscriptions.push(
-      this.workService.updateStudentCriterias(this.studentCriterias).subscribe()
+      this.workService.updateStudentCriterias(this.studentCriterias).subscribe(() => {
+        this.data.forEach(element => {
+          const sw = new StudentWork();
+          sw.workId = this.workId;
+          sw.studentId = element.currentStudent.id;
+          sw.sumOfPoints = element.sumOfPoints;
+          this.studentWorks.push(sw);
+        });
+        this.passBack();
+        this.activeModal.close();
+      })
     );
+  }
+  passBack() {
+    this.changeData.emit(this.studentWorks);
+    //console.log(this.studentWorks);
   }
 }

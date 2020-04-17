@@ -7,6 +7,8 @@ import { WorkService } from 'src/app/core/services/work.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { StudentCriteria } from 'src/app/shared/models/student-criteria.model';
 import { CriteriasComponent } from '../criterias/criterias.component';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Criteria } from 'src/app/shared/models/criteria.model';
 
 @Component({
   selector: 'app-partial-table',
@@ -26,7 +28,8 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   data = [];
   selected = false;
-  constructor(private readonly workService: WorkService) {
+  constructor(private readonly workService: WorkService,
+              private readonly modalService: NgbModal) {
     super();
   }
 
@@ -53,6 +56,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       row = [];
     });
   }
+
   updateWorkPoints(studentWork: StudentWork, event: any) {
     const editField = event.target.textContent;
     const work = this.works.find(x => x.id === studentWork.workId);
@@ -74,19 +78,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     this.createRatingCells();
     this.changeData.emit(this.studentWorks);
   }
-  // getStudentCriteria() {
-  //   const studentIds = this.students.map(({ id }) => id);
-  //   this.subscriptions.push(
-  //     this.workService.getStudentCriterias(studentIds).subscribe((response: ResponseModel<StudentCriteria[]>) => {
-  //       this.studentCriteria = response.payload;
-  //     })
-  //   );
-  // }
-  // updateStudentCriteria() {
-  //   this.subscriptions.push(
-  //     this.workService.updateStudentCriterias(this.studentCriteria).subscribe()
-  //   );
-  // }
 
   getStudentWorks() {
     this.subscriptions.push(
@@ -105,9 +96,28 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   }
   selectWork(workId) {
     this.selectedWork = this.works.find(x => x.id === workId);
-    console.log(this.selectedWork);
-    this.selected = true;
-    this.criteriaComponent.createRatingCells();
+    this.open();
+  }
+  open() {
+    const modalRef = this.modalService.open(CriteriasComponent);
+    modalRef.componentInstance.workId = this.selectedWork.id;
+    modalRef.componentInstance.criterias = this.selectedWork.criterias;
+    modalRef.componentInstance.students = this.students;
+    modalRef.componentInstance.changeData.subscribe((receivedEntry: StudentWork[]) => {
+      this.updateData(receivedEntry);
+    });
+  }
+  updateData(studentWorks: StudentWork[]) {
+    studentWorks.forEach(element => {
+    const swList = this.data.find(x => x.currentStudent.id === element.studentId).studentWorks;
+    const sw  = swList.find(x => x.workId === element.workId);
+    sw.sumOfPoints = element.sumOfPoints;
+    const hasWork = this.studentWorks.find(x => x.workId === element.workId && x.studentId === element.studentId);
+    if (!hasWork) {
+      this.studentWorks.push(element);
+    }
+    });
+    this.changeData.emit(this.studentWorks);
   }
 
 }
