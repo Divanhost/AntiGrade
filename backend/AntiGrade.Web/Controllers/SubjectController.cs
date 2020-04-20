@@ -55,6 +55,13 @@ namespace AntiGrade.Controllers
             var result = await _service.GetEmployeeRoles(subjectId,employeeId);
             return ResponseModel(result);
         }
+
+        [HttpGet("total/{id:int}")]
+        public async Task<IActionResult> GetStudentTotals(int id,[FromQuery] List<int> studentIds)
+        {
+            var result = await _service.GetStudentSubjectTotals(id, studentIds);
+            return ResponseModel(result);
+        }
    
         [HttpGet("works/{id:int}")]
         public async Task<IActionResult> GetSubjectWorks(int id)
@@ -81,12 +88,18 @@ namespace AntiGrade.Controllers
             var result = await _service.GetSubjectsWithWorks();
             return ResponseModel(result);
         }
-        // [HttpPut("groups/{id:int}")]
-        // public async Task<IActionResult> UpdateSubjectGroups(int id,[FromBody] List<SubjectGroup> groups)
-        // {
-        //     var result = await _service.UpdateSubjectGroups(id, groups);
-        //     return ResponseModel(result);
-        // }
+        [HttpGet("exam/{id:int}")]
+        public async Task<IActionResult> GetExamResults(int id, [FromQuery] List<int> studentIds)
+        {
+            var result = await _service.GetExamResults(id, studentIds);
+            return ResponseModel(result);
+        }
+        [HttpPut("exam")]
+        public async Task<IActionResult> UpdateExamResults([FromBody] List<ExamResultDto> examResults)
+        {
+            var result = await _service.UpdateExamResults(examResults);
+            return ResponseModel(result);
+        }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> RemoveSubject(int id)
         {

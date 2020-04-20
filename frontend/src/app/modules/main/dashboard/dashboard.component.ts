@@ -13,7 +13,7 @@ import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  mode = 1;
+  mode = 2;
   subjects: MainSubjectView[];
   subjectGroups = [];
   constructor(

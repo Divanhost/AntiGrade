@@ -112,6 +112,14 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.TotalPoints, opt=>opt.MapFrom(src => src.Points));
             CreateMap<StudentCriteria,StudentCriteriaDto>()
                 .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.TotalPoints));
+             CreateMap<ExamResult,ExamResultDto>()
+                .ForMember(x=> x.Id, opt=>opt.Ignore())
+                .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))
+                .ForMember(x=> x.SubjectId, opt=>opt.MapFrom(src => src.SubjectId))
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.Points))
+                .ForMember(x=> x.SecondPassPoints, opt=>opt.MapFrom(src => src.SecondPassPoints))
+                .ForMember(x=> x.ThirdPassPoints, opt=>opt.MapFrom(src => src.ThirdPassPoints));
+             CreateMap<ExamResultDto,ExamResult>().ReverseMap();
         }
     }
 }

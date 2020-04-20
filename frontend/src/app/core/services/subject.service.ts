@@ -12,6 +12,8 @@ import { Student } from 'src/app/shared/models/student.model';
 import { Group } from 'src/app/shared/models/group.model';
 import { SubjectGroup } from 'src/app/shared/models/subject-group.model';
 import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
+import { Totals } from 'src/app/shared/models/totals.model';
+import { ExamResult } from 'src/app/shared/models/exam-result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,15 +45,7 @@ export class SubjectService {
   updateSubject(id: number, data: SubjectDto): Observable<ResponseModel<boolean>> {
     return this.http.putData(`subject/${id}`, data);
   }
-  addSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
-    return this.http.postData(`subject/plan`, data);
-  }
-  updateSubjectPlan(data: SubjectPlan): Observable<ResponseModel<boolean>> {
-    return this.http.putData(`subject/plan`, data);
-  }
-  // getSubjectPlan(id: number): Observable<ResponseModel<boolean>> {
-  //   return this.http.getData(`subject/plan/${id}`);
-  // }
+
   getSubjectWorks(id: number): Observable<ResponseModel<Work[]>> {
     return this.http.getData(`subject/works/${id}`);
   }
@@ -60,6 +54,17 @@ export class SubjectService {
   }
   updateSubjectGroups(id: number, data: SubjectGroup[]): Observable<ResponseModel<Group[]>> {
     return this.http.putData(`subject/groups/${id}`, data);
+  }
+  getSubjectTotals(id: number, ids: number[]): Observable<ResponseModel<Totals[]>> {
+    const params = HttpService.toHttpParams({studentIds: ids});
+    return this.http.getData(`subject/total/${id}?${params}`);
+  }
+  getExamResults(id: number, ids: number[]): Observable<ResponseModel<ExamResult[]>> {
+    const params = HttpService.toHttpParams({studentIds: ids});
+    return this.http.getData(`subject/exam/${id}?${params}`);
+  }
+  updateExamResults(data: ExamResult[]): Observable<ResponseModel<boolean>> {
+    return this.http.putData(`subject/exam`, data);
   }
   getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<string[]>> {
     return this.http.getData(`subject/roles?subjectId=${subjectId}&employeeId=${employeeId}`);

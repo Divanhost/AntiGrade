@@ -145,6 +145,8 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Select(x => x.Group)
                                     .SelectMany(y => y.Students)
                                     .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
+                                    .OrderBy(z=>z.LastName)
+                                    .ThenBy(z=>z.FirstName)
                                     .ToListAsync();
             return result;
         }
@@ -178,6 +180,50 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Select(y => y.Status)
                                     .ToListAsync();
             return roles;
+        }
+        public async Task<List<ExamResultDto>> GetExamResults(int subjectId, List<int> studentIds) {
+            var result = await _unitOfWork.GetRepository<ExamResult, int>()
+                                    .Filter(x => x.SubjectId == subjectId && studentIds.Contains(x.StudentId))
+                                    .ProjectTo<ExamResultDto>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return result;
+        }
+        public async Task<bool> UpdateExamResults(List<ExamResultDto> examResults) {
+            var examResultsForUpdate = examResults.Where(x => x.Id != 0).ToList();
+            var examResultsForCreate = examResults.Where(x => x.Id == 0).ToList();
+
+
+            var dbExamResultsCreate = _mapper.Map<List<ExamResult>>(examResultsForCreate);
+            var dbExamResultsUpdate = _mapper.Map<List<ExamResult>>(examResultsForUpdate);
+
+            _unitOfWork.GetRepository<ExamResult, int>().Create(dbExamResultsCreate);
+
+            _unitOfWork.GetRepository<ExamResult, int>().Update(dbExamResultsUpdate);
+
+           await _unitOfWork.Save();
+           return true;
+        }
+         public async Task<List<Total>> GetStudentSubjectTotals(int subjectId, List<int> studentIds) {
+            var workIds = await _unitOfWork.GetRepository<Subject, int>()
+                                    .Filter(x => !x.IsDeleted && x.Id == subjectId)
+                                    .SelectMany(x => x.Works)
+                                    .Select(y=>y.Id)
+                                    .ToListAsync();
+            var studentWorks = await _unitOfWork.GetRepository<StudentWork, int>()
+                                    .Filter(x=> studentIds.Contains(x.StudentId) && workIds.Contains(x.WorkId))
+                                    .ToListAsync();
+            var totals = new List<Total>();
+            foreach (var id in studentIds)
+            {
+                var studentTotal = studentWorks.Where(x=>x.StudentId == id).Sum(x=>x.SumOfPoints);
+                var total = new Total()
+                {
+                    StudentId = id,
+                    Totals = studentTotal
+                };
+                totals.Add(total);
+            }
+            return totals;
         }
     }
 }

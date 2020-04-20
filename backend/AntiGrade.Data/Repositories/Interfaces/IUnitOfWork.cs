@@ -63,6 +63,10 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
+        IRepository<ExamResult, int> ExamResultRepository
+        {
+            get;
+        }
         Task<int> Save();
     }
 }

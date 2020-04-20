@@ -5,6 +5,8 @@ import { StudentService } from 'src/app/core/services/student.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/shared/models/student.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
+import { Totals } from 'src/app/shared/models/totals.model';
+import { ExamResult } from 'src/app/shared/models/exam-result.model';
 @Component({
   selector: 'app-exam-table',
   templateUrl: './exam-table.component.html',
@@ -15,6 +17,9 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   mode = 1;
   students: Student[] = [];
   editField: string;
+  data = [];
+  totals: Totals[] = [];
+  examResults: ExamResult[] = [];
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
@@ -35,117 +40,74 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     // this.getWorks();
   }
 
-  // getWorks() {
-  //   this.subscriptions.push(
-  //     this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
-  //       this.works = response.payload;
-  //       console.log(this.works);
-  //       this.countWorks();
-  //       this.getStudents();
-  //     })
-  //   );
-  // }
-  // countWorks() {
-  //   this.works.forEach(element => {
-  //    switch (element.workTypeId) {
-  //      case 1:
-  //        this.lects += 1;
-  //        break;
-  //     case 2:
-  //         this.practs += 1;
-  //         break;
-  //     case 3:
-  //         this.labs += 1;
-  //         break;
-  //      default:
-  //        break;
-  //    }
-  //   });
-  // }
   getStudents() {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
-        console.log(this.students);
-        // this.getStudentWorks();
-        // this.getStudentCriteria();
+        this.getTotals();
       })
     );
   }
-
-  // getStudentCriteria() {
-  //   const studentIds = this.students.map(({ id }) => id);
-  //   this.subscriptions.push(
-  //     this.studentService.getStudentCriterias(studentIds).subscribe((response: ResponseModel<StudentCriteria[]>) => {
-  //       this.studentCriteria = response.payload;
-  //     })
-  //   );
-  // }
-  // updateStudentCriteria() {
-  //   this.subscriptions.push(
-  //     this.studentService.updateStudentCriterias(this.studentCriteria).subscribe()
-  //   );
-  // }
-
-  // getStudentWorks() {
-  //   const studentIds = this.students.map(({ id }) => id);
-  //   this.subscriptions.push(
-  //     this.studentService.getStudentWorks(studentIds).subscribe((response: ResponseModel<StudentWork[]>) => {
-  //       this.studentWorks = response.payload;
-  //       this.createRatingCells();
-  //     })
-  //   );
-  // }
-  // updateStudentWorks() {
-  //   this.subscriptions.push(
-  //     this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
-  //       this.router.navigate(['/subjects']);
-  //     })
-  //   );
-  // }
-
-  updateWorkPoints(studentWork, event: any) {
-    // const editField = event.target.textContent;
-    // studentWork.sumOfPoints = editField;
-    // if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
-    //   const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
-    //   if (!hasWork) {
-    //     this.studentWorks.push(studentWork);
-    //   }
-    // } else {
-    //   studentWork.sumOfPoints = 0;
-    // }
-    // this.createRatingCells();
+  updateWorkPoints(examResult: ExamResult, event: any) {
+    const editField = event.target.textContent;
+    examResult.points = +editField;
+    if ( examResult.points.toString() !== '' && examResult.points !== null) {
+      const hasWork = this.examResults.find(x => x.studentId === examResult.studentId);
+      if (!hasWork) {
+        this.examResults.push(examResult);
+      }
+    } else {
+      examResult.points = 0;
+    }
+    this.createRatingCells();
   }
 
   changeValue(studentWork, event: any) {
     this.editField = event.target.textContent;
   }
-
-  // createRatingCells() {
-  //   let row = [];
-  //   this.data = [];
-  //   this.students.forEach(student => {
-  //     let rowSum = 0;
-  //     this.works.forEach(work => {
-  //       const sp = this.studentWorks.find(x => x.workId === work.id && x.studentId === student.id);
-  //       if (sp) {
-  //         row.push(sp);
-  //         rowSum += +sp.sumOfPoints;
-  //       } else {
-  //         const studentWork = new StudentWork();
-  //         studentWork.workId = work.id;
-  //         studentWork.studentId = student.id;
-  //         row.push(studentWork);
-  //       }
-  //     });
-  //     this.data.push({ works: row, currentStudent: student, sumOfPoints: rowSum});
-  //     row = [];
-  //   });
-  // }
-
-  // updateRating() {
-  //   this.updateStudentWorks();
-  // }
-
-}
+  getTotals() {
+    const studentIds = this.students.map(({ id }) => id);
+    this.subscriptions.push(
+      this.subjectService.getSubjectTotals(this.subjectId, studentIds).subscribe((response: ResponseModel<Totals[]>) => {
+        this.totals = response.payload;
+        this.getExamResults();
+      })
+    );
+  }
+  createRatingCells() {
+    let row = [];
+    this.data = [];
+    this.students.forEach(student => {
+      let rowSum = 0;
+      const total = this.totals.find(x => x.studentId === student.id).totals;
+      let examRes = this.examResults.find(x => x.studentId === student.id);
+      rowSum += total;
+      if (!examRes) {
+        examRes = new ExamResult();
+        examRes.studentId = student.id;
+        examRes.subjectId = this.subjectId;
+      } else {
+        rowSum += +examRes.points;
+      }
+      this.data.push({ totals: total, currentStudent: student, examResult: examRes, sumOfPoints: rowSum});
+      row = [];
+    });
+  }
+  getExamResults() {
+    const studentIds = this.students.map(({ id }) => id);
+    this.subscriptions.push(
+      this.subjectService.getExamResults(this.subjectId, studentIds).subscribe((response: ResponseModel<ExamResult[]>) => {
+        this.examResults = response.payload;
+        console.log(this.examResults);
+        this.createRatingCells();
+      })
+    );
+  }
+  updateExamResults() {
+    console.log(this.examResults);
+    this.subscriptions.push(
+      this.subjectService.updateExamResults(this.examResults).subscribe((response: ResponseModel<boolean>) => {
+      })
+    );
+  }
+ }

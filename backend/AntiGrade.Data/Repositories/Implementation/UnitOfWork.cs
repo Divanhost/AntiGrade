@@ -174,6 +174,18 @@ namespace AntiGrade.Data.Repositories.Implementation
                 return _subjectEmployeeRepository;
             }
         }
+        public IRepository<ExamResult, int> ExamResultRepository 
+        {
+            get
+            {
+                if (_examResultRepository == null)
+                {
+                    _examResultRepository = new Repository<ExamResult, int>(_context);
+                }
+
+                return _examResultRepository;
+            }
+        }
         public async Task<int> Save()
         {
             var result = await _context.SaveChangesAsync();
@@ -216,6 +228,7 @@ namespace AntiGrade.Data.Repositories.Implementation
         private IRepository<ExamType, int> _examTypeRepository;
         private IRepository<StudentCriteria, int> _studentCriteriaRepository;
         private IRepository<SubjectEmployee, int> _subjectEmployeeRepository;
+        private IRepository<ExamResult, int> _examResultRepository;
         
 
 
