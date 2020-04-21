@@ -28,13 +28,19 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   data = [];
   selected = false;
+  mode = 2;
   constructor(private readonly workService: WorkService,
               private readonly modalService: NgbModal) {
     super();
   }
 
   ngOnInit(): void {
-    this.getStudentWorks();
+    if (this.mode === 1) {
+      this.getAdditionalStudentWorks();
+    } else {
+      this.getStudentWorks();
+
+    }
   }
 
   createRatingCells() {
@@ -88,7 +94,22 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       })
     );
   }
+
+  getAdditionalStudentWorks() {
+    this.subscriptions.push(
+      this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
+        this.studentWorks = response.payload;
+        this.changeData.emit(this.studentWorks);
+        this.createRatingCells();
+      })
+    );
+  }
   updateStudentWorks() {
+    if (this.mode === 1) {
+      this.studentWorks.forEach(element => {
+        element.isAdditional = true;
+      });
+    }
     this.subscriptions.push(
       this.workService.updateStudentWorks(this.studentWorks).subscribe(() => {
       })

@@ -210,7 +210,7 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Select(y=>y.Id)
                                     .ToListAsync();
             var studentWorks = await _unitOfWork.GetRepository<StudentWork, int>()
-                                    .Filter(x=> studentIds.Contains(x.StudentId) && workIds.Contains(x.WorkId))
+                                    .Filter(x=> studentIds.Contains(x.StudentId) && workIds.Contains(x.WorkId) && !x.IsAdditional)
                                     .ToListAsync();
             var totals = new List<Total>();
             foreach (var id in studentIds)

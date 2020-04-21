@@ -50,6 +50,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   }
   updateWorkPoints(examResult: ExamResult, event: any) {
     const editField = event.target.textContent;
+    if ( editField > 40 /*|| !this.regex.test(editField)*/) {
+      event.target.classList.add('off-limits');
+      return;
+    } else {
+      event.target.classList.remove('off-limits');
+    }
     examResult.points = +editField;
     if ( examResult.points.toString() !== '' && examResult.points !== null) {
       const hasWork = this.examResults.find(x => x.studentId === examResult.studentId);
@@ -109,5 +115,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       this.subjectService.updateExamResults(this.examResults).subscribe((response: ResponseModel<boolean>) => {
       })
     );
+  }
+  canEdit(totals: number) {
+    if (totals >= 38) {
+      return true;
+    } else {
+      return false;
+    }
   }
  }

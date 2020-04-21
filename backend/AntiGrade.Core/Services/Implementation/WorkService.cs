@@ -26,6 +26,18 @@ namespace AntiGrade.Core.Services.Implementation
                                             .Filter(x => x.Id == workId)
                                             .SelectMany(x => x.Criterias)
                                             .SelectMany(y=>y.StudentCriterias)
+                                            .Where(z=>z.IsAdditional)
+                                            .ProjectTo<StudentCriteriaDto>(_mapper.ConfigurationProvider)
+                                            .ToListAsync();
+            return result;
+        }
+         public async Task<List<StudentCriteriaDto>> GetAdditionalStudentCriteria(int workId)
+        {
+            var result = await _unitOfWork.GetRepository<Work, int>()
+                                            .Filter(x => x.Id == workId)
+                                            .SelectMany(x => x.Criterias)
+                                            .SelectMany(y=>y.StudentCriterias)
+                                            .Where(z=>z.IsAdditional)
                                             .ProjectTo<StudentCriteriaDto>(_mapper.ConfigurationProvider)
                                             .ToListAsync();
             return result;
@@ -51,16 +63,28 @@ namespace AntiGrade.Core.Services.Implementation
         }
 
 
-        public async Task<List<StudentWork>> GetStudentWorks(int subjectId)
+        public async Task<List<StudentWorkDto>> GetStudentWorks(int subjectId)
         {
             var result = await _unitOfWork.GetRepository<Subject, int>()
                                             .Filter(x => x.Id == subjectId)
                                             .SelectMany(x=>x.Works)
                                             .SelectMany(y => y.StudentWorks)
+                                            .Where(z=>!z.IsAdditional)
+                                            .ProjectTo<StudentWorkDto>(_mapper.ConfigurationProvider)
                                             .ToListAsync();
             return result;
         }
-
+        public async Task<List<StudentWorkDto>> GetAdditionalStudentWorks(int subjectId)
+        {
+            var result = await _unitOfWork.GetRepository<Subject, int>()
+                                            .Filter(x => x.Id == subjectId)
+                                            .SelectMany(x=>x.Works)
+                                            .SelectMany(y => y.StudentWorks)
+                                            .Where(z=>z.IsAdditional)
+                                            .ProjectTo<StudentWorkDto>(_mapper.ConfigurationProvider)
+                                            .ToListAsync();
+            return result;
+        }
         public async Task<bool> UpdateStudentWorks(List<StudentWork> studentWorks)
         {
               var worksForDelete = studentWorks.Where(x => x.Touched && x.SumOfPoints == 0).ToList();

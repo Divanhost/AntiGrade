@@ -16,6 +16,7 @@
             <div class="card-body">
                 <div class="buttons">
                     <div  class="btn btn-warning" [routerLink]="['rating',subject.id]">Оценки</div>
+                    <div class="btn btn-primary" [routerLink]="[ '/subjects/exam', subject.id ]">Экзамен</div>
                     <div class="btn btn-info" [routerLink]="['edit',subject.id]"> Изменить</div>
                 </div>
             </div>

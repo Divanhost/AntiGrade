@@ -39,7 +39,7 @@ namespace AntiGrade.Data.Context
             );
 
             builder.Entity<StudentCriteria>()
-                .HasKey(sw => new { sw.StudentId, sw.CriteriaId });
+                .HasKey(sw => new { sw.StudentId, sw.CriteriaId, sw.IsAdditional });
             builder.Entity<StudentCriteria>()
                 .HasOne(sw => sw.Student)
                 .WithMany(s => s.StudentCriterias)
@@ -50,7 +50,7 @@ namespace AntiGrade.Data.Context
                 .HasForeignKey(sw => sw.CriteriaId);
 
             builder.Entity<StudentWork>()
-                .HasKey(sw => new { sw.StudentId, sw.WorkId });
+                .HasKey(sw => new { sw.StudentId, sw.WorkId, sw.IsAdditional });
             builder.Entity<StudentWork>()
                 .HasOne(sw => sw.Student)
                 .WithMany(s => s.StudentWorks)

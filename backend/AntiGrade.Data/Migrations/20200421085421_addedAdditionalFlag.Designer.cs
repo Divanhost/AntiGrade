@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200421085421_addedAdditionalFlag")]
+    partial class addedAdditionalFlag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,35 +174,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "4fa223c5-8c83-43d8-a0cf-99312e6c4f62",
+                            ConcurrencyStamp = "dde0dda4-73b9-4d57-a1e3-25ffa9fd354c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "d435c78c-9a31-4c3c-a1c7-5155295ff329",
+                            ConcurrencyStamp = "d7bf33bc-da20-4081-87ec-a227036f2c21",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "63ebf576-a18d-413b-b5c8-5e702f5b4535",
+                            ConcurrencyStamp = "e89d3b7f-d4a0-47f2-b947-d27a1e06d0a4",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "970ed43b-b3f4-4aba-add6-c0efddbe451f",
+                            ConcurrencyStamp = "89087ab9-7cfa-4712-b1ee-23489f312230",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "03a8fb79-b99c-4f75-8270-bfda6f031e6d",
+                            ConcurrencyStamp = "13738d50-7a8e-4bb3-aa4d-79bde03e00d7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -311,16 +313,16 @@ namespace AntiGrade.Data.Migrations
 
                     b.Property<int>("CriteriaId");
 
-                    b.Property<bool>("IsAdditional");
-
                     b.Property<int>("Id");
+
+                    b.Property<bool>("IsAdditional");
 
                     b.Property<decimal>("TotalPoints")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<bool>("Touched");
 
-                    b.HasKey("StudentId", "CriteriaId", "IsAdditional");
+                    b.HasKey("StudentId", "CriteriaId");
 
                     b.HasIndex("CriteriaId");
 
@@ -333,16 +335,16 @@ namespace AntiGrade.Data.Migrations
 
                     b.Property<int>("WorkId");
 
-                    b.Property<bool>("IsAdditional");
-
                     b.Property<int>("Id");
+
+                    b.Property<bool>("IsAdditional");
 
                     b.Property<decimal>("SumOfPoints")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<bool>("Touched");
 
-                    b.HasKey("StudentId", "WorkId", "IsAdditional");
+                    b.HasKey("StudentId", "WorkId");
 
                     b.HasIndex("WorkId");
 

@@ -109,9 +109,21 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))
                 .ForMember(x=> x.CriteriaId, opt=>opt.MapFrom(src => src.CriteriaId))
                 .ForMember(x=> x.Touched, opt=>opt.MapFrom(src => src.Touched))
+                .ForMember(x=> x.IsAdditional, opt=>opt.MapFrom(src => src.IsAdditional))
                 .ForMember(x=> x.TotalPoints, opt=>opt.MapFrom(src => src.Points));
+            CreateMap<StudentWorkDto,StudentWork>()
+                .ForMember(x=> x.Id, opt=>opt.Ignore())
+                .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))
+                .ForMember(x=> x.WorkId, opt=>opt.MapFrom(src => src.WorkId))
+                .ForMember(x=> x.Touched, opt=>opt.MapFrom(src => src.Touched))
+                .ForMember(x=> x.IsAdditional, opt=>opt.MapFrom(src => src.IsAdditional))
+                .ForMember(x=> x.SumOfPoints, opt=>opt.MapFrom(src => src.SumOfPoints));
             CreateMap<StudentCriteria,StudentCriteriaDto>()
-                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.TotalPoints));
+                .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.TotalPoints))
+                .ForMember(x=> x.IsAdditional, opt=>opt.MapFrom(src => src.IsAdditional));
+            CreateMap<StudentWork,StudentWorkDto>()
+                .ForMember(x=> x.SumOfPoints, opt=>opt.MapFrom(src => src.SumOfPoints))
+                .ForMember(x=> x.IsAdditional, opt=>opt.MapFrom(src => src.IsAdditional));
              CreateMap<ExamResult,ExamResultDto>()
                 .ForMember(x=> x.Id, opt=>opt.Ignore())
                 .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))

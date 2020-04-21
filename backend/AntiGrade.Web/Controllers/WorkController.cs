@@ -23,6 +23,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetStudentCriteria(id);
             return ResponseModel(result);
         }
+         [HttpGet("criteria/additional/{id:int}")]
+        public async Task<IActionResult> GetAdditionalStudentCriteria(int id)
+        {
+            var result = await _service.GetAdditionalStudentCriteria(id);
+            return ResponseModel(result);
+        }
         [HttpPut("criteria")]
         public async Task<IActionResult> UpdateStudentCriteria([FromBody] List<StudentCriteriaDto> studentCriteria)
         {
@@ -34,6 +40,12 @@ namespace AntiGrade.Controllers
         public async Task<IActionResult> GetStudentWorks(int id)
         {
             var result = await _service.GetStudentWorks(id);
+            return ResponseModel(result);
+        }
+        [HttpGet("studentworks/additional/{id:int}")]
+        public async Task<IActionResult> GetAdditionalStudentWorks(int id)
+        {
+            var result = await _service.GetAdditionalStudentWorks(id);
             return ResponseModel(result);
         }
 

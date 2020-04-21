@@ -8,6 +8,7 @@ namespace AntiGrade.Shared.Models
         public int Id {get;set;}
         public int StudentId {get;set;}
         public int WorkId {get;set;}
+        public bool IsAdditional {get;set;}
         public virtual Student Student {get;set;}
         public virtual Work Work {get;set;}
         [Column(TypeName = "decimal(18,5)")]

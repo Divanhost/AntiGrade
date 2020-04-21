@@ -21,7 +21,9 @@ export class WorkService {
   getStudentCriterias(id: number): Observable<ResponseModel<StudentCriteria[]>> {
     return this.http.getData(`work/criteria/${id}`);
   }
-
+  getAdditionalStudentCriterias(id: number): Observable<ResponseModel<StudentCriteria[]>> {
+    return this.http.getData(`work/criteria/additional/${id}`);
+  }
   updateStudentCriterias(data: StudentCriteria[]): Observable<ResponseModel<boolean>> {
     return this.http.putData(`work/criteria`, data);
   }
@@ -29,7 +31,9 @@ export class WorkService {
   getStudentWorks(id: number): Observable<ResponseModel<StudentWork[]>> {
     return this.http.getData(`work/studentworks/${id}`);
   }
-
+  getAdditionalStudentWorks(id: number): Observable<ResponseModel<StudentWork[]>> {
+    return this.http.getData(`work/studentworks/additional/${id}`);
+  }
   updateStudentWorks(data: StudentWork[]): Observable<ResponseModel<boolean>> {
     return this.http.putData(`work/studentworks`, data);
   }

@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200421095252_addedAdditionalFlagKey")]
+    partial class addedAdditionalFlagKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,35 +174,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "4fa223c5-8c83-43d8-a0cf-99312e6c4f62",
+                            ConcurrencyStamp = "7e45f419-1569-4c0c-9071-4e4dfc44042f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "d435c78c-9a31-4c3c-a1c7-5155295ff329",
+                            ConcurrencyStamp = "eec3696e-fe9b-40f8-a019-f33d6d299d02",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "63ebf576-a18d-413b-b5c8-5e702f5b4535",
+                            ConcurrencyStamp = "a6127079-d26b-4fcf-aa67-b2c6e0c60258",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "970ed43b-b3f4-4aba-add6-c0efddbe451f",
+                            ConcurrencyStamp = "cdc59cea-dd2f-4a20-b55f-76a1f1e5fd69",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "03a8fb79-b99c-4f75-8270-bfda6f031e6d",
+                            ConcurrencyStamp = "7b78fe58-cd20-44d8-b6ba-46afb7b8363b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -311,18 +313,18 @@ namespace AntiGrade.Data.Migrations
 
                     b.Property<int>("CriteriaId");
 
-                    b.Property<bool>("IsAdditional");
-
                     b.Property<int>("Id");
+
+                    b.Property<bool>("IsAdditional");
 
                     b.Property<decimal>("TotalPoints")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<bool>("Touched");
 
-                    b.HasKey("StudentId", "CriteriaId", "IsAdditional");
+                    b.HasKey("StudentId", "CriteriaId");
 
-                    b.HasIndex("CriteriaId");
+                    b.HasAlternateKey("CriteriaId", "IsAdditional", "StudentId");
 
                     b.ToTable("StudentCriterias");
                 });
@@ -333,16 +335,18 @@ namespace AntiGrade.Data.Migrations
 
                     b.Property<int>("WorkId");
 
-                    b.Property<bool>("IsAdditional");
-
                     b.Property<int>("Id");
+
+                    b.Property<bool>("IsAdditional");
 
                     b.Property<decimal>("SumOfPoints")
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<bool>("Touched");
 
-                    b.HasKey("StudentId", "WorkId", "IsAdditional");
+                    b.HasKey("StudentId", "WorkId");
+
+                    b.HasAlternateKey("IsAdditional", "StudentId", "WorkId");
 
                     b.HasIndex("WorkId");
 

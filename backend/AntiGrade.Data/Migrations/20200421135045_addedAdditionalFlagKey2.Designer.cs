@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200421135045_addedAdditionalFlagKey2")]
+    partial class addedAdditionalFlagKey2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,35 +174,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "4fa223c5-8c83-43d8-a0cf-99312e6c4f62",
+                            ConcurrencyStamp = "24750040-7cdc-4a60-b345-602e9ee24876",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "d435c78c-9a31-4c3c-a1c7-5155295ff329",
+                            ConcurrencyStamp = "bfb4a82d-af53-4e51-a69b-c2f1d033549f",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "63ebf576-a18d-413b-b5c8-5e702f5b4535",
+                            ConcurrencyStamp = "53800d1f-8c9e-4abd-9ffe-54ed9083c9d1",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "970ed43b-b3f4-4aba-add6-c0efddbe451f",
+                            ConcurrencyStamp = "c11b1e34-cb24-417d-beca-1d1a48b77a60",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "03a8fb79-b99c-4f75-8270-bfda6f031e6d",
+                            ConcurrencyStamp = "a5ba40c3-28dd-4989-91c5-5879e18d960b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -303,50 +305,6 @@ namespace AntiGrade.Data.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("AntiGrade.Shared.Models.StudentCriteria", b =>
-                {
-                    b.Property<int>("StudentId");
-
-                    b.Property<int>("CriteriaId");
-
-                    b.Property<bool>("IsAdditional");
-
-                    b.Property<int>("Id");
-
-                    b.Property<decimal>("TotalPoints")
-                        .HasColumnType("decimal(18,5)");
-
-                    b.Property<bool>("Touched");
-
-                    b.HasKey("StudentId", "CriteriaId", "IsAdditional");
-
-                    b.HasIndex("CriteriaId");
-
-                    b.ToTable("StudentCriterias");
-                });
-
-            modelBuilder.Entity("AntiGrade.Shared.Models.StudentWork", b =>
-                {
-                    b.Property<int>("StudentId");
-
-                    b.Property<int>("WorkId");
-
-                    b.Property<bool>("IsAdditional");
-
-                    b.Property<int>("Id");
-
-                    b.Property<decimal>("SumOfPoints")
-                        .HasColumnType("decimal(18,5)");
-
-                    b.Property<bool>("Touched");
-
-                    b.HasKey("StudentId", "WorkId", "IsAdditional");
-
-                    b.HasIndex("WorkId");
-
-                    b.ToTable("StudentWorks");
                 });
 
             modelBuilder.Entity("AntiGrade.Shared.Models.Subject", b =>
@@ -572,32 +530,6 @@ namespace AntiGrade.Data.Migrations
                     b.HasOne("AntiGrade.Shared.Models.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AntiGrade.Shared.Models.StudentCriteria", b =>
-                {
-                    b.HasOne("AntiGrade.Shared.Models.Criteria", "Criteria")
-                        .WithMany("StudentCriterias")
-                        .HasForeignKey("CriteriaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AntiGrade.Shared.Models.Student", "Student")
-                        .WithMany("StudentCriterias")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AntiGrade.Shared.Models.StudentWork", b =>
-                {
-                    b.HasOne("AntiGrade.Shared.Models.Student", "Student")
-                        .WithMany("StudentWorks")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AntiGrade.Shared.Models.Work", "Work")
-                        .WithMany("StudentWorks")
-                        .HasForeignKey("WorkId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

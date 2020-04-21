@@ -1,4 +1,4 @@
-<div class="container-fluid mt-2 table-editable">
+<div class="container-fluid mt-2 table-editable" >
     <table class="table table-bordered table-responsive-md table-striped text-center">
       <thead>
         <tr>
@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let row of data">
+          <tr *ngFor="let row of data"  [ngClass]="{'disabled': !canEdit(row.totals)}">
             <td>
               {{row.currentStudent.lastName}} {{row.currentStudent.firstName}}
             </td>
@@ -46,10 +46,17 @@
             </td>
             <td>
             </td>
-            <td (keydown.enter)="$event.target.blur();"
-              (blur)="updateWorkPoints(row.examResult, $event)" contenteditable="true">
-              {{row.examResult.points}}
-            </td>
+            <ng-container *ngIf="canEdit(row.totals); else elseTemplate">
+              <td (keydown.enter)="$event.target.blur();"
+                (blur)="updateWorkPoints(row.examResult, $event)" contenteditable="true">
+                {{row.examResult.points}}
+              </td>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <td>
+                {{row.examResult.points}}
+              </td>
+            </ng-template>
             <td class="check">
                 <mat-checkbox class="example-margin">
                     <label></label>

@@ -115,7 +115,7 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<List<StudentWork>> GetStudentWorks(List<int> studentIds)
         {
             var result = await _unitOfWork.GetRepository<StudentWork, int>()
-                                            .Filter(x => studentIds.Contains(x.StudentId))
+                                            .Filter(x => studentIds.Contains(x.StudentId) && !x.IsAdditional)
                                             .ToListAsync();
             return result;
         }
