@@ -21,6 +21,7 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<List<SubjectView>> GetSubjectsWithWorks();
         Task<List<string>> GetEmployeeRoles(int subjectId, int employeeId);
         Task<List<Total>> GetStudentSubjectTotals(int subjectId, List<int> studentIds);
+        Task<List<Total>> GetStudentAdditionalTotals(int subjectId, List<int> studentIds);
         Task<List<ExamResultDto>> GetExamResults(int subjectId, List<int> studentIds);
         Task<bool> UpdateExamResults(List<ExamResultDto> examResults);
     }

@@ -28,7 +28,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   data = [];
   selected = false;
-  mode = 2;
+  mode = 1;
   constructor(private readonly workService: WorkService,
               private readonly modalService: NgbModal) {
     super();
@@ -55,6 +55,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
           const studentWork = new StudentWork();
           studentWork.workId = work.id;
           studentWork.studentId = student.id;
+          studentWork.isAdditional = this.mode === 1;
           row.push(studentWork);
         }
       });

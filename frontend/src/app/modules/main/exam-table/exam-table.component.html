@@ -45,6 +45,7 @@
               {{row.totals}}
             </td>
             <td>
+              {{row.additional}}
             </td>
             <ng-container *ngIf="canEdit(row.totals); else elseTemplate">
               <td (keydown.enter)="$event.target.blur();"

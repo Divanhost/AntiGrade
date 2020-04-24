@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200424091139_addedMode")]
+    partial class addedMode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,35 +174,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "bb2a63e3-8d74-45ed-833c-31755e735b0d",
+                            ConcurrencyStamp = "c0334d28-4658-4bc5-98b5-4bc6a092d159",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "14937044-f2b1-472b-a33b-fcbb747f979c",
+                            ConcurrencyStamp = "1ccaadc3-54e7-4ec2-a23c-6bbd755c816e",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "72519b90-aee1-44b7-933b-b3fac4ba0a53",
+                            ConcurrencyStamp = "b97fd576-1730-4e7f-9c05-e71bc1522266",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "b9cc0d06-2ec3-4cdc-ad90-aeabeac9de5d",
+                            ConcurrencyStamp = "1034fbdc-2460-4736-ac04-4ad0775468d2",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "db015fc7-13e5-441d-bb9d-1eca452caec0",
+                            ConcurrencyStamp = "4269a53b-6eef-4bdf-b982-57f201401659",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -286,8 +288,6 @@ namespace AntiGrade.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("UpdatedAt");
 
                     b.Property<int>("WorkMode");
 

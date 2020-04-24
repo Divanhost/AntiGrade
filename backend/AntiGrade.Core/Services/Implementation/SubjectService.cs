@@ -204,13 +204,22 @@ namespace AntiGrade.Core.Services.Implementation
            return true;
         }
          public async Task<List<Total>> GetStudentSubjectTotals(int subjectId, List<int> studentIds) {
+            var totals = await GetTotals(subjectId, studentIds, false);
+            return totals;
+        }
+
+        public async Task<List<Total>> GetStudentAdditionalTotals(int subjectId, List<int> studentIds) {
+            var totals = await GetTotals(subjectId, studentIds, true);
+            return totals;
+        }
+        private async Task<List<Total>> GetTotals(int subjectId, List<int> studentIds, bool isAdditional) {
             var workIds = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => !x.IsDeleted && x.Id == subjectId)
                                     .SelectMany(x => x.Works)
                                     .Select(y=>y.Id)
                                     .ToListAsync();
             var studentWorks = await _unitOfWork.GetRepository<StudentWork, int>()
-                                    .Filter(x=> studentIds.Contains(x.StudentId) && workIds.Contains(x.WorkId) && !x.IsAdditional)
+                                    .Filter(x=> studentIds.Contains(x.StudentId) && workIds.Contains(x.WorkId) && x.IsAdditional == isAdditional)
                                     .ToListAsync();
             var totals = new List<Total>();
             foreach (var id in studentIds)

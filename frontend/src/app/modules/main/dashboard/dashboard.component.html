@@ -1,5 +1,5 @@
 <div class="d-flex">
-    <div class="page-container mt-3 col-6" *ngIf="mode === 1">
+    <div class="page-container mt-3 col-6" *ngIf="mode.id === 1">
         <h1>Текущий учет</h1>
         <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
             <h3 class="mb-3">{{item.subject.name}}</h3>
@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="page-container mt-3 col-6" *ngIf="mode === 2">
+    <div class="page-container mt-3 col-6" *ngIf="mode.id === 2">
         <h1>Сессия</h1>
         <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
             <ng-container *ngIf="item.subject.examType.id === 1">
@@ -31,7 +31,7 @@
             </ng-container>
         </div>
     </div>
-    <div class="page-container mt-3 col-6" *ngIf="mode === 3">
+    <div class="page-container mt-3 col-6" *ngIf="mode.id === 3">
         <h1>Добор и пересдача</h1>
         <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
             <h3 class="mb-3">{{item.subject.name}}</h3>
@@ -48,6 +48,13 @@
         </div>
     </div>
     <div class="col-5 page-container mt-3">
-        <h1>Быстрое редактирование</h1>
+        <h1>Режим работы</h1>
+        <ng-select [(ngModel)]="mode">
+            <ng-option *ngFor="let workMode of modes" [value] = "workMode">
+                {{ workMode.name }}
+            </ng-option>
+        </ng-select>
+        <div class="btn btn-info" (click)="updateCurrentMode()">Обновить режим работы</div>
     </div>
+
 </div>

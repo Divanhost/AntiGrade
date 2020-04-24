@@ -26,6 +26,7 @@ namespace AntiGrade.Data.Context
         public DbSet<StudentWork> StudentWorks { get; set; }
         public DbSet<SubjectEmployee> SubjectEmployees { get; set; }
         public DbSet<ExamResult> ExamResult { get; set; }
+        public DbSet<Mode> Mode { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

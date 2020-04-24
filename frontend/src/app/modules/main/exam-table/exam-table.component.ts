@@ -19,6 +19,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   editField: string;
   data = [];
   totals: Totals[] = [];
+  additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
   constructor(
     private readonly subjectService: SubjectService,
@@ -76,6 +77,15 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectTotals(this.subjectId, studentIds).subscribe((response: ResponseModel<Totals[]>) => {
         this.totals = response.payload;
+        this.getAdditionals();
+      })
+    );
+  }
+  getAdditionals() {
+    const studentIds = this.students.map(({ id }) => id);
+    this.subscriptions.push(
+      this.subjectService.getSubjectAdditionalTotals(this.subjectId, studentIds).subscribe((response: ResponseModel<Totals[]>) => {
+        this.additionalTotals = response.payload;
         this.getExamResults();
       })
     );
@@ -86,8 +96,10 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.students.forEach(student => {
       let rowSum = 0;
       const total = this.totals.find(x => x.studentId === student.id).totals;
+      const atotal = this.additionalTotals.find(x => x.studentId === student.id).totals;
       let examRes = this.examResults.find(x => x.studentId === student.id);
       rowSum += total;
+      rowSum += atotal;
       if (!examRes) {
         examRes = new ExamResult();
         examRes.studentId = student.id;
@@ -95,7 +107,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       } else {
         rowSum += +examRes.points;
       }
-      this.data.push({ totals: total, currentStudent: student, examResult: examRes, sumOfPoints: rowSum});
+      this.data.push({ totals: total, additional: atotal, currentStudent: student, examResult: examRes, sumOfPoints: rowSum});
       row = [];
     });
   }

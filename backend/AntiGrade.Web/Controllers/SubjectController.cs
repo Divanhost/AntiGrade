@@ -62,6 +62,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetStudentSubjectTotals(id, studentIds);
             return ResponseModel(result);
         }
+        [HttpGet("total/additional/{id:int}")]
+        public async Task<IActionResult> GetStudentAdditionalTotals(int id,[FromQuery] List<int> studentIds)
+        {
+            var result = await _service.GetStudentAdditionalTotals(id, studentIds);
+            return ResponseModel(result);
+        }
    
         [HttpGet("works/{id:int}")]
         public async Task<IActionResult> GetSubjectWorks(int id)

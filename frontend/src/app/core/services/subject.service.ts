@@ -59,6 +59,10 @@ export class SubjectService {
     const params = HttpService.toHttpParams({studentIds: ids});
     return this.http.getData(`subject/total/${id}?${params}`);
   }
+  getSubjectAdditionalTotals(id: number, ids: number[]): Observable<ResponseModel<Totals[]>> {
+    const params = HttpService.toHttpParams({studentIds: ids});
+    return this.http.getData(`subject/total/${id}?${params}`);
+  }
   getExamResults(id: number, ids: number[]): Observable<ResponseModel<ExamResult[]>> {
     const params = HttpService.toHttpParams({studentIds: ids});
     return this.http.getData(`subject/exam/${id}?${params}`);

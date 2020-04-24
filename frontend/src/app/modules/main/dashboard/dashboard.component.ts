@@ -5,6 +5,9 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 import { GroupService } from 'src/app/core/services/group.service';
 import { Group } from 'src/app/shared/models/group.model';
 import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
+import { Mode } from 'src/app/shared/models/mode.model';
+import { BaseComponent } from 'src/app/shared/classes';
+import { GeneralService } from 'src/app/core/services/general.service';
 
 
 @Component({
@@ -12,17 +15,22 @@ import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
-  mode = 2;
+export class DashboardComponent extends BaseComponent implements OnInit {
+  mode: Mode = new Mode();
+  modes = [{id: 1 , name: 'Текущий учет'}, {id: 2, name: 'Экзамен'}, {id: 3, name: 'Пересдача'}];
   subjects: MainSubjectView[];
   subjectGroups = [];
   constructor(
     private readonly subjectService: SubjectService,
-    private readonly groupService: GroupService
-  ) { }
+    private readonly groupService: GroupService,
+    private readonly generalService: GeneralService
+  ) {
+    super();
+   }
 
   ngOnInit(): void {
     this.getSubjects();
+    this.getCurrentMode();
   }
   getSubjects() {
     this.subjectService.getDistinctSubjects().subscribe((response: ResponseModel<MainSubjectView[]>) => {
@@ -38,5 +46,19 @@ export class DashboardComponent implements OnInit {
         this.subjectGroups.sort((a, b) => a.subject.name.localeCompare(b.subject.name));
       });
     });
+  }
+  getCurrentMode() {
+    this.subscriptions.push(
+      this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
+        this.mode = this.modes.find(x => x.id === response.payload);
+      })
+    );
+  }
+
+  updateCurrentMode() {
+    this.subscriptions.push(
+      this.generalService.updateCurrentMode(this.mode.id).subscribe((response: ResponseModel<boolean>) => {
+      })
+    );
   }
 }

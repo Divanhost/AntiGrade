@@ -7,12 +7,16 @@
     </tr>
     <tr>
       <th *ngFor="let work of works">
-        {{work.name}} 
-        <div>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click) = "selectWork(work.id)"
-          *ngIf="work.criterias.length">
-            modal
-          </button>
+        <div class="d-flex">
+          <div>
+            {{work.name}} 
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click) = "selectWork(work.id)"
+            *ngIf="work.criterias.length">
+              modal
+            </button>
+          </div>
         </div>
         <small>Max: {{work.points}}</small>
       </th>
