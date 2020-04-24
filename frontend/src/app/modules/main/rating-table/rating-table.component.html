@@ -25,11 +25,11 @@
     </div>
     <div class="cell">
       <div class="d-flex">
-        <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects" (changeData) = updateData($event)>
+        <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects" [mode] = "mode" (changeData) = updateData($event)>
         </app-partial-table>
-        <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts" (changeData) = updateData($event)>
+        <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts" [mode] = "mode" (changeData) = updateData($event)>
         </app-partial-table>
-        <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs" (changeData) = updateData($event)>
+        <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs" [mode] = "mode" (changeData) = updateData($event)>
         </app-partial-table>
       </div>
     </div>

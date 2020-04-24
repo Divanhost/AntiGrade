@@ -9,6 +9,7 @@ import { StudentCriteria } from 'src/app/shared/models/student-criteria.model';
 import { CriteriasComponent } from '../criterias/criterias.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Criteria } from 'src/app/shared/models/criteria.model';
+import { Mode } from 'src/app/shared/models/mode.model';
 
 @Component({
   selector: 'app-partial-table',
@@ -21,6 +22,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @Input() works: Work[] = [];
   @Input() students: Student[] = [];
   @Input() disabled = false;
+  @Input() mode: Mode;
   @Output() changeData = new EventEmitter<StudentWork[]>();
   @ViewChild(CriteriasComponent) criteriaComponent: CriteriasComponent;
   selectedWork: Work = new Work();
@@ -28,18 +30,16 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   data = [];
   selected = false;
-  mode = 1;
   constructor(private readonly workService: WorkService,
               private readonly modalService: NgbModal) {
     super();
   }
 
   ngOnInit(): void {
-    if (this.mode === 1) {
+    if (this.mode.id === 3) {
       this.getAdditionalStudentWorks();
     } else {
       this.getStudentWorks();
-
     }
   }
 
@@ -55,7 +55,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
           const studentWork = new StudentWork();
           studentWork.workId = work.id;
           studentWork.studentId = student.id;
-          studentWork.isAdditional = this.mode === 1;
           row.push(studentWork);
         }
       });
@@ -106,7 +105,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     );
   }
   updateStudentWorks() {
-    if (this.mode === 1) {
+    if (this.mode.id === 3) {
       this.studentWorks.forEach(element => {
         element.isAdditional = true;
       });

@@ -12,12 +12,15 @@ import { StudentWork } from 'src/app/shared/models/student-work.model';
 import { RoleService } from 'src/app/core/services/role.service';
 import { WorkService } from 'src/app/core/services/work.service';
 import { Status } from 'src/app/shared/enums/status.enum';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { Mode } from 'src/app/shared/models/mode.model';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
   styleUrls: ['./rating-table.component.scss']
 })
 export class RatingTableComponent extends BaseComponent implements OnInit {
+  modes = [{id: 1 , name: 'Текущий учет'}, {id: 2, name: 'Экзамен'}, {id: 3, name: 'Пересдача'}];
   lects: Work[] = [];
   disableLects = true;
   practs: Work[] = [];
@@ -26,6 +29,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   disableLabs = true;
   subject: SubjectDto;
   works: Work[];
+  mode: Mode = new Mode();
   students: Student[];
   subjectId: number;
   studentCriteria: StudentCriteria[] = [];
@@ -39,6 +43,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     private readonly studentService: StudentService,
     private readonly workService: WorkService,
     private readonly roleService: RoleService,
+    private readonly generalService: GeneralService,
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
@@ -87,36 +92,11 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
-        this.loaded = true;
-        // this.getStudentWorks();
-        // this.getStudentCriteria();
+        this.getCurrentMode();
       })
     );
   }
 
-  // getStudentCriteria() {
-  //   const studentIds = this.students.map(({ id }) => id);
-  //   this.subscriptions.push(
-  //     this.studentService.getStudentCriterias(studentIds).subscribe((response: ResponseModel<StudentCriteria[]>) => {
-  //       this.studentCriteria = response.payload;
-  //     })
-  //   );
-  // }
-  // updateStudentCriteria() {
-  //   this.subscriptions.push(
-  //     this.studentService.updateStudentCriterias(this.studentCriteria).subscribe()
-  //   );
-  // }
-
-  // getStudentWorks() {
-  //   const studentIds = this.students.map(({ id }) => id);
-  //   this.subscriptions.push(
-  //     this.studentService.getStudentWorks(studentIds).subscribe((response: ResponseModel<StudentWork[]>) => {
-  //       this.studentWorks = response.payload;
-  //       this.createRatingCells();
-  //     })
-  //   );
-  // }
   updateStudentWorks() {
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
@@ -125,45 +105,9 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     );
   }
 
-  // updateWorkPoints(studentWork: StudentWork, event: any) {
-  //   const editField = event.target.textContent;
-  //   studentWork.sumOfPoints = editField;
-  //   if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
-  //     const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
-  //     if (!hasWork) {
-  //       this.studentWorks.push(studentWork);
-  //     }
-  //   } else {
-  //     studentWork.sumOfPoints = 0;
-  //   }
-  //   this.createRatingCells();
-  // }
-
   changeValue(studentWork: StudentWork, event: any) {
     this.editField = event.target.textContent;
   }
-
-  // createRatingCells() {
-  //   let row = [];
-  //   this.data = [];
-  //   this.students.forEach(student => {
-  //     let rowSum = 0;
-  //     this.works.forEach(work => {
-  //       const sp = this.studentWorks.find(x => x.workId === work.id && x.studentId === student.id);
-  //       if (sp) {
-  //         row.push(sp);
-  //         rowSum += +sp.sumOfPoints;
-  //       } else {
-  //         const studentWork = new StudentWork();
-  //         studentWork.workId = work.id;
-  //         studentWork.studentId = student.id;
-  //         row.push(studentWork);
-  //       }
-  //     });
-  //     this.data.push({ works: row, currentStudent: student, sumOfPoints: rowSum});
-  //     row = [];
-  //   });
-  // }
 
   updateRating() {
     this.updateStudentWorks();
@@ -221,5 +165,14 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
         this.totals.push({studentId: student.id, totals: studentTotals});
       }
     });
+  }
+
+  getCurrentMode() {
+    this.subscriptions.push(
+      this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
+        this.mode = this.modes.find(x => x.id === response.payload);
+        this.loaded = true;
+      })
+    );
   }
 }
