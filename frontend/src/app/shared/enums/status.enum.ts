@@ -1,4 +1,4 @@
-export enum Status {
+export enum StatusEnum {
     Main = 'Ответственный преподаватель',
     Lecturer = 'Лектор',
     Practice = 'Преподаватель практики',

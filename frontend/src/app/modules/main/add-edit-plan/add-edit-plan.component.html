@@ -30,13 +30,13 @@
         <div class="criteria-holder" *ngFor="let criteria of work.criterias">
             <div class="mr-3">
                 <div class="md-form form-sm">
-                    <input type="text" [attr.id]="'cname' + work.id" class="form-control form-control-sm" placeholder="Название критерия"
+                    <input type="text" class="form-control form-control-sm" placeholder="Название критерия"
                         [(ngModel)]="criteria.name">
                 </div>
             </div>
             <div>
                 <div class="md-form form-sm pr-3">
-                    <input type="number" [attr.id]="'cpoints' + work.id" class="form-control form-control-sm" placeholder="Макс. балл"
+                    <input type="number" class="form-control form-control-sm" placeholder="Макс. балл"
                         [(ngModel)]="criteria.points">
                 </div>
             </div>

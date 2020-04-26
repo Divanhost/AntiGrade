@@ -14,6 +14,7 @@ import { SubjectGroup } from 'src/app/shared/models/subject-group.model';
 import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
 import { Totals } from 'src/app/shared/models/totals.model';
 import { ExamResult } from 'src/app/shared/models/exam-result.model';
+import { Status } from 'src/app/shared/models/status.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,9 @@ export class SubjectService {
   getSubject(id: number): Observable<ResponseModel<SubjectDto>> {
     return this.http.getData(`subject/${id}`);
   }
+  getSubjectsByName(name: string): Observable<ResponseModel<SubjectView[]>> {
+    return this.http.getData(`subject/name?name=${name}`);
+  }
   updateSubject(id: number, data: SubjectDto): Observable<ResponseModel<boolean>> {
     return this.http.putData(`subject/${id}`, data);
   }
@@ -61,7 +65,7 @@ export class SubjectService {
   }
   getSubjectAdditionalTotals(id: number, ids: number[]): Observable<ResponseModel<Totals[]>> {
     const params = HttpService.toHttpParams({studentIds: ids});
-    return this.http.getData(`subject/total/${id}?${params}`);
+    return this.http.getData(`subject/total/additional/${id}?${params}`);
   }
   getExamResults(id: number, ids: number[]): Observable<ResponseModel<ExamResult[]>> {
     const params = HttpService.toHttpParams({studentIds: ids});
@@ -70,7 +74,7 @@ export class SubjectService {
   updateExamResults(data: ExamResult[]): Observable<ResponseModel<boolean>> {
     return this.http.putData(`subject/exam`, data);
   }
-  getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<string[]>> {
+  getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<Status[]>> {
     return this.http.getData(`subject/roles?subjectId=${subjectId}&employeeId=${employeeId}`);
   }
 }

@@ -42,10 +42,10 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.ExamType, opt=>opt.MapFrom(src => src.Type))
                 .ForMember(x=> x.Group, opt=>opt.MapFrom(src => src.Group))
                 .ForMember(x=> x.Works, opt=>opt.MapFrom(src => src.Works))
-                .ForMember(x=> x.SubjectEmployees, opt=>opt.MapFrom(src => src.SubjectEmployees));
+                .ForMember(x=> x.SubjectEmployees, opt=>opt.Ignore());
             CreateMap<SubjectDto,Subject>()
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
-                .ForMember(x=> x.SubjectEmployees, opt=>opt.MapFrom(src => src.SubjectEmployees))
+                .ForMember(x=> x.SubjectEmployees, opt=>opt.Ignore())
                 .ForMember(x=> x.Type, opt=>opt.MapFrom(src => src.ExamType))
                 .ForMember(x=> x.Group, opt=>opt.Ignore())
                 .ForMember(x=> x.TypeId, opt=>opt.Ignore());
@@ -98,12 +98,12 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.FirstName, opt=>opt.MapFrom(src => src.FirstName))
                 .ForMember(x=> x.LastName, opt=>opt.MapFrom(src => src.LastName))
                 .ForMember(x=> x.GroupId, opt=>opt.MapFrom(src => src.GroupId));
-            CreateMap<SubjectEmployee,SubjectEmployeeDto>()
-                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
-                // .ForMember(x=> x.Subject, opt=>opt.MapFrom(src => src.Subject))
-                // .ForMember(x=> x.Employee, opt=>opt.MapFrom(src => src.Employee))
-                .ForMember(x=> x.Status, opt=>opt.MapFrom(src => src.Status));
-            CreateMap<SubjectEmployeeDto,SubjectEmployee>().ReverseMap();
+            // CreateMap<SubjectEmployee,SubjectEmployeeDto>()
+            //     .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+            //     .ForMember(x=> x.Statuses, opt=>opt.MapFrom(src => src.Statuses));
+            // CreateMap<SubjectEmployeeDto,SubjectEmployee>()
+            //     .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+            //     .ForMember(x=> x.Statuses, opt => opt.MapFrom(src => src.Statuses));
             CreateMap<StudentCriteriaDto,StudentCriteria>()
                 .ForMember(x=> x.Id, opt=>opt.Ignore())
                 .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))

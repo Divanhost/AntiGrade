@@ -16,11 +16,14 @@
                 </div>
                 <div class="status">
                     <label>Роль</label>
-                    <ng-select [(ngModel)]="teacher.status" appendTo="body" class="type-select">
-                        <ng-option *ngFor="let status of statuses" [value]="status">
-                            {{ status }}
+                    <ng-select [(ngModel)]="teacher.statuses" appendTo="body" class="type-select" multiple = "true">
+                        <ng-option *ngFor="let status of statusList" [value]="status">
+                            {{ status.name }}
                         </ng-option>
                     </ng-select>
+                    <!-- <ng-multiselect-dropdown [data]="statusList" [(ngModel)]="selectedStatuses" [settings]="statusDropdownSettings"
+                        class="multiselect">
+                    </ng-multiselect-dropdown> -->
                 </div>
             </div>
             <div class="img-holder">
@@ -28,4 +31,9 @@
             </div>
         </div>
     </div>
+</div>
+<div *ngIf="statusList.length">
+    <!-- <ng-multiselect-dropdown [data]="statusList" [settings]="statusDropdownSettings"
+     class="multiselect">
+</ng-multiselect-dropdown> -->
 </div>

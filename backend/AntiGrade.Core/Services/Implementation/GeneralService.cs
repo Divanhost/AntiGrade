@@ -36,5 +36,10 @@ namespace AntiGrade.Core.Services.Implementation
             _unitOfWork.ModeRepository.Create(dbMode);
             return await _unitOfWork.Save() > 0;
         }
+         public async Task<List<Status>> GetAllStatuses()
+        {
+            var result = await _unitOfWork.GetRepository<Status, int>().All().ToListAsync();
+            return result;
+        }
     }
 }

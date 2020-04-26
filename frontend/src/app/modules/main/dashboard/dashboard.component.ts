@@ -41,9 +41,9 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   }
   getSubjectGroups() {
     this.subjects.forEach(element => {
-      this.groupService.getSubjectGroupsByName(element.name).subscribe((response: ResponseModel<Group[]>) => {
-        this.subjectGroups.push({subject: element, groups: response.payload});
-        this.subjectGroups.sort((a, b) => a.subject.name.localeCompare(b.subject.name));
+      this.subjectService.getSubjectsByName(element.name).subscribe((response: ResponseModel<SubjectView[]>) => {
+        this.subjectGroups.push({subjectName: element.name, subjects: response.payload});
+        this.subjectGroups.sort((a, b) => a.subjectName.localeCompare(b.subjectName));
       });
     });
   }

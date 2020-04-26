@@ -95,6 +95,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.data = [];
     this.students.forEach(student => {
       let rowSum = 0;
+      debugger;
       const total = this.totals.find(x => x.studentId === student.id).totals;
       const atotal = this.additionalTotals.find(x => x.studentId === student.id).totals;
       let examRes = this.examResults.find(x => x.studentId === student.id);

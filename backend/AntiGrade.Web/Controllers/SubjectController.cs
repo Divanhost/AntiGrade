@@ -94,6 +94,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetSubjectsWithWorks();
             return ResponseModel(result);
         }
+        [HttpGet("name")]
+        public async Task<IActionResult> GetSubjectByName([FromQuery] string name)
+        {
+            var result = await _service.GetSubjectsByName(name);
+            return ResponseModel(result);
+        }
         [HttpGet("exam/{id:int}")]
         public async Task<IActionResult> GetExamResults(int id, [FromQuery] List<int> studentIds)
         {

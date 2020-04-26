@@ -24,6 +24,7 @@ namespace AntiGrade.Core.Services.Implementation
             var subject = _mapper.Map<Subject>(subjectDto);
             var type = await _unitOfWork.GetRepository<ExamType, int>().Find(x => x.Id == subjectDto.ExamType.Id);
             subject.TypeId = type.Id;
+            subject.SubjectEmployees = DivideSubjectEmployees(subjectDto.SubjectEmployees); 
             var result = _unitOfWork.GetRepository<Subject, int>().Create(subject);
             return await _unitOfWork.Save() > 0;
         }
@@ -61,6 +62,11 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Filter(x => x.Id == subjectId)
                                     .ProjectTo<SubjectDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
+            var subjectEmployees = await _unitOfWork.GetRepository<SubjectEmployee, int>()
+                                    .Filter(x => x.SubjectId == subjectId)
+                                    .Include(y=>y.Status)
+                                    .ToListAsync();
+            subject.SubjectEmployees = UniteSubjectEmployees(subjectEmployees);
             return subject;
         }
 
@@ -82,8 +88,9 @@ namespace AntiGrade.Core.Services.Implementation
                     subject.TypeId = subjectDto.ExamType.Id;
                     subject.Group = group;
                     var works = _mapper.Map<List<Work>>(subjectDto.Works);
-                    var employeesNew = _mapper.Map<List<SubjectEmployee>>(subjectDto.SubjectEmployees);
 
+                    var employeesNew = DivideSubjectEmployees(subjectDto.SubjectEmployees);
+                    
                     _unitOfWork.GetRepository<Subject, int>().Update(subject);
 
                     _unitOfWork.GetRepository<SubjectEmployee, int>().Update(subject.SubjectEmployees, employeesNew);
@@ -122,7 +129,6 @@ namespace AntiGrade.Core.Services.Implementation
             });
             _unitOfWork.GetRepository<Work, int>().Update(worksOld, worksNew);
             _unitOfWork.GetRepository<Criteria, int>().Update(oldCriterias, newCriterias);
-            //await _unitOfWork.Save();
         }
         private async Task CreateWorks(List<Work> works) {
             _unitOfWork.GetRepository<Work, int>().Create(works);
@@ -163,6 +169,16 @@ namespace AntiGrade.Core.Services.Implementation
             return subjects;
         }
 
+        public async Task<List<SubjectView>> GetSubjectsByName(string name)
+        {
+            var subjects = await _unitOfWork.GetRepository<Subject, int>()
+                                    .Filter(x => !x.IsDeleted && x.Name == name)
+                                    .OrderBy(x=>x.Group.Name)
+                                    .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return subjects;
+        }
+
         public async Task<List<SubjectView>> GetSubjectsWithWorks()
         {
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
@@ -172,13 +188,15 @@ namespace AntiGrade.Core.Services.Implementation
             return subjects;
         }
 
-        public async Task<List<string>> GetEmployeeRoles(int subjectId, int employeeId) {
+        public async Task<List<Status>> GetEmployeeRoles(int subjectId, int employeeId) {
             var roles = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => !x.IsDeleted && x.Id == subjectId)
                                     .SelectMany(x => x.SubjectEmployees)
                                     .Where(y => y.EmployeeId == employeeId)
-                                    .Select(y => y.Status)
+                                    .Select(z=>z.Status)
                                     .ToListAsync();
+           
+
             return roles;
         }
         public async Task<List<ExamResultDto>> GetExamResults(int subjectId, List<int> studentIds) {
@@ -233,6 +251,35 @@ namespace AntiGrade.Core.Services.Implementation
                 totals.Add(total);
             }
             return totals;
+        }
+        private List<SubjectEmployee> DivideSubjectEmployees(List<SubjectEmployeeDto> subjectEmployeeDto) {
+            var result = new List<SubjectEmployee>();
+            foreach (var item in subjectEmployeeDto)
+            {
+                foreach (var status in item.Statuses)
+                {   
+                    var se = new SubjectEmployee()
+                    {
+                        Id = item.Id,
+                        SubjectId = item.SubjectId,
+                        EmployeeId = item.EmployeeId,
+                        StatusId = status.Id
+                    };
+                    result.Add(se);
+                }
+            }
+            return result;
+        }
+        private List<SubjectEmployeeDto> UniteSubjectEmployees(List<SubjectEmployee> subjectEmployeeDto) {
+            var result = subjectEmployeeDto.GroupBy(x=> new {x.SubjectId, x.EmployeeId})
+                                            .Select(group => new SubjectEmployeeDto
+                                                        {
+                                                            SubjectId = group.Key.SubjectId,
+                                                            EmployeeId = group.Key.EmployeeId,
+                                                            Statuses = group.ToList().Select(y=>y.Status).ToList()
+                                                        })
+                                            .ToList();
+            return result;
         }
     }
 }

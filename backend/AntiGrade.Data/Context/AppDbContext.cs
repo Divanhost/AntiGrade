@@ -27,6 +27,7 @@ namespace AntiGrade.Data.Context
         public DbSet<SubjectEmployee> SubjectEmployees { get; set; }
         public DbSet<ExamResult> ExamResult { get; set; }
         public DbSet<Mode> Mode { get; set; }
+        public DbSet<Status> Statuses { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -37,6 +38,13 @@ namespace AntiGrade.Data.Context
                 GetRole(3, AntiGrade.Shared.Roles.Student),
                 GetRole(4, AntiGrade.Shared.Roles.Lecturer),
                 GetRole(6, AntiGrade.Shared.Roles.User)
+            );
+            builder.Entity<Status>().HasData(
+                GetRole(1, AntiGrade.Shared.Statuses.Main),
+                GetRole(2, AntiGrade.Shared.Statuses.Lecturer),
+                GetRole(3, AntiGrade.Shared.Statuses.Pract),
+                GetRole(4, AntiGrade.Shared.Statuses.Lab),
+                GetRole(5, AntiGrade.Shared.Statuses.Examiner)
             );
 
             builder.Entity<StudentCriteria>()
@@ -62,7 +70,7 @@ namespace AntiGrade.Data.Context
                 .HasForeignKey(sw => sw.WorkId);
             
             builder.Entity<SubjectEmployee>()
-                .HasKey(sw => new { sw.SubjectId, sw.EmployeeId });
+                .HasKey(sw => new { sw.SubjectId, sw.EmployeeId,sw.StatusId });
             builder.Entity<SubjectEmployee>()
                 .HasOne(sw => sw.Subject)
                 .WithMany(s => s.SubjectEmployees)
@@ -82,6 +90,15 @@ namespace AntiGrade.Data.Context
                 NormalizedName = role.ToUpper()
             };
             return roleObj;
+        }
+        private Status GetStatus(int id, string status)
+        {
+            var statusObj = new Status
+            {
+                Id = 1,
+                Name = status,
+            };
+            return statusObj;
         }
     }
 }

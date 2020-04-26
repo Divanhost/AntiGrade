@@ -29,5 +29,11 @@ namespace AntiGrade.Controllers
             var result = await _service.UpdateCurrentMode(id);
             return ResponseModel(result);
         }
+        [HttpGet("statuses")]
+        public async Task<IActionResult> GetStatuses()
+        {
+            var result = await _service.GetAllStatuses();
+            return ResponseModel(result);
+        }
     }
 }
