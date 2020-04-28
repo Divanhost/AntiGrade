@@ -14,16 +14,16 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
-export class TeachersComponent extends BaseComponent implements OnInit,OnChanges {
+export class TeachersComponent extends BaseComponent implements OnInit {
   @Input() subjectId: number;
   @Input() subject: SubjectDto = new SubjectDto();
   // @Output() changeData: EventEmitter<SubjectEmployee[]> = new EventEmitter();
-  statusList = [{id: 1, name: 'Ответственный преподаватель'},
-              {id: 2, name: 'Лектор'},
-              {id: 3, name: 'Преподаватель практики'},
-              {id: 4, name: 'Преподаватель лабораторных занятий'},
-              {id: 5, name: 'Экзаменатор'}];
-  // statusList = [];
+  // statusList = [{id: 1, name: 'Ответственный преподаватель'},
+  //             {id: 2, name: 'Лектор'},
+  //             {id: 3, name: 'Преподаватель практики'},
+  //             {id: 4, name: 'Преподаватель лабораторных занятий'},
+  //             {id: 5, name: 'Экзаменатор'}];
+  statusList: Status[] = [];
   employees: Employee[] = [];
   subjectEmployees: SubjectEmployee[] = [];
   selectedEmployees: Employee[] = [];
@@ -36,14 +36,7 @@ export class TeachersComponent extends BaseComponent implements OnInit,OnChanges
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
-  statusDropdownSettings = {
-    singleSelection: false,
-    enableCheckAll: false,
-    idField: 'id',
-    // textField: 'name',
-    itemsShowLimit: 3,
-    allowSearchFilter: true
-  };
+
   faTrashAlt = faTrashAlt;
   constructor(private readonly employeeService: EmployeeService,
               private readonly generalService: GeneralService) {
@@ -56,12 +49,9 @@ export class TeachersComponent extends BaseComponent implements OnInit,OnChanges
       this.subjectEmployees = [];
     }
     console.log(this.subjectEmployees);
-    //this.getAllStatuses();
+    this.getAllStatuses();
     this.getEmployees();
 
-  }
-  ngOnChanges() {
-    console.log('subjectE', this.subjectEmployees);
   }
   getEmployees() {
     this.employeeService.getAllEmployees().subscribe((response: ResponseModel<Employee[]>) => {
@@ -73,6 +63,9 @@ export class TeachersComponent extends BaseComponent implements OnInit,OnChanges
     this.subscriptions.push(
       this.generalService.getAllStatuses().subscribe((response: ResponseModel<Status[]>) => {
         this.statusList = response.payload;
+        this.subjectEmployees.forEach(element => {
+          element.statuses = this.statusList.filter(x => element.statuses.some(y => y.id === x.id));
+        });
       })
     );
   }
@@ -96,6 +89,7 @@ export class TeachersComponent extends BaseComponent implements OnInit,OnChanges
   removeSubjectEmployee(teacher: SubjectEmployee) {
     const index = this.subjectEmployees.indexOf(teacher);
     this.subjectEmployees.splice(index, 1);
+    this.selectedEmployees = this.selectedEmployees.filter(x => x.id !== teacher.employeeId);
   }
   onItemSelect(item: Employee) {
     console.log(this.statusList);
@@ -112,5 +106,15 @@ export class TeachersComponent extends BaseComponent implements OnInit,OnChanges
   }
   getEmployeesData() {
     return this.subjectEmployees.filter(x => x.employeeId !== null && x.subjectId !== null && x.statuses.length);
+  }
+  updateData(subject: SubjectDto) {
+    this.subject = subject;
+    if (this.subject.subjectEmployees) {
+      this.subjectEmployees = this.subject.subjectEmployees;
+    } else {
+      this.subjectEmployees = [];
+    }
+    this.getAllStatuses();
+    this.getEmployees();
   }
 }

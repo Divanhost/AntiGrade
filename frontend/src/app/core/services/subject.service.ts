@@ -77,4 +77,7 @@ export class SubjectService {
   getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<Status[]>> {
     return this.http.getData(`subject/roles?subjectId=${subjectId}&employeeId=${employeeId}`);
   }
+  getSubjectsWithWorks(): Observable<ResponseModel<SubjectView[]>> {
+    return this.http.getData(`subject/filled`);
+  }
 }

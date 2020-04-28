@@ -32,17 +32,21 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.name = this.subject.name;
-    this.getExamTypes();
+    this.updateData(this.subject);
   }
   getExamTypes() {
     this.subscriptions.push(
       this.subjectService.getExamTypes().subscribe((responce: ResponseModel<ExamType[]>) => {
         this.examTypes = responce.payload;
-        if (this.subject) {
+        if (this.subject.examType) {
           this.examType = this.examTypes.find(x => x.id === this.subject.examType.id);
         }
       })
     );
+  }
+  updateData(subject: SubjectDto) {
+    this.subject = subject;
+    this.name = subject.name;
+    this.getExamTypes();
   }
 }

@@ -30,11 +30,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.works = this.subject.works;
-    if (!this.works) {
-      this.works = [];
-      this.addWork();
-    }
+    this.updateData(this.subject);
   }
   addWork() {
     const work = new Work();
@@ -42,7 +38,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     work.points = null;
     work.workTypeId = null;
     work.criterias = [];
-    work.subjectId = this.subjectId;
+    work.subjectId = this.subject.id;
     this.works.push(work);
   }
 
@@ -59,5 +55,23 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   }
   getWorksData() {
     return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null);
+  }
+  updateData(subject: SubjectDto) {
+    this.subject = subject;
+    this.works = this.subject.works;
+    if (this.works) {
+      this.works.forEach(element => {
+        element.id = 0;
+        if (element.criterias) {
+          element.criterias.forEach(criteria => {
+            criteria.id = 0;
+          });
+        }
+      });
+    }
+    if (!this.works) {
+      this.works = [];
+      this.addWork();
+    }
   }
 }

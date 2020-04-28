@@ -183,6 +183,7 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => !x.IsDeleted && x.Works.Any())
+                                    .OrderBy(x=>x.Name)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return subjects;
@@ -195,8 +196,6 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Where(y => y.EmployeeId == employeeId)
                                     .Select(z=>z.Status)
                                     .ToListAsync();
-           
-
             return roles;
         }
         public async Task<List<ExamResultDto>> GetExamResults(int subjectId, List<int> studentIds) {

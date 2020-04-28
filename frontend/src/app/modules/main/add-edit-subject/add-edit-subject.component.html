@@ -1,10 +1,13 @@
 <div class="subject-container">
     <div class="buttons m-3">
-        <div class="btn btn-primary mr-2" (click)="toggleCommons()" [ngClass]="{'d-none': isCommonsVisible}">Общие сведения</div>
-        <div class="btn btn-primary mr-2" (click)="togglePlan()" [ngClass]="{'d-none': isPlanVisible}">Мероприятия</div>
-        <div class="btn btn-primary  mr-2" (click)="toggleTeachers()" [ngClass]="{'d-none': isTeachersVisible}">Преподаватели</div>
-        <div class="btn btn-primary mr-2" (click)="toggleGroup()" [ngClass]="{'d-none': isGroupVisible}">Группа</div>
-        <div class="btn btn-warning" >Перейти к оцениванию</div>
+        <div class="btn btn-primary mr-2" (click)="toggleCommons()" [ngClass]="{'disabled': isCommonsVisible}">Общие сведения</div>
+        <div class="btn btn-primary mr-2" (click)="togglePlan()" [ngClass]="{'disabled': isPlanVisible}">Мероприятия</div>
+        <div class="btn btn-primary  mr-2" (click)="toggleTeachers()" [ngClass]="{'disabled': isTeachersVisible}">Преподаватели</div>
+        <div class="btn btn-primary mr-2" (click)="toggleGroup()" [ngClass]="{'disabled': isGroupVisible}">Группа</div>
+        <div class="btn btn-warning" (click)="saveAndRedirect()">Перейти к оцениванию</div>
+    </div>
+    <div>
+        <div class="btn btn-info" (click)="importPlan()" data-toggle="modal" data-target="#chooseSubjectModal">Импорт учебной карты</div>
     </div>
     <div class="items" *ngIf="loaded">
         <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">
@@ -23,4 +26,30 @@
     <div>
       <div class="btn btn-info" (click)="createOrUpdateSubject()">Сохранить</div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="chooseSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngFor="let item of filledSubjects">
+            {{item.name}} 
+            ({{item.group.name}})
+            <div class="btn btn-info" (click)="getAnotherSubject(item.id)"> Get</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"  data-dismiss="modal">Save changes</button>
+    </div>
+    </div>
+</div>
 </div>

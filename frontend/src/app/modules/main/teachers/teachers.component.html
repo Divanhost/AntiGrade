@@ -16,7 +16,7 @@
                 </div>
                 <div class="status">
                     <label>Роль</label>
-                    <ng-select [(ngModel)]="teacher.statuses" appendTo="body" class="type-select" multiple = "true">
+                    <ng-select [(ngModel)]="teacher.statuses" appendTo="body" class="type-select" multiple = "true" bindLabel = "teacher.firstName">
                         <ng-option *ngFor="let status of statusList" [value]="status">
                             {{ status.name }}
                         </ng-option>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseFormComponent } from 'src/app/shared/classes';
 import { Employee } from 'src/app/shared/models/employee.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
@@ -12,6 +12,7 @@ import { TeachersComponent } from '../teachers/teachers.component';
 import { Work } from 'src/app/shared/models/work.model';
 import { NotifierService } from 'angular-notifier';
 import { GroupComponent } from '../group/group.component';
+import { SubjectView } from 'src/app/shared/models/subject-view.model';
 
 
 @Component({
@@ -36,7 +37,9 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   group: Group = new Group();
   mainTeacher: Employee = new Employee();
   loaded = false;
+  filledSubjects: SubjectView[];
   constructor(private readonly route: ActivatedRoute,
+              private readonly router: Router,
               private readonly subjectService: SubjectService,
               private readonly notifierService: NotifierService) {
     super();
@@ -112,10 +115,13 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     }
   }
   createSubject() {
+    this.subject.id = 0;
     this.subscriptions.push(
       this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
         if (response.payload) {
           this.notifierService.notify('success', 'Subject successfully created');
+          this.router.navigate(['subjects/rating', this.subjectId]);
+
         } else {
           this.notifierService.notify('error', 'Cannot create subject');
         }
@@ -127,6 +133,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
       this.subjectService.updateSubject(this.subjectId, this.subject).subscribe((response: ResponseModel<boolean>) => {
         if (response.payload) {
           this.notifierService.notify('success', 'Subject successfully created');
+          this.router.navigate(['subjects/rating', this.subjectId]);
         } else {
           this.notifierService.notify('error', 'Cannot create subject');
         }
@@ -138,6 +145,10 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
       this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
         this.subject = response.payload;
         this.loaded = true;
+        this.subjectCommonsComponent.updateData(this.subject);
+        this.planComponent.updateData(this.subject);
+        this.teachersComponent.updateData(this.subject);
+        this.groupComponent.updateData(this.subject);
       })
     );
   }
@@ -147,5 +158,18 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subject.works = this.planComponent.getWorksData();
     this.subject.subjectEmployees = this.teachersComponent.getEmployeesData();
     this.subject.group = this.groupComponent.getGroupData();
+  }
+  saveAndRedirect() {
+    this.createOrUpdateSubject();
+  }
+  importPlan() {
+    this.subjectService.getSubjectsWithWorks().subscribe((response: ResponseModel<SubjectView[]>) => {
+      this.filledSubjects = response.payload;
+    });
+  }
+  getAnotherSubject(id: number) {
+    this.subjectId = id;
+    this.getSubject();
+
   }
 }

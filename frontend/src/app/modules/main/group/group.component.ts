@@ -28,7 +28,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.groupService.getGroups().subscribe((responce: ResponseModel<Group[]>) => {
         this.groups = responce.payload;
-        if (this.subject) {
+        if (this.subject.group) {
           this.group = this.groups.find(x => x.id === this.subject.group.id);
         }
       })
@@ -37,5 +37,9 @@ export class GroupComponent extends BaseComponent implements OnInit {
   getGroupData() {
     this.group.students.filter(x => x.firstName !== null && x.lastName !== null);
     return this.group;
+  }
+  updateData(subject: SubjectDto) {
+    this.subject = subject;
+    this.getGroups();
   }
 }

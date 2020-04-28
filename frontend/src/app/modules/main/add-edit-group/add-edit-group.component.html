@@ -1,23 +1,17 @@
 <div class="container-fluid row">
     <div class="col-6">
-        <form (ngSubmit)="onSubmit()" [formGroup]="form">
-            <h2 *ngIf="isCreate; else edit">Создание группы</h2>
-            <ng-template #edit>
-                <h2>Изменение группы</h2>
-            </ng-template>
-            <div>
-                <label for="input-name">Название</label>
-                <input class="form-control border-style" formControlName="name" id="input-name" [(ngModel)]="group.name"
-                    [ngClass]="{ 'is-invalid': isInputHasErrors(controls.name) }" type="text">
-                <div *ngIf="isInputHasErrors(controls.name)" class="invalid-feedback">
-                    <div *ngIf="controls.name.errors.required">Название обязательно</div>
-                </div>
-            </div>
-            <div class="buttons mt-3">
-                <button type="submit" class="btn btn-success">Save</button>
-                <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
-            </div>
-        </form>
+        <h2 *ngIf="isCreate; else edit">Создание группы</h2>
+        <ng-template #edit>
+            <h2>Изменение группы</h2>
+        </ng-template>
+        <div>
+            <label for="input-name">Название</label>
+            <input class="form-control border-style" id="input-name" [(ngModel)]="group.name" type="text">
+        </div>
+        <div class="buttons mt-3">
+            <button type="submit" class="btn btn-success" (click)="onSubmit()">Save</button>
+            <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
+        </div>
         <div class="group-students">
             <div class="st-header">
                 <h5 class="mb-1">Список студентов</h5>
@@ -28,10 +22,15 @@
                     <label for="input-last">Фамилия</label>
                     <input class="form-control border-style" id="input-last" type="text" [(ngModel)]="student.lastName">
                 </div>
-                <div>
+                <div class="mr-3">
                     <label for="input-first">Имя</label>
                     <input class="form-control border-style" id="input-first" type="text"
                         [(ngModel)]="student.firstName">
+                </div>
+                <div>
+                    <label for="input-first">Отчество</label>
+                    <input class="form-control border-style" id="input-first" type="text"
+                        [(ngModel)]="student.patronymic">
                 </div>
                 <div class="img-holder" (click)="removeStudent(student)">
                     <img src="assets/remove.png" alt="" class="del-img">
