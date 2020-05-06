@@ -65,6 +65,7 @@ namespace AntiGrade.Core.Configuration
             services.AddScoped<IContextAccessor, ContextAccessor>();
             services.AddScoped<IWorkService, WorkService>();
             services.AddScoped<IGeneralService, GeneralService>();
+            services.AddScoped<IExcelService, ExcelService>();
 
             services.AddScoped<UserManager<User>>();
         }

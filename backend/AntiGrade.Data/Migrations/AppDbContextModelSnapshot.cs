@@ -19,6 +19,20 @@ namespace AntiGrade.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AntiGrade.Shared.Models.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Courses");
+                });
+
             modelBuilder.Entity("AntiGrade.Shared.Models.Criteria", b =>
                 {
                     b.Property<int>("Id")
@@ -40,11 +54,31 @@ namespace AntiGrade.Data.Migrations
                     b.ToTable("Criterias");
                 });
 
+            modelBuilder.Entity("AntiGrade.Shared.Models.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("InstituteId");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstituteId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("AntiGrade.Shared.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("DepartmentId");
 
                     b.Property<int?>("EmployeePositionId");
 
@@ -62,6 +96,8 @@ namespace AntiGrade.Data.Migrations
                     b.Property<int?>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmployeePositionId");
 
@@ -134,12 +170,16 @@ namespace AntiGrade.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CourseId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Groups");
                 });
@@ -172,35 +212,35 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "7577748a-ecfe-4e42-841d-52e740bec109",
+                            ConcurrencyStamp = "323bf493-16c6-4255-ac42-86c934d19dc3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "653bbb10-4216-4e5d-a539-c68a9cced288",
+                            ConcurrencyStamp = "77a61749-b427-4a12-ba95-e3a16bc45b6b",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "6c2c7b9c-2526-432c-b09a-66c6d3b6eb21",
+                            ConcurrencyStamp = "9aa678cd-08ca-4b4e-b16e-ee0685585975",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "a9eda91c-bf9f-4f3d-8e06-d9d81b1dd001",
+                            ConcurrencyStamp = "4e2d0f20-b548-4bfe-b2f6-459db04c1f28",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "fb98eda6-7bd5-4007-8594-32b27464993e",
+                            ConcurrencyStamp = "86287bab-73a9-41d6-a240-43c3bc53e2c3",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -279,6 +319,20 @@ namespace AntiGrade.Data.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("AntiGrade.Shared.Models.Institute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Institutes");
                 });
 
             modelBuilder.Entity("AntiGrade.Shared.Models.Mode", b =>
@@ -412,6 +466,8 @@ namespace AntiGrade.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("GroupId");
+
+                    b.Property<bool>("HasBonuses");
 
                     b.Property<bool>("IsDeleted");
 
@@ -580,8 +636,19 @@ namespace AntiGrade.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("AntiGrade.Shared.Models.Department", b =>
+                {
+                    b.HasOne("AntiGrade.Shared.Models.Institute")
+                        .WithMany("Departments")
+                        .HasForeignKey("InstituteId");
+                });
+
             modelBuilder.Entity("AntiGrade.Shared.Models.Employee", b =>
                 {
+                    b.HasOne("AntiGrade.Shared.Models.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DepartmentId");
+
                     b.HasOne("AntiGrade.Shared.Models.EmployeePosition", "EmployeePosition")
                         .WithMany()
                         .HasForeignKey("EmployeePositionId");
@@ -601,6 +668,14 @@ namespace AntiGrade.Data.Migrations
                     b.HasOne("AntiGrade.Shared.Models.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("AntiGrade.Shared.Models.Group", b =>
+                {
+                    b.HasOne("AntiGrade.Shared.Models.Course", "Course")
+                        .WithMany("Groups")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -13,7 +13,9 @@ namespace AntiGrade.Core.Configuration
         public MappingProfile()
         {
             CreateMap<User, UserView>()
-                .ForMember(x => x.Role, _ => _.MapFrom(x => x.Roles.Select(r => r.Role.Name).ToList()));
+                .ForMember(x => x.Roles, _ => _.MapFrom(x => x.Roles.Select(r => r.Role.Name).ToList()));
+            CreateMap<User, UserDto>()
+                .ForMember(x => x.Roles, _ => _.MapFrom(x => x.Roles.Select(r => r.Role.Name).ToList()));
             CreateMap<Role,RolesView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
@@ -101,12 +103,6 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.Patronymic, opt=>opt.MapFrom(src => src.Patronymic))
                 .ForMember(x=> x.GroupId, opt=>opt.MapFrom(src => src.GroupId));
             CreateMap<Student,StudentDto>().ReverseMap();
-            // CreateMap<SubjectEmployee,SubjectEmployeeDto>()
-            //     .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
-            //     .ForMember(x=> x.Statuses, opt=>opt.MapFrom(src => src.Statuses));
-            // CreateMap<SubjectEmployeeDto,SubjectEmployee>()
-            //     .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
-            //     .ForMember(x=> x.Statuses, opt => opt.MapFrom(src => src.Statuses));
             CreateMap<StudentCriteriaDto,StudentCriteria>()
                 .ForMember(x=> x.Id, opt=>opt.Ignore())
                 .ForMember(x=> x.StudentId, opt=>opt.MapFrom(src => src.StudentId))

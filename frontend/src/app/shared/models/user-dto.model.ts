@@ -5,5 +5,5 @@ export class UserDtoModel {
     newPassword: string;
     oldPassword: string;
     confirmPassword: string;
-    role: string[];
+    roles: string[];
 }

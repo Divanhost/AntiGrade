@@ -44,12 +44,13 @@ namespace AntiGrade.Core.Services.Implementation
             return result;
         }
 
-        public async Task<UserView> GetUserById(int userId)
+        public async Task<UserDto> GetUserById(int userId)
         {
-            var result = await _unitOfWork.UserRepository.Filter(x => x.Id == userId)
-                .ProjectTo<UserView>(_mapper.ConfigurationProvider)
+            var user = await _unitOfWork.UserRepository.Filter(x => x.Id == userId)
                 .SingleOrDefaultAsync();
-
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var result = _mapper.Map<UserDto>(user);
+            result.Roles = userRoles.ToArray();
             if (result == null)
             {
                 throw new NotFoundWebsiteException("Пользователь не найден");
@@ -57,6 +58,7 @@ namespace AntiGrade.Core.Services.Implementation
 
             return result;
         }
+        
 
         public async Task<User> CreateUser(UserDto userModel)
         {
@@ -79,7 +81,7 @@ namespace AntiGrade.Core.Services.Implementation
                     throw new WebsiteException("Cannot create a default user.");
                 userFromDb = userToCreate;
 
-                foreach (var role in userModel.Role)
+                foreach (var role in userModel.Roles)
                 {
                     var isInRole = await _userManager.IsInRoleAsync(userFromDb, role);
                     if (!isInRole)
@@ -147,13 +149,14 @@ namespace AntiGrade.Core.Services.Implementation
                     var userRoles = await _userManager.GetRolesAsync(userFromDb);
                     await _userManager.RemoveFromRolesAsync(userFromDb, userRoles);
 
-                    await _userManager.AddToRolesAsync(userFromDb, user.Role);
+                    await _userManager.AddToRolesAsync(userFromDb, user.Roles);
+
                     await _unitOfWork.Save();
                     return userFromDb;
                 }
                 else
                 {
-                    throw new WebsiteException("Пользователь не существует");
+                    throw new WebsiteException("The user does not exists");
                 }
             }
             else
@@ -191,6 +194,22 @@ namespace AntiGrade.Core.Services.Implementation
                 .Include(x => x.Roles)
                 .ProjectTo<UserView>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+            return result;
+        }
+
+        public async Task<List<UserView>> GetAllUsers()
+        {
+            var users = await _unitOfWork.UserRepository
+                .Filter(x => !x.IsDeleted)
+                .ToListAsync();
+            var result = new List<UserView>();
+            foreach (var user in users)
+            {   
+                var roles = await _userManager.GetRolesAsync(user);
+                var userView = _mapper.Map<UserView>(user);
+                userView.Roles = roles.ToList();
+                result.Add(userView);
+            }
             return result;
         }
     }

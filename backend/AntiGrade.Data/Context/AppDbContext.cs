@@ -28,6 +28,9 @@ namespace AntiGrade.Data.Context
         public DbSet<ExamResult> ExamResult { get; set; }
         public DbSet<Mode> Mode { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Institute> Institutes { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -35,8 +38,6 @@ namespace AntiGrade.Data.Context
             builder.Entity<Role>().HasData(
                 GetRole(1, AntiGrade.Shared.Roles.Admin),
                 GetRole(2, AntiGrade.Shared.Roles.Teacher),
-                GetRole(3, AntiGrade.Shared.Roles.Student),
-                GetRole(4, AntiGrade.Shared.Roles.Lecturer),
                 GetRole(6, AntiGrade.Shared.Roles.User)
             );
             builder.Entity<Status>().HasData(

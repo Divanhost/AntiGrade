@@ -13,6 +13,7 @@ import { GroupsComponent } from './groups/groups.component';
 import { AddEditEmployeeComponent } from './add-edit-employee/add-edit-employee.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { ExamTableComponent } from './exam-table/exam-table.component';
+import { UsersComponent } from './users/users.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -27,6 +28,14 @@ const appRoutes: Routes = [
       },
       {
         path: 'users',
+        component: UsersComponent
+      },
+      {
+        path: 'users/add',
+        component: UserEditCreateComponent
+      },
+      {
+        path: 'users/edit/:id',
         component: UserEditCreateComponent
       },
       {

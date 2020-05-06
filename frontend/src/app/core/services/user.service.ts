@@ -17,15 +17,15 @@ export class UserService {
 
   }
 
-  getAllUsers(): Observable<PagedResponseModel<UserViewModel>> {
-    return this.http.getData(`users/get`);
+  getAllUsers(): Observable<ResponseModel<UserViewModel[]>> {
+    return this.http.getData(`users/all`);
   }
 
   getAllRoles(): Observable<PagedResponseModel<RoleViewModel>> {
     return this.http.getData(`users/roles`);
   }
 
-  getUserByID(userId): Observable<ResponseModel<UserViewModel>> {
+  getUserByID(userId): Observable<ResponseModel<UserDtoModel>> {
     return this.http.getData(`users/${userId}`);
   }
 

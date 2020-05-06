@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginModel } from 'src/app/shared/models/login.model';
 import { Subscription } from 'rxjs';
-import { UserViewModel } from 'src/app/shared/models/user.model';
+import { UserViewModel } from 'src/app/shared/models/user-view.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BaseFormComponent } from 'src/app/shared/classes';
@@ -11,7 +11,7 @@ import { LoginService, HttpService } from 'src/app/core/services';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers:[
+  providers: [
     HttpService
   ]
 })

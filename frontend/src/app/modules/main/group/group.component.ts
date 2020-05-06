@@ -40,6 +40,6 @@ export class GroupComponent extends BaseComponent implements OnInit {
   }
   updateData(subject: SubjectDto) {
     this.subject = subject;
-    this.getGroups();
+    // this.getGroups();
   }
 }

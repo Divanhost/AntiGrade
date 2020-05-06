@@ -9,7 +9,8 @@ namespace AntiGrade.Core.Services.Interfaces
     public interface IUserService
     {
         Task<List<RolesView>> GetAllRoles();
-        Task<UserView> GetUserById(int userId);
+        Task<List<UserView>> GetAllUsers();
+        Task<UserDto> GetUserById(int userId);
         Task<User> CreateUser(UserDto userModel);
         Task<User> UpdateUserByID(int userId, UserDto user);
         Task<bool> DeleteById(int userId);

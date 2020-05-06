@@ -51,7 +51,7 @@
             },
             "DocumentFormat.OpenXml": {
               "target": "Package",
-              "version": "[2.9.1, )"
+              "version": "[2.10.1, )"
             },
             "ExcelDataReader": {
               "target": "Package",

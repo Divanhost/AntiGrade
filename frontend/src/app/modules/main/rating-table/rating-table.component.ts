@@ -15,6 +15,9 @@ import { GeneralService } from 'src/app/core/services/general.service';
 import { Mode } from 'src/app/shared/models/mode.model';
 import { Status } from 'src/app/shared/models/status.model';
 import { StatusEnum } from 'src/app/shared/enums/status.enum';
+import { NotifierService } from 'angular-notifier';
+import * as XLSX from 'xlsx';
+import { ExcelService } from 'src/app/core/services/excel.service';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
@@ -43,8 +46,10 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
     private readonly workService: WorkService,
+    private readonly excelSrv: ExcelService,
     private readonly roleService: RoleService,
     private readonly generalService: GeneralService,
+    private readonly notifierService: NotifierService,
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
@@ -175,5 +180,9 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
         this.loaded = true;
       })
     );
+  }
+ 
+  exportData(tableId: string) {
+    this.excelSrv.exportToFile('contacts', tableId).subscribe();
   }
 }

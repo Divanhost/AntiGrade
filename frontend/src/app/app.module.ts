@@ -55,7 +55,7 @@ const customNotifierOptions: NotifierOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     NgbModule,

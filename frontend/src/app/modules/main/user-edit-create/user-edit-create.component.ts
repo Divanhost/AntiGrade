@@ -40,10 +40,10 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   userId: number;
   accountId: number;
   user: UserDtoModel = new UserDtoModel();
-  editUser: UserViewModel = new UserDtoModel();
+  editUser: UserDtoModel = new UserDtoModel();
   currentUserId: number;
   pageTitle = 'Create user';
-  roles: RoleViewModel[] = [];
+  roles = [];
   isPasswordCorrect = true;
   isShowAvatarBlock = true;
   passwordValidationPattern = '((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20})';
@@ -64,10 +64,11 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     if (this.isCreateMode) {
       this.showPasswordInput = true;
     } else {
-      this.getUserByID();
+      // this.getUserByID();
       this.isShowChangePassword = true;
     }
     this.initForm();
@@ -79,29 +80,31 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
     this.addUserForm = new FormGroup({
       userName: new FormControl('', [Validators.required, Validators.maxLength(20), Validators.pattern(/^\S*$/)]),
       email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(50)]),
-      role: new FormControl('', Validators.required),
+      roles: new FormControl('', Validators.required),
       oldPassword: new FormControl(''),
       newPassword: new FormControl(''),
       confirmPassword: new FormControl(''),
     });
     if (this.isCreateMode) {
-      this.addUserForm.controls['newPassword'].setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
-      this.addUserForm.controls['newPassword'].updateValueAndValidity();
+      this.addUserForm.controls.newPassword.setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
+      this.addUserForm.controls.newPassword.updateValueAndValidity();
     }
   }
 
   fillForm() {
-    this.addUserForm.controls['userName'].setValue(this.user.userName);
-    this.addUserForm.controls['email'].setValue(this.user.email);
-    this.addUserForm.controls['role'].setValue(this.user.role);
+    this.addUserForm.controls.userName.setValue(this.user.userName);
+    this.addUserForm.controls.email.setValue(this.user.email);
+    this.addUserForm.controls.roles.setValue(this.user.roles);
   }
 
   getUserByID() {
+    debugger;
     this.subscriptions.push(
       this.userService
         .getUserByID(this.userId)
         .subscribe((response: ResponseModel<UserDtoModel>) => {
           this.user = response.payload;
+          this.user.roles = this.roles.filter(x => response.payload.roles.some(y => y === x));
           this.pageTitle = `Edit ${this.user.userName}`;
           this.fillForm();
         })
@@ -112,7 +115,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.userService
         .getUserByID(this.userId)
-        .subscribe((response: ResponseModel<UserViewModel>) => {
+        .subscribe((response: ResponseModel<UserDtoModel>) => {
           this.editUser = response.payload;
         })
     );
@@ -123,7 +126,10 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
       this.userService
         .getAllRoles()
         .subscribe((response: PagedResponseModel<RoleViewModel>) => {
-          this.roles = response.payload;
+          this.roles = response.payload.map(x => x.name);
+          if (!this.isCreateMode) {
+            this.getUserByID();
+          }
         })
     );
   }
@@ -170,25 +176,24 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
       this.showPasswords = true;
       this.showPasswordInput = true;
       this.showOldPasswordInput = true;
-      this.addUserForm.controls['newPassword'].setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
+      this.addUserForm.controls.newPassword.setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
       if (/*this.isAdminRole &&*/ (this.userId !== this.currentUserId)) {
         this.showOldPasswordInput = false;
       } else {
-        this.addUserForm.controls['oldPassword'].setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
+        this.addUserForm.controls.oldPassword.setValidators([Validators.required, Validators.pattern(this.passwordValidationPattern)]);
       }
     } else {
       this.showPasswords = false;
       this.showPasswordInput = false;
       this.showOldPasswordInput = false;
-      this.addUserForm.controls['oldPassword'].clearValidators();
-      this.addUserForm.controls['newPassword'].clearValidators();
+      this.addUserForm.controls.oldPassword.clearValidators();
+      this.addUserForm.controls.newPassword.clearValidators();
     }
-    this.addUserForm.controls['oldPassword'].updateValueAndValidity();
-    this.addUserForm.controls['newPassword'].updateValueAndValidity();
+    this.addUserForm.controls.oldPassword.updateValueAndValidity();
+    this.addUserForm.controls.newPassword.updateValueAndValidity();
   }
 
   createOrUpdateUser() {
-    debugger;
     this.checkUserName();
     this.checkEmail();
     if (this.showPasswords && !this.isAdminRole) {
@@ -202,6 +207,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
             if (response.payload !== null) {
               this.userId = response.payload.id;
               this.notifier.notify('success', 'User created successfully!');
+              this.router.navigate(['/users']);
             } else {
               this.notifier.notify('error', 'Whoops, something went wrong!');
             }
@@ -218,6 +224,7 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
                 if (this.user.email !== this.emailInDb || this.user.email === this.editUser.email) {
                   if (this.isPasswordCorrect) {
                     this.notifier.notify('success', 'User updated successfully!');
+                    this.router.navigate(['/users']);
                   } else {
                     this.notifier.notify('error', 'This old password incorrect!');
                   }
@@ -239,10 +246,10 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.userService
         .deleteUser(this.userId)
-        .subscribe((response: ResponseModel<UserViewModel>) => {
+        .subscribe((response: ResponseModel<UserDtoModel>) => {
           if (response.payload) {
             this.notifier.notify('success', 'User deleted successfully!');
-            this.router.navigate(['/configuration/users']);
+            this.router.navigate(['/users']);
           } else {
             this.isDeleteMode = false;
             this.notifier.notify('error', 'Whoops, something went wrong!');

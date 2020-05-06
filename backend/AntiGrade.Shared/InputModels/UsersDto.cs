@@ -28,7 +28,7 @@ namespace AntiGrade.Shared.InputModels
             set;
         }
 
-        public string[] Role
+        public string[] Roles
         {
             get;
             set;

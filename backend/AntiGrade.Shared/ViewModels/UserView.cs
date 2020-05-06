@@ -19,7 +19,7 @@ namespace AntiGrade.Shared.ViewModels
             get;
             set;
         }
-        public List<string> Role
+        public List<string> Roles
         {
             get;
             set;

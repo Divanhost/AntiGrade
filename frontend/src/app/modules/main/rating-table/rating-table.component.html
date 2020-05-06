@@ -1,76 +1,91 @@
 <div class="container-fluid mt-2 table-editable">
   <div *ngIf="loaded" class="rating-holder">
-    <div class="cell">
-      <table class="table table-bordered table-responsive-md table-striped text-center">
-        <thead>
-          <tr>
-            <th>
-              Вид работы
-            </th>
-          </tr>
-          <tr>
-            <th>
-              Студент
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let student of students">
-            <td>
-              {{student.lastName}} {{student.firstName}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="cell">
-      <div class="d-flex">
-        <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects" [mode] = "mode" (changeData) = updateData($event)>
-        </app-partial-table>
-        <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts" [mode] = "mode" (changeData) = updateData($event)>
-        </app-partial-table>
-        <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs" [mode] = "mode" (changeData) = updateData($event)>
-        </app-partial-table>
-      </div>
-    </div>
-    <div class="cell">
-      <table class="table table-bordered table-responsive-md table-striped text-center">
-        <thead>
-          <tr>
-            <th colspan="4">
-              Итоги
-            </th>
-          </tr>
-          <tr>
-            <th>
-              Всего за семестр
-            </th>
-            <th>
-              Добор
-            </th>
-            <th>
-              Экзамен
-            </th>
-            <th>
-              Итого
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sum of totals">
-            <td>
-              {{sum.totals}}
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <button (click)="exportData('full-table')">
+      <span class="mdi mdi-file-export"> </span>
+      <small>Export</small>
+    </button>
+    <table id = "full-table">
+      <thead>
+        <th></th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody>
+        <td class="cell" >
+          <table class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+              <tr>
+                <th>
+                  Вид работы
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  Студент
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students">
+                <td>
+                  {{student.lastName}} {{student.firstName}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td class="cell">
+          <div class="d-flex">
+            <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects" [mode] = "mode" (changeData) = updateData($event)>
+            </app-partial-table>
+            <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts" [mode] = "mode" (changeData) = updateData($event)>
+            </app-partial-table>
+            <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs" [mode] = "mode" (changeData) = updateData($event)>
+            </app-partial-table>
+          </div>
+        </td>
+        <td class="cell">
+          <table class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+              <tr>
+                <th colspan="4">
+                  Итоги
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  Всего за семестр
+                </th>
+                <th>
+                  Добор
+                </th>
+                <th>
+                  Экзамен
+                </th>
+                <th>
+                  Итого
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sum of totals">
+                <td>
+                  {{sum.totals}}
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tbody>
+      
+    </table>
+    
   </div>
   <div class="btn btn-success" (click)="updateRating()"> Сохранить</div>
   <div class="btn btn-primary ml-3" [routerLink]="['/subjects']"> Назад</div>

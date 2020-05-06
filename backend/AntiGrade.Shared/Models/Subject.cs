@@ -18,6 +18,7 @@ namespace AntiGrade.Shared.Models
         [ForeignKey(nameof(Group))]
         public int GroupId {get;set;}
         public bool IsDeleted {get;set;}
+        public bool HasBonuses {get;set;}
         public virtual ExamType Type {get;set;}
         public virtual Group Group {get;set;}
         public virtual List<Work> Works {get;set;}
