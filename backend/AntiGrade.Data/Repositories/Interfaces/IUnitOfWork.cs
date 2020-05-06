@@ -75,6 +75,14 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
+        IRepository<Institute, int> InstituteRepository
+        {
+            get;
+        }
+        IRepository<Department, int> DepartmentRepository
+        {
+            get;
+        }
         Task<int> Save();
     }
 }

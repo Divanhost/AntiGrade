@@ -20,6 +20,9 @@ export class EmployeeService {
   getAllEmployees(): Observable<ResponseModel<Employee[]>> {
     return this.http.getData(`employee/all`);
   }
+  getDepartmentEmployees(id: number): Observable<ResponseModel<Employee[]>> {
+    return this.http.getData(`employee/department/${id}`);
+  }
   getEmployeeById(id: number): Observable<ResponseModel<Employee>> {
     return this.http.getData(`employee/${id}`);
   }

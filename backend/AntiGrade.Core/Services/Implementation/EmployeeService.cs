@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Repositories.Interfaces;
@@ -22,6 +24,7 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<bool> CreateEmployee(EmployeeDto EmployeeDto)
         {
             var employee =_mapper.Map<Employee>(EmployeeDto);
+            employee.UpdatedAt= DateTime.UtcNow;
             var result = _unitOfWork.GetRepository<Employee,int>().Create(employee);
             return await _unitOfWork.Save() > 0;
         }
@@ -48,6 +51,8 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var employees = await _unitOfWork.GetRepository<Employee,int>()
                                     .All()
+                                    .OrderByDescending(x=>x.UpdatedAt)
+                                    .Take(20)
                                     .ProjectTo<EmployeeView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return employees;
@@ -96,6 +101,14 @@ namespace AntiGrade.Core.Services.Implementation
                                             .ToListAsync();
             return subjectEmployees;
         }
+        public async Task<List<EmployeeView>> GetDepartmentEmployees(int departmentId)
+        {
+            var employees = await _unitOfWork.GetRepository<Employee,int>()
+                                            .Filter(x => x.DepartmentId == departmentId)
+                                            .ProjectTo<EmployeeView>(_mapper.ConfigurationProvider)
+                                            .ToListAsync();
+            return employees;
+        }
 
         public async Task<Employee> UpdateEmployee(int EmployeeId, EmployeeDto employeeDto)
         {
@@ -107,6 +120,7 @@ namespace AntiGrade.Core.Services.Implementation
                 if (employee != null)
                 {
                     _mapper.Map(employeeDto, employee);
+                    employee.UpdatedAt= DateTime.UtcNow;
                     _unitOfWork.GetRepository<Employee, int>()
                         .Update(employee);
                     await _unitOfWork.Save();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,6 +27,7 @@ namespace AntiGrade.Shared.Models
         
         public int? EmployeePositionId {get;set;}
         public bool IsFired {get;set;}
+        public DateTime UpdatedAt {get;set;}
         public virtual EmployeePosition EmployeePosition {get;set;}
         public virtual User User {get;set;}
         public virtual Department Department {get;set;}

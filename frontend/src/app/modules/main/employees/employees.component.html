@@ -1,0 +1,44 @@
+<div class="col-5 page-container container">
+  <div class="btn btn-info mb-3" [routerLink]="['add']">Добавить нового сотудника</div>
+  <div *ngIf="institutes.length">
+    <ng-select appendTo="body" placeholder="Институт" class="type-select mb-3"  [(ngModel)]="currentInstitute">
+      <ng-option *ngFor="let institute of institutes" [value]="institute">
+        {{ institute.name }}
+      </ng-option>
+    </ng-select>
+    <ng-select [(ngModel)]="currentDepartment" appendTo="body" placeholder="Кафедра" class="type-select mb-3" (change) = "getDepartmentEmployees($event)">
+      <ng-option *ngFor="let department of currentInstitute.departments" [value]="department">
+        {{ department.name }}
+      </ng-option>
+    </ng-select>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Фамилия</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Отчество</th>
+        <th scope="col">Изменить</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="!employees.length">
+        <td colspan="4">
+          <h3 class="no-data">Нет ни одного сотудника!</h3>
+        </td>
+      </tr>
+      <tr *ngFor="let employee of employees">
+        <td>
+          {{employee.lastName}}
+        </td>
+        <td>
+          {{employee.firstName}}
+        </td>
+        <td>{{employee.patronymic}}</td>
+        <td>
+          <div class="btn btn-info" [routerLink]="['edit',employee.id]">Edit</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

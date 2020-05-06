@@ -35,5 +35,11 @@ namespace AntiGrade.Controllers
             var result = await _service.GetAllStatuses();
             return ResponseModel(result);
         }
+        [HttpGet("institutes")]
+        public async Task<IActionResult> GetAllInsitutes()
+        {
+            var result = await _service.GetInstitutes();
+            return ResponseModel(result);
+        }
     }
 }

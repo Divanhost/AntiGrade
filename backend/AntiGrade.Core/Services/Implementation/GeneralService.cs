@@ -41,5 +41,15 @@ namespace AntiGrade.Core.Services.Implementation
             var result = await _unitOfWork.GetRepository<Status, int>().All().ToListAsync();
             return result;
         }
+
+        public async Task<List<InstituteView>> GetInstitutes()
+        {
+            var result = await _unitOfWork.GetRepository<Institute,int>()
+                                        .All()
+                                        .Include(x=>x.Departments)
+                                        .ProjectTo<InstituteView>(_mapper.ConfigurationProvider)
+                                        .ToListAsync();
+            return result;
+        }
     }
 }

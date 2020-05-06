@@ -45,6 +45,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetSubjectEmployees(id);
             return ResponseModel(result);
         }
+        [HttpGet("department/{id}")]
+        public async Task<IActionResult> GetDepartmentEmployees(int id)
+        {
+            var result = await _service.GetDepartmentEmployees(id);
+            return ResponseModel(result);
+        }
         [HttpPost]
         public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeDto)
         {

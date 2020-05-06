@@ -31,6 +31,7 @@ import { PartialTableComponent } from './partial-table/partial-table.component';
 import { CriteriasComponent } from './criterias/criterias.component';
 import { UsersComponent } from './users/users.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { InstitutesComponent } from './institutes/institutes.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -53,7 +54,8 @@ registerLocaleData(localeRu, 'ru-RU');
     PartialTableComponent,
     CriteriasComponent,
     EmployeesComponent,
-    UsersComponent
+    UsersComponent,
+    InstitutesComponent
   ],
   imports: [
     NgbModule,

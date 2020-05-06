@@ -3,6 +3,7 @@ import { HttpService } from '.';
 import { Observable } from 'rxjs';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { Status } from 'src/app/shared/models/status.model';
+import { Institute } from 'src/app/shared/models/institute.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,9 @@ export class GeneralService {
     return this.http.getData(`general/statuses`);
   }
   updateCurrentMode(id: number): Observable<ResponseModel<boolean>> {
-    // const params = HttpService.toHttpParams({number: id});
     return this.http.getData(`general/mode/${id}`);
+  }
+  getInstitutes(): Observable<ResponseModel<Institute[]>> {
+    return this.http.getData(`general/institutes`);
   }
 }

@@ -8,6 +8,9 @@ import { UserViewModel } from 'src/app/shared/models';
 import { EmployeeDtoModel } from 'src/app/shared/models/employee-dto.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { EmployeePosition } from 'src/app/shared/models/employee-position.model';
+import { Institute } from 'src/app/shared/models/institute.model';
+import { Department } from 'src/app/shared/models/department.model';
+import { GeneralService } from 'src/app/core/services/general.service';
 
 @Component({
   selector: 'app-add-edit-employee',
@@ -18,14 +21,17 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
 
   isCreate: boolean;
   employeeId: number;
-  employee: EmployeeDtoModel = new EmployeeDtoModel();
+  employee: Employee = new Employee();
   users: UserViewModel[] = [];
   employeePositions: EmployeePosition[] = [];
   dropdownSettings = {};
+  institutes: Institute[] = [];
+  currentInstitute: Institute = new Institute();
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
               private readonly employeeService: EmployeeService,
-              private readonly userService: UserService) {
+              private readonly userService: UserService,
+              private readonly generalService: GeneralService) {
     super();
     this.subscriptions.push(
       this.route.params.subscribe(params => this.employeeId = params.id)
@@ -34,7 +40,7 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getUsersWithoutEmployee();
-    // this.getEmployeePositions();
+    this.getInstitutes();
     if (!this.isCreate) {
       this.getEmployee();
     }
@@ -53,22 +59,23 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.employeeService
         .getEmployeeById(this.employeeId)
-        .subscribe((response: ResponseModel<EmployeeDtoModel>) => {
+        .subscribe((response: ResponseModel<Employee>) => {
           this.employee = response.payload;
         })
     );
   }
-  // getEmployeePositions() {
-  //   this.subscriptions.push(
-  //     this.employeeService
-  //       .getEmployeePositions()
-  //       .subscribe((response:ResponseModel<EmployeeDtoModel[]>) => {
-  //         debugger;
-  //         this.employeePositions = response.payload;
-  //       })
-  //   );
-  // }
+  getInstitutes() {
+    this.subscriptions.push(
+      this.generalService.getInstitutes().subscribe((response: ResponseModel<Institute[]>) => {
+        this.institutes = response.payload;
+        this.currentInstitute = this.institutes[0];
+        console.log(this.institutes);
+      })
+    );
+  }
+
   createEmployee() {
+    debugger;
     this.subscriptions.push(
       this.employeeService.createEmployee(this.employee).subscribe()
     );

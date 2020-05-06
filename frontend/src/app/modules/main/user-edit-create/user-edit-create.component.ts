@@ -98,7 +98,6 @@ export class UserEditCreateComponent implements OnInit, OnDestroy {
   }
 
   getUserByID() {
-    debugger;
     this.subscriptions.push(
       this.userService
         .getUserByID(this.userId)

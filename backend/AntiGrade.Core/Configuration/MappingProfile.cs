@@ -27,6 +27,7 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x => x.LastName, _ => _.MapFrom(r => r.LastName))
                 .ForMember(x => x.UserId, _ => _.MapFrom(r => r.UserId))
                 .ForMember(x => x.Patronymic, _ => _.MapFrom(r => r.Patronymic))
+                .ForMember(x => x.DepartmentId, _ => _.MapFrom(r => r.DepartmentId))
                 .ForMember(x => x.EmployeePositionId, _ => _.Ignore())
                 .ForMember(x => x.Id, _ => _.MapFrom(r => r.Id));
             CreateMap<Employee,EmployeeDto>().ReverseMap();
@@ -131,6 +132,13 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.SecondPassPoints, opt=>opt.MapFrom(src => src.SecondPassPoints))
                 .ForMember(x=> x.ThirdPassPoints, opt=>opt.MapFrom(src => src.ThirdPassPoints));
              CreateMap<ExamResultDto,ExamResult>().ReverseMap();
+            CreateMap<Institute,InstituteView>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.Departments, opt=>opt.MapFrom(src => src.Departments));
+            CreateMap<Department,DepartmentView>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
         }
     }
 }

@@ -12,5 +12,6 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<int> GetCurrentMode();
         Task<bool> UpdateCurrentMode(int id);
         Task<List<Status>> GetAllStatuses();
+        Task<List<InstituteView>> GetInstitutes();
     }
 }

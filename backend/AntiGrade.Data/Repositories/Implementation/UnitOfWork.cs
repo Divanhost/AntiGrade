@@ -211,6 +211,30 @@ namespace AntiGrade.Data.Repositories.Implementation
                 return _statusRepository;
             }
         }
+         public IRepository<Institute, int> InstituteRepository 
+        {
+            get
+            {
+                if (_instituteRepository == null)
+                {
+                    _instituteRepository = new Repository<Institute, int>(_context);
+                }
+
+                return _instituteRepository;
+            }
+        }
+         public IRepository<Department, int> DepartmentRepository 
+        {
+            get
+            {
+                if (_departmentRepository == null)
+                {
+                    _departmentRepository = new Repository<Department, int>(_context);
+                }
+
+                return _departmentRepository;
+            }
+        }
         public async Task<int> Save()
         {
             var result = await _context.SaveChangesAsync();
@@ -256,7 +280,8 @@ namespace AntiGrade.Data.Repositories.Implementation
         private IRepository<ExamResult, int> _examResultRepository;
         private IRepository<Mode, int> _modeRepository;
         private IRepository<Status, int> _statusRepository;
-        
+        private IRepository<Institute, int> _instituteRepository;
+        private IRepository<Department, int> _departmentRepository;
 
 
     }

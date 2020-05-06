@@ -1,5 +1,5 @@
-<div class="container-fluid row">
-    <div class="col-6">
+<div class="e-container">
+    <div class="page-container">
             <h2 *ngIf="isCreate; else edit">Создание Сотрудника</h2>
             <ng-template #edit>
                 <h2>Изменение сотрудника</h2>
@@ -10,6 +10,7 @@
                     {{ user.id }}
                 </ng-option>
             </ng-select>
+          
             <div>
                 <label>Фамилия</label>
                 <input class="form-control border-style"  [(ngModel)]="employee.lastName" type="text">
@@ -20,13 +21,22 @@
             </div>
             <div>
                 <label>Отчество</label>
-                <input class="form-control border-style"  [(ngModel)]="employee.patronymic" type="text">
+                <input class="form-control border-style mb-3"  [(ngModel)]="employee.patronymic" type="text">
             </div>
-            <!-- <ng-select [(ngModel)]="employee.userId">
-                <ng-option *ngFor="let user of users" [value] = "user.id">
-                    {{ user.id }}
-                </ng-option>
-            </ng-select> -->
+            <div *ngIf="institutes.length">
+                <label>Институт</label>
+                <ng-select appendTo="body" placeholder="Институт" class="type-select mb-3"  [(ngModel)]="currentInstitute">
+                  <ng-option *ngFor="let institute of institutes" [value]="institute">
+                    {{ institute.name }}
+                  </ng-option>
+                </ng-select>
+                <label>Кафедра</label>
+                <ng-select [(ngModel)]="employee.departmentId" appendTo="body" placeholder="Кафедра" class="type-select mb-3">
+                  <ng-option *ngFor="let department of currentInstitute.departments" [value]="department.id">
+                    {{ department.name }}
+                  </ng-option>
+                </ng-select>
+            </div>
             <div class="buttons mt-3">
                 <button type="button" class="btn btn-success" (click)="createEmployee()">Save</button>
                 <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
