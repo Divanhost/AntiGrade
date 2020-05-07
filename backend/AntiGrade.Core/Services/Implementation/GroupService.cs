@@ -22,7 +22,8 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<bool> CreateGroup(GroupDto groupDto)
         {
             var group = _mapper.Map<Group>(groupDto);
-
+            group.CourseId = group.Course.Id;
+            group.Course = null;
             var result = _unitOfWork.GetRepository<Group, int>().Create(group);
             return await _unitOfWork.Save() > 0;
         }
@@ -55,13 +56,22 @@ namespace AntiGrade.Core.Services.Implementation
             return groups;
         }
 
-        public async Task<GroupView> GetGroupById(int groupId)
+        public async Task<GroupDto> GetGroupById(int groupId)
         {
             var group = await _unitOfWork.GetRepository<Group, int>()
                                     .Filter(x => x.Id == groupId && !x.IsDeleted)
-                                    .ProjectTo<GroupView>(_mapper.ConfigurationProvider)
+                                    .ProjectTo<GroupDto>(_mapper.ConfigurationProvider)
                                     .FirstOrDefaultAsync();
             return group;
+        }
+
+         public async Task<List<CourseView>> GetCourses()
+        {
+            var courses = await _unitOfWork.GetRepository<Course, int>()
+                                    .All()
+                                    .ProjectTo<CourseView>(_mapper.ConfigurationProvider)
+                                    .ToListAsync();
+            return courses;
         }
 
         public async Task<List<GroupView>> GetGroupBySubjectId(int id)
@@ -95,6 +105,7 @@ namespace AntiGrade.Core.Services.Implementation
                 if (groupDb != null)
                 {
                     groupDb.Name = groupDto.Name;
+                    groupDb.CourseId = groupDto.Course.Id;
                     var newStudents = _mapper.Map<List<Student>>(groupDto.Students);
                      groupDb.Students = null;
                     _unitOfWork.GetRepository<Group, int>()

@@ -3,6 +3,7 @@ import { Group } from 'src/app/shared/models/group.model';
 import { HttpService } from '.';
 import { Observable } from 'rxjs';
 import { ResponseModel } from 'src/app/shared/models/response.model';
+import { Course } from 'src/app/shared/models/course.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,9 @@ export class GroupService {
   }
   getGroupsBySubjectId(id: number): Observable<ResponseModel<Group[]>> {
     return this.http.getData(`group/subject/${id}`);
+  }
+  getCourses(): Observable<ResponseModel<Course[]>> {
+    return this.http.getData(`group/courses`);
   }
   deleteGroup(id: number): Observable<ResponseModel<boolean>> {
     return this.http.deleteData(`group/${id}`);

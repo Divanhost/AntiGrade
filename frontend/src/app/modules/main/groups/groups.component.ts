@@ -82,7 +82,6 @@ export class GroupsComponent extends BaseComponent implements OnInit {
           this.subjectGroups.push({groupId: element.id, subjectId: this.subjectId});
         }
       });
-      debugger;
       this.subscriptions.push(
         this.subjectService.updateSubjectGroups(this.subjectId,this.subjectGroups).subscribe(() => {
           this.groups = this.groups.filter(x=>x.id !== groupId);

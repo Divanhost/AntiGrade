@@ -1,9 +1,16 @@
-<div class="container-fluid row">
-    <div class="col-6">
+<div class="g-container">
+    <div class="page-container">
         <h2 *ngIf="isCreate; else edit">Создание группы</h2>
         <ng-template #edit>
             <h2>Изменение группы</h2>
         </ng-template>
+        <div>
+            <ng-select [(ngModel)]="group.course" appendTo="body" placeholder="Направление" class="type-select mb-3">
+                <ng-option *ngFor="let course of courses" [value]="course">
+                  {{ course.name }}
+                </ng-option>
+            </ng-select>
+        </div>
         <div>
             <label for="input-name">Название</label>
             <input class="form-control border-style" id="input-name" [(ngModel)]="group.name" type="text">

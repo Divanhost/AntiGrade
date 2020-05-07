@@ -10,8 +10,9 @@ namespace AntiGrade.Core.Services.Interfaces
     public interface IGroupService
     {
         Task<List<GroupView>> GetAllGroups();
-        Task<GroupView> GetGroupById(int id);
+        Task<GroupDto> GetGroupById(int id);
         Task<List<GroupView>> GetGroupBySubjectId(int id);
+        Task<List<CourseView>> GetCourses();
         Task<bool> CreateGroup(GroupDto groupDto);
         Task<bool> UpdateGroup(int groupId, GroupDto groupDto);
         Task<bool> DeleteById(int id);

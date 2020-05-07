@@ -8,6 +8,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Student } from 'src/app/shared/models/student.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { NotifierService } from 'angular-notifier';
+import { Course } from 'src/app/shared/models/course.model';
 @Component({
   selector: 'app-add-edit-group',
   templateUrl: './add-edit-group.component.html',
@@ -16,6 +17,7 @@ import { NotifierService } from 'angular-notifier';
 export class AddEditGroupComponent extends BaseComponent implements OnInit {
   faPlusCircle = faPlusCircle;
   isCreate: boolean;
+  courses: Course[] = [];
   groupId: number;
   group: Group = new Group();
   dropdownSettings = {};
@@ -36,14 +38,27 @@ export class AddEditGroupComponent extends BaseComponent implements OnInit {
     if (this.isCreate) {
       this.group.students = [];
       this.addStudent();
+      this.getCourses();
     } else {
-      this.subscriptions.push(
-        this.groupService.getGroup(this.groupId).subscribe((response: ResponseModel<Group>) => {
-          this.group = response.payload;
-        })
-      );
+      this.getCourses();
     }
   }
+  getCourses() {
+      this.subscriptions.push(
+        this.groupService.getCourses().subscribe((response: ResponseModel<Course[]>) => {
+          this.courses = response.payload;
+          this.getGroup();
+        })
+      );
+  }
+  getGroup() {
+    this.subscriptions.push(
+      this.groupService.getGroup(this.groupId).subscribe((response: ResponseModel<Group>) => {
+        this.group = response.payload;
+        this.group.course = this.courses.find(x => x.id === this.group.course.id);
+      })
+    );
+}
   addStudent() {
     const student = new Student();
     student.groupId = this.groupId;

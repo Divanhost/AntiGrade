@@ -90,7 +90,9 @@ namespace AntiGrade.Core.Configuration
             CreateMap<GroupDto,Group>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
+                .ForMember(x=> x.Course, opt=>opt.MapFrom(src => src.Course))
                 .ForMember(x=> x.Students, opt=>opt.MapFrom(src => src.Students));
+             CreateMap<Group,GroupDto>().ReverseMap();
             CreateMap<Student,StudentView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.FirstName, opt=>opt.MapFrom(src => src.FirstName))
@@ -139,6 +141,10 @@ namespace AntiGrade.Core.Configuration
             CreateMap<Department,DepartmentView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
+            CreateMap<Course,CourseView>()
+                .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
+                .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
+            CreateMap<CourseView,Course>().ReverseMap();
         }
     }
 }

@@ -75,7 +75,6 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
   }
 
   createEmployee() {
-    debugger;
     this.subscriptions.push(
       this.employeeService.createEmployee(this.employee).subscribe()
     );

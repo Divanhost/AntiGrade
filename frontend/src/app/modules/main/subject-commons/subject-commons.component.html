@@ -1,8 +1,8 @@
-<div>
-    <h2 *ngIf="isCreate; else edit">Создание ведомости</h2>
+<div class="page-container">
+    <!-- <h2 *ngIf="isCreate; else edit">Создание ведомости</h2>
     <ng-template #edit>
         <h2>Изменение ведомости</h2>
-    </ng-template>
+    </ng-template> -->
     <div>
         <div class="md-form">
             <label for="input-name">Название</label>
@@ -10,7 +10,7 @@
         </div>
     </div>
     <div>Вид зачёта</div>
-    <ng-select [(ngModel)]="examType">
+    <ng-select [(ngModel)]="examType" appendTo = "body">
         <ng-option *ngFor="let type of examTypes" [value]="type">
             {{ type.name }}
         </ng-option>

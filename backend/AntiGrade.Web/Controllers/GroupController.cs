@@ -59,5 +59,12 @@ namespace AntiGrade.Controllers
             var result = await _service.DeleteById(id);
             return ResponseModel(result);
         }
+        [HttpGet("courses")]
+        public async Task<IActionResult> GetCourses()
+        {
+            var result = await _service.GetCourses();
+            return ResponseModel(result);
+        }
+
     }
 }
