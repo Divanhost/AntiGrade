@@ -59,6 +59,12 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   updateData(subject: SubjectDto) {
     this.subject = subject;
     this.works = this.subject.works;
+    if (!this.works) {
+      this.works = [];
+      this.addWork();
+    }
+  }
+  renewWorks() {
     if (this.works) {
       this.works.forEach(element => {
         element.id = 0;
@@ -68,10 +74,6 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
           });
         }
       });
-    }
-    if (!this.works) {
-      this.works = [];
-      this.addWork();
     }
   }
 }

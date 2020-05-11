@@ -9,21 +9,19 @@ namespace AntiGrade.Web.Controllers.Configuration
 {
     [Route("api/users")]
     [ApiController]
-    // [Authorize]
+    [Authorize]
     public class UserController : BaseServiceController<IUserService>
     {
 
         public UserController(IUserService userService) : base(userService)
         { }
         [HttpGet("roles")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetAllRoles()
         {
             var result = await _service.GetAllRoles();
             return ResponseModel(result);
         }
         [HttpGet("{userId}")]
-        [AllowAnonymous]
 
         public async Task<IActionResult> GetUserById(int userId)
         {
@@ -31,7 +29,6 @@ namespace AntiGrade.Web.Controllers.Configuration
             return ResponseModel(result);
         }
         [HttpGet("check_username/{username}")]
-        [AllowAnonymous]
 
         public async Task<IActionResult> CheckUserNameExists(string username)
         {
@@ -39,7 +36,6 @@ namespace AntiGrade.Web.Controllers.Configuration
             return ResponseModel(result);
         }
         [HttpGet("check_email/{email}")]
-        [AllowAnonymous]
 
         public async Task<IActionResult> CheckEmailExists(string email)
         {
@@ -47,7 +43,6 @@ namespace AntiGrade.Web.Controllers.Configuration
             return ResponseModel(result);
         }
         [HttpGet("check_password/{userName}/{password}")]
-        [AllowAnonymous]
 
         public async Task<IActionResult> CheckPassword(string userName, string password)
         {
@@ -57,8 +52,6 @@ namespace AntiGrade.Web.Controllers.Configuration
 
         // [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        [AllowAnonymous]
-
         public async Task<IActionResult> CreateUser([FromBody] UserDto user)
         {
             var result = await _service.CreateUser(user);
@@ -74,23 +67,18 @@ namespace AntiGrade.Web.Controllers.Configuration
         }
         // [Authorize(Roles = Roles.Admin)]
         [HttpDelete("delete_user/{userId:int}")]
-        [AllowAnonymous]
-
         public async Task<IActionResult> DeleteUser(int userId)
         {
             bool result = await _service.DeleteById(userId);
             return ResponseModel(result);
         }
         [HttpGet("without_employee")]
-        [AllowAnonymous]
-
         public async Task<IActionResult> GetUsersWithoutEmployee()
         {
             var result = await _service.GetWithoutEmployee();
             return Ok(result);
         }
         [HttpGet("all")]
-        [AllowAnonymous]
         public async Task<IActionResult> GetAllUsers()
         {
             var result = await _service.GetAllUsers();

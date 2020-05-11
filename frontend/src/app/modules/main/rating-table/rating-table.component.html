@@ -1,17 +1,12 @@
-<div class="container-fluid mt-2 table-editable">
-  <div *ngIf="loaded" class="rating-holder">
-    <!-- <button (click)="exportData('full-table')">
-      <span class="mdi mdi-file-export"> </span>
-      <small>Export</small>
-    </button> -->
-    <table id = "full-table">
-      <thead>
-        <th></th>
-        <th></th>
-        <th></th>
-      </thead>
-      <tbody>
-        <td class="cell" >
+<div class="r-container">
+  <div class="page-container mt-2 table-editable">
+    <div *ngIf="loaded" class="rating-holder">
+      <!-- <button (click)="exportData('full-table')">
+        <span class="mdi mdi-file-export"> </span>
+        <small>Export</small>
+      </button> -->
+      <div id="full-table">
+        <td class="cell">
           <table class="table table-bordered table-responsive-md table-striped text-center">
             <thead>
               <tr>
@@ -24,6 +19,9 @@
                   Студент
                 </th>
               </tr>
+              <tr>
+                <th class="readonly-cell"></th>
+              </tr>
             </thead>
             <tbody>
               <tr *ngFor="let student of students">
@@ -34,15 +32,20 @@
             </tbody>
           </table>
         </td>
-        <td class="cell">
-          <div class="d-flex">
-            <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [disabled] = "disableLects" [mode] = "mode" (changeData) = updateData($event)>
-            </app-partial-table>
-            <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [disabled] = "disablePracts" [mode] = "mode" (changeData) = updateData($event)>
-            </app-partial-table>
-            <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [disabled] = "disableLabs" [mode] = "mode" (changeData) = updateData($event)>
-            </app-partial-table>
-          </div>
+        <td class="cell" *ngIf="lects.length">
+          <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId"
+            [disabled]="disableLects" [mode]="mode" (changeData)=updateData($event)>
+          </app-partial-table>
+        </td>
+        <td class="cell" *ngIf="practs.length">
+          <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId"
+            [disabled]="disablePracts" [mode]="mode" (changeData)=updateData($event)>
+          </app-partial-table>
+        </td>
+        <td class="cell" *ngIf="labs.length">
+          <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId"
+            [disabled]="disableLabs" [mode]="mode" (changeData)=updateData($event)>
+          </app-partial-table>
         </td>
         <td class="cell">
           <table class="table table-bordered table-responsive-md table-striped text-center">
@@ -66,27 +69,34 @@
                   Итого
                 </th>
               </tr>
+              <tr>
+                <th class="readonly-cell"> </th>
+                <th class="readonly-cell"> </th>
+                <th class="readonly-cell"> </th>
+                <th class="readonly-cell"> </th>
+              </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let sum of totals">
+              <tr *ngFor="let sum of totals; let i = index">
                 <td>
-                  {{sum.totals}}
+                  <!-- {{sum.totals}} -->
+                </td>
+                <td *ngIf="additionalTotals.length">
+                  <!-- {{additionalTotals[i].totals}} -->
+                </td>
+                <td *ngIf="examResults.length">
+                  <!-- {{examResults[i].points}} -->
                 </td>
                 <td>
-                </td>
-                <td>
-                </td>
-                <td>
+                  <!-- {{sum.totals + additionalTotals[i].totals + examResults[i].points}} -->
                 </td>
               </tr>
             </tbody>
           </table>
         </td>
-      </tbody>
-      
-    </table>
-    
+      </div>
+    </div>
+    <div class="btn btn-success mb-1" (click)="updateRating()"> Сохранить</div>
+    <div class="btn btn-primary" [routerLink]="['/subjects']"> Назад</div>
   </div>
-  <div class="btn btn-success" (click)="updateRating()"> Сохранить</div>
-  <div class="btn btn-primary ml-3" [routerLink]="['/subjects']"> Назад</div>
 </div>

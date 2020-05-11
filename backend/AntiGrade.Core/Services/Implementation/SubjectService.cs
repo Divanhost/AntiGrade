@@ -25,6 +25,7 @@ namespace AntiGrade.Core.Services.Implementation
             var type = await _unitOfWork.GetRepository<ExamType, int>().Find(x => x.Id == subjectDto.ExamType.Id);
             subject.TypeId = type.Id;
             subject.SubjectEmployees = DivideSubjectEmployees(subjectDto.SubjectEmployees); 
+            // subject.Works.ForEach(x=>x.Criterias.ForEach(y=>y.WorkId = x.Id));
             var result = _unitOfWork.GetRepository<Subject, int>().Create(subject);
             return await _unitOfWork.Save() > 0;
         }
@@ -88,7 +89,7 @@ namespace AntiGrade.Core.Services.Implementation
                     subject.TypeId = subjectDto.ExamType.Id;
                     subject.Group = group;
                     var works = _mapper.Map<List<Work>>(subjectDto.Works);
-
+                    // works.ForEach(x=>x.Criterias.ForEach(y=>y.WorkId = x.Id));
                     var employeesNew = DivideSubjectEmployees(subjectDto.SubjectEmployees);
                     
                     _unitOfWork.GetRepository<Subject, int>().Update(subject);
@@ -153,6 +154,7 @@ namespace AntiGrade.Core.Services.Implementation
                                     .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
                                     .OrderBy(z=>z.LastName)
                                     .ThenBy(z=>z.FirstName)
+                                    .ThenBy(x=>x.Patronymic)
                                     .ToListAsync();
             return result;
         }
@@ -201,6 +203,9 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<List<ExamResultDto>> GetExamResults(int subjectId, List<int> studentIds) {
             var result = await _unitOfWork.GetRepository<ExamResult, int>()
                                     .Filter(x => x.SubjectId == subjectId && studentIds.Contains(x.StudentId))
+                                    .OrderBy(x=>x.Student.LastName)
+                                    .ThenBy(x=>x.Student.FirstName)
+                                    .ThenBy(x=>x.Student.Patronymic)
                                     .ProjectTo<ExamResultDto>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return result;

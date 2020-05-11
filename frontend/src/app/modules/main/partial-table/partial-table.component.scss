@@ -8,3 +8,12 @@
         color: white;
     }
 }
+.work-header {
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -o-pre-wrap; /* Opera */
+    white-space: pre-wrap; /* Chrome */
+    word-wrap: break-word; /* IE */
+}
+.readonly-cell {
+    height: 45px;
+}

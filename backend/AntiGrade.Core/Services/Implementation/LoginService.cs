@@ -33,7 +33,8 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<string> LoginAsync(LoginDto user)
         {
             var appUser = await _unitOfWork.UserRepository.Filter(x => x.UserName == user.UserName && !x.IsDeleted)
-            .SingleOrDefaultAsync();
+                                                        .Include(x=>x.Employee)
+                                                        .SingleOrDefaultAsync();
 
             if (appUser != null)
             {

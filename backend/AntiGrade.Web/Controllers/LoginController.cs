@@ -12,6 +12,8 @@ namespace AntiGrade.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class LoginController : BaseServiceController<ILoginService>
     {
         public LoginController(ILoginService tokenService) : base(tokenService)

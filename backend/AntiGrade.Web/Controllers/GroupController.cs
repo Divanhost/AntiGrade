@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Shared.InputModels;
 using AntiGrade.Web.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntiGrade.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class GroupController : BaseServiceController<IGroupService>
     {
         public GroupController(IGroupService groupService) : base(groupService)

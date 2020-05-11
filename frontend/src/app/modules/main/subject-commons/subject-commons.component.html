@@ -9,10 +9,15 @@
             <input mdbInput class="form-control border-style" id="input-name" [(ngModel)]="name" type="text">
         </div>
     </div>
-    <div>Вид зачёта</div>
+    <div>Вид контроля</div>
     <ng-select [(ngModel)]="examType" appendTo = "body">
         <ng-option *ngFor="let type of examTypes" [value]="type">
             {{ type.name }}
         </ng-option>
     </ng-select>
+    <!-- Default unchecked -->
+    <div class="custom-control custom-checkbox mt-3">
+        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+        <label class="custom-control-label" for="defaultUnchecked">Добавлять бонусные баллы</label>
+    </div>
 </div>

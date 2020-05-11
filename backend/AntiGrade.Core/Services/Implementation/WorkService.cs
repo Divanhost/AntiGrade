@@ -26,7 +26,7 @@ namespace AntiGrade.Core.Services.Implementation
                                             .Filter(x => x.Id == workId)
                                             .SelectMany(x => x.Criterias)
                                             .SelectMany(y=>y.StudentCriterias)
-                                            .Where(z=>z.IsAdditional)
+                                            .Where(z=>!z.IsAdditional)
                                             .ProjectTo<StudentCriteriaDto>(_mapper.ConfigurationProvider)
                                             .ToListAsync();
             return result;

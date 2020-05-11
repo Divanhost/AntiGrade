@@ -90,6 +90,5 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
   }
   passBack() {
     this.changeData.emit(this.studentWorks);
-    //console.log(this.studentWorks);
   }
 }

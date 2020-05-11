@@ -17,4 +17,30 @@
 }
 .cell {
   display: table-cell;
+  text-align: center;
+  vertical-align: baseline
+}
+
+.page-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #dedede;
+  overflow: auto;
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
+  max-width: max-content;
+  padding: 1em;
+  min-width: 35vw;
+  white-space: nowrap;
+}
+.r-container{
+  display: flex;
+  justify-content: center;
+}
+.readonly-cell {
+  height: 45px;
 }

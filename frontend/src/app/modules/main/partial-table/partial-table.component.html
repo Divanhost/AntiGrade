@@ -5,27 +5,30 @@
         {{title}}
       </th>
     </tr>
-    <tr>
-      <th *ngFor="let work of works">
-        <div class="d-flex">
-          <div>
+    <ng-container *ngFor="let work of works">
+      <tr>
+        <th>
+          <div  *ngIf="work.criterias.length" type="button" (click) = "selectWork(work.id)">
+            <!-- <button type="button" data-toggle="modal" data-target="#exampleModal" (click) = "selectWork(work.id)"> -->
+            {{work.name}} 
+            <!-- </button> -->
+          </div>
+          <div  *ngIf="!work.criterias.length">
             {{work.name}} 
           </div>
-          <div>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click) = "selectWork(work.id)"
-            *ngIf="work.criterias.length">
-              modal
-            </button>
-          </div>
-        </div>
-        <small>Max: {{work.points}}</small>
-      </th>
-    </tr>
+        </th>
+      </tr>
+      <tr>
+        <th>
+          <small>Max: {{work.points}}</small>
+        </th>
+      </tr>
+    </ng-container>
   </thead>
   <tbody>
     <tr *ngFor="let row of data">
       <ng-container *ngIf="disabled; else elseTemplate">
-        <td *ngFor="let sWork of row.studentWorks">
+        <td *ngFor="let sWork of row.studentWorks" class = "readonly-cell">
           {{sWork.sumOfPoints}}
         </td>
       </ng-container>

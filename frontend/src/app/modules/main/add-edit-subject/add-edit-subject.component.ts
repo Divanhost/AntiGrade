@@ -141,12 +141,14 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     );
   }
   getSubject() {
+
     this.subscriptions.push(
       this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
         this.subject = response.payload;
         this.loaded = true;
         this.subjectCommonsComponent.updateData(this.subject);
         this.planComponent.updateData(this.subject);
+        this.planComponent.renewWorks();
         this.teachersComponent.updateData(this.subject);
         this.groupComponent.updateData(this.subject);
       })

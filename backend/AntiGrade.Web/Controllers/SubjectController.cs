@@ -6,12 +6,15 @@ using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Shared.InputModels;
 using AntiGrade.Shared.Models;
 using AntiGrade.Web.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntiGrade.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class SubjectController : BaseServiceController<ISubjectService>
     {
         public SubjectController(ISubjectService subjectService) : base(subjectService)

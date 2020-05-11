@@ -18,6 +18,8 @@ import { StatusEnum } from 'src/app/shared/enums/status.enum';
 import { NotifierService } from 'angular-notifier';
 import * as XLSX from 'xlsx';
 import { ExcelService } from 'src/app/core/services/excel.service';
+import { Totals } from 'src/app/shared/models/totals.model';
+import { ExamResult } from 'src/app/shared/models/exam-result.model';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
@@ -39,6 +41,8 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   studentCriteria: StudentCriteria[] = [];
   studentWorks: StudentWork[] = [];
   editField: string;
+  additionalTotals: Totals[] = [];
+  examResults: ExamResult[] = [];
   data = [];
   totals = [];
   loaded = false;
@@ -118,10 +122,13 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   updateRating() {
     this.updateStudentWorks();
   }
-  // Works only to 9 user
+
   checkStatus() {
     const employeeId = this.roleService.getCurrentUserEmployeeId();
-    this.subjectService.getRoles(this.subjectId, 9).subscribe((response: ResponseModel<Status[]>) => {
+    if (!employeeId) {
+      this.notifierService.notify('error', 'У вас нет прав на редактирование');
+    }
+    this.subjectService.getRoles(this.subjectId, employeeId).subscribe((response: ResponseModel<Status[]>) => {
       console.log(response.payload);
       response.payload.forEach(element => {
         switch (element.name) {
@@ -178,10 +185,31 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
         this.mode = this.modes.find(x => x.id === response.payload);
         this.loaded = true;
+        if (this.mode.id === 2) {
+          this.getExamResults();
+        } else if (this.mode.id === 3) {
+          this.getAdditionals();
+        }
       })
     );
   }
- 
+  getAdditionals() {
+    const studentIds = this.students.map(({ id }) => id);
+    this.subscriptions.push(
+      this.subjectService.getSubjectAdditionalTotals(this.subjectId, studentIds).subscribe((response: ResponseModel<Totals[]>) => {
+        this.additionalTotals = response.payload;
+        this.getExamResults();
+      })
+    );
+  }
+  getExamResults() {
+    const studentIds = this.students.map(({ id }) => id);
+    this.subscriptions.push(
+      this.subjectService.getExamResults(this.subjectId, studentIds).subscribe((response: ResponseModel<ExamResult[]>) => {
+        this.examResults = response.payload;
+      })
+    );
+  }
   exportData(tableId: string) {
     this.excelSrv.exportToFile('contacts', tableId).subscribe();
   }
