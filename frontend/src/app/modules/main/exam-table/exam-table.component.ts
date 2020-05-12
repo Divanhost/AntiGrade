@@ -9,6 +9,10 @@ import { Totals } from 'src/app/shared/models/totals.model';
 import { ExamResult } from 'src/app/shared/models/exam-result.model';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { Mode } from 'src/app/shared/models/mode.model';
+import { NotifierService } from 'angular-notifier';
+import { RoleService } from 'src/app/core/services/role.service';
+import { StatusEnum } from 'src/app/shared/enums/status.enum';
+import { Status } from 'src/app/shared/models/status.model';
 @Component({
   selector: 'app-exam-table',
   templateUrl: './exam-table.component.html',
@@ -24,6 +28,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   totals: Totals[] = [];
   additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
+  hasAccess = false;
   get isExamMode() {
     if (this.mode) {
       return this.mode.id === 2;
@@ -36,8 +41,9 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   }
   constructor(
     private readonly subjectService: SubjectService,
-    private readonly studentService: StudentService,
+    private readonly notifierService: NotifierService,
     private readonly generalService: GeneralService,
+    private readonly roleService: RoleService,
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
@@ -49,11 +55,11 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.initializeTable();
     this.getCurrentMode();
+    this.checkStatus();
   }
 
   initializeTable() {
     this.getStudents();
-    // this.getWorks();
   }
 
   getStudents() {
@@ -64,7 +70,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       })
     );
   }
-  updateWorkPoints(examResult: ExamResult, event: any) {
+  updateWorkPoints(examResult: ExamResult, type: string, event: any) {
     const editField = event.target.textContent;
     if ( editField > 40 /*|| !this.regex.test(editField)*/) {
       event.target.classList.add('off-limits');
@@ -72,7 +78,19 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     } else {
       event.target.classList.remove('off-limits');
     }
-    examResult.points = +editField;
+    switch (type) {
+      case 'first':
+        examResult.points = +editField;
+        break;
+      case 'second':
+        examResult.secondPassPoints = +editField;
+        break;
+      case 'third':
+        examResult.thirdPassPoints = +editField;
+        break;
+      default:
+        break;
+    }
     if ( examResult.points.toString() !== '' && examResult.points !== null) {
       const hasWork = this.examResults.find(x => x.studentId === examResult.studentId);
       if (!hasWork) {
@@ -148,6 +166,9 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     );
   }
   canEdit(totals: number) {
+    if (!this.hasAccess) {
+      return false;
+    }
     if (totals >= 38) {
       return true;
     } else {
@@ -170,7 +191,24 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
         this.mode = this.modes.find(x => x.id === response.payload);
+        if (this.mode.id === 1) {
+          this.notifierService.notify('error', 'Страница недоступна');
+          this.router.navigate(['/dashboard']);
+        }
       })
     );
+  }
+  checkStatus() {
+    const employeeId = this.roleService.getCurrentUserEmployeeId();
+    if (!employeeId) {
+      this.notifierService.notify('error', 'У вас нет прав на редактирование');
+    }
+    this.subjectService.getRoles(this.subjectId, employeeId).subscribe((response: ResponseModel<Status[]>) => {
+      response.payload.forEach(element => {
+        if (element.name === StatusEnum.Main || element.name === StatusEnum.Examiner) {
+          this.hasAccess = true;
+        }
+      });
+    });
   }
  }

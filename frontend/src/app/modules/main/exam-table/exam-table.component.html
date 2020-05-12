@@ -68,8 +68,8 @@
             </td>
             <!-- First pass -->
             <ng-container *ngIf="canEdit(row.totals); else elseTemplate">
-              <td (keydown.enter)="$event.target.blur();"
-                (blur)="updateWorkPoints(row.examResult, $event)" contenteditable="true">
+              <td (keydown.enter)="$event.target.blur();" [ngClass]="{'disabled': isAdditionalMode}"
+                (blur)="updateWorkPoints(row.examResult, 'first', $event)" contenteditable="true">
                 {{row.examResult.points}}
               </td>
             </ng-container>
@@ -78,13 +78,14 @@
                 {{row.examResult.points}}
               </td>
             </ng-template>
-            <td class="check">
+            <td class="check" [ngClass]="{'disabled': canEdit(row.totals) && isAdditionalMode}">
                 <mat-checkbox class="example-margin" (change)="addFull(row.examResult)" color = "primary" [disabled] = "row.examResult.points !== 0">
                     <label></label>
                 </mat-checkbox>
             </td>
-            <td class="check">
-                <mat-checkbox class="example-margin" (change)="addZero(row.examResult)" color = "warn" [disabled] = "row.examResult.points !== 0">
+            <td class="check" [ngClass]="{'disabled': canEdit(row.totals) && isAdditionalMode}">
+                <mat-checkbox class="example-margin" (change)="addZero(row.examResult)" color = "warn" [disabled] = "row.examResult.points !== 0"
+                  [checked] = "row.examResult.points === 0 && isAdditionalMode">
                     <label></label>
                 </mat-checkbox>
             </td>
@@ -92,7 +93,7 @@
             <!-- Second pass -->
             <ng-container *ngIf="canEdit(row.totals); else elseTemplate" >
               <td (keydown.enter)="$event.target.blur();" [ngClass]="{'disabled': !isAdditionalMode}"
-                (blur)="updateWorkPoints(row.examResult, $event)" contenteditable="true">
+                (blur)="updateWorkPoints(row.examResult,'second', $event)" contenteditable="true">
                 {{row.examResult.secondPassPoints}}
               </td>
             </ng-container>
@@ -110,7 +111,7 @@
             <!-- Third pass -->
             <ng-container *ngIf="canEdit(row.totals); else elseTemplate">
               <td (keydown.enter)="$event.target.blur();" [ngClass]="{'disabled': !isAdditionalMode}"
-                (blur)="updateWorkPoints(row.examResult, $event)" contenteditable="true">
+                (blur)="updateWorkPoints(row.examResult, 'third', $event)" contenteditable="true">
                 {{row.examResult.thirdPassPoints}}
               </td>
             </ng-container>

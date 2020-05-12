@@ -71,7 +71,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.route.params.subscribe(params => this.subjectId = params.id)
     );
   }
- 
+
   ngOnInit(): void {
     this.checkStatus();
     this.initializeTable();
@@ -112,8 +112,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
-        this.getStudentWorks();
-
+        this.getCurrentMode();
       })
     );
   }
@@ -121,12 +120,18 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
         this.studentWorks = response.payload;
+        this.loaded = true;
         this.updateSum();
-        this.getCurrentMode();
       })
     );
   }
+
   updateStudentWorks() {
+    if (this.mode.id === 3) {
+      this.studentWorks.forEach(element => {
+        element.isAdditional = true;
+      });
+    }
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
         this.router.navigate(['/subjects']);
@@ -136,10 +141,6 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
 
   changeValue(studentWork: StudentWork, event: any) {
     this.editField = event.target.textContent;
-  }
-
-  updateRating() {
-    this.updateStudentWorks();
   }
 
   checkStatus() {
@@ -201,24 +202,39 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
         this.mode = this.modes.find(x => x.id === response.payload);
-        this.loaded = true;
         if (this.mode.id === 2) {
           this.getExamResults();
-        } else if (this.mode.id === 3) {
+        }
+        if (this.mode.id !== 3) {
+          this.getStudentWorks();
+        } else {
+          this.getAdditionalStudentWorks();
           this.getAdditionals();
+          this.getExamResults();
         }
       })
     );
   }
+
+  getAdditionalStudentWorks() {
+    this.subscriptions.push(
+      this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
+        this.studentWorks = response.payload;
+        this.loaded = true;
+        this.updateSum();
+      })
+    );
+  }
+
   getAdditionals() {
     const studentIds = this.students.map(({ id }) => id);
     this.subscriptions.push(
       this.subjectService.getSubjectAdditionalTotals(this.subjectId, studentIds).subscribe((response: ResponseModel<Totals[]>) => {
         this.additionalTotals = response.payload;
-        this.getExamResults();
       })
     );
   }
+
   getExamResults() {
     const studentIds = this.students.map(({ id }) => id);
     this.subscriptions.push(
@@ -227,6 +243,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       })
     );
   }
+
   exportData(tableId: string) {
     this.excelSrv.exportToFile('contacts', tableId).subscribe();
   }

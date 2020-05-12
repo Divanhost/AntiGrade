@@ -28,7 +28,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @ViewChild(CriteriasComponent) criteriaComponent: CriteriasComponent;
   selectedWork: Work = new Work();
   regex = new RegExp('^-?[0-9][0-9,\.]+$');
- // studentWorks: StudentWork[] = [];
   data = [];
   selected = false;
   get isExamMode() {
@@ -50,12 +49,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.mode.id === 3) {
-      this.getAdditionalStudentWorks();
-    } else {
-      // this.getStudentWorks();
-      this.createRatingCells();
-    }
+    this.createRatingCells();
   }
 
   createRatingCells() {
@@ -79,7 +73,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   }
 
   updateWorkPoints(studentWork: StudentWork, event: any) {
-    // debugger;
     const editField = event.target.textContent;
     const work = this.works.find(x => x.id === studentWork.workId);
     if ( editField > work.points /*|| !this.regex.test(editField)*/) {
@@ -111,26 +104,28 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   //   );
   // }
 
-  getAdditionalStudentWorks() {
-    this.subscriptions.push(
-      this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
-        this.studentWorks = response.payload;
-        // this.changeData.emit(this.studentWorks);
-        this.createRatingCells();
-      })
-    );
-  }
-  updateStudentWorks() {
-    if (this.mode.id === 3) {
-      this.studentWorks.forEach(element => {
-        element.isAdditional = true;
-      });
-    }
-    this.subscriptions.push(
-      this.workService.updateStudentWorks(this.studentWorks).subscribe(() => {
-      })
-    );
-  }
+  // getAdditionalStudentWorks() {
+  //   this.subscriptions.push(
+  //     this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
+  //       this.studentWorks = response.payload;
+  //       // this.changeData.emit(this.studentWorks);
+  //       this.createRatingCells();
+  //     })
+  //   );
+  // }
+
+  // updateStudentWorks() {
+  //   if (this.mode.id === 3) {
+  //     this.studentWorks.forEach(element => {
+  //       debugger;
+  //       element.isAdditional = true;
+  //     });
+  //   }
+  //   this.subscriptions.push(
+  //     this.workService.updateStudentWorks(this.studentWorks).subscribe(() => {
+  //     })
+  //   );
+  // }
   selectWork(workId) {
     this.selectedWork = this.works.find(x => x.id === workId);
     this.open();
@@ -154,7 +149,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       this.studentWorks.push(element);
     }
     });
-    // this.changeData.emit(this.studentWorks);
   }
 
 }
