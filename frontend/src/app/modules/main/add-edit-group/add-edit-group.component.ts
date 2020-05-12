@@ -47,7 +47,9 @@ export class AddEditGroupComponent extends BaseComponent implements OnInit {
       this.subscriptions.push(
         this.groupService.getCourses().subscribe((response: ResponseModel<Course[]>) => {
           this.courses = response.payload;
-          this.getGroup();
+          if (!this.isCreate) {
+            this.getGroup();
+          }
         })
       );
   }

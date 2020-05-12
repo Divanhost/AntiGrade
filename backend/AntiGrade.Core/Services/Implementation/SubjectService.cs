@@ -201,14 +201,37 @@ namespace AntiGrade.Core.Services.Implementation
             return roles;
         }
         public async Task<List<ExamResultDto>> GetExamResults(int subjectId, List<int> studentIds) {
-            var result = await _unitOfWork.GetRepository<ExamResult, int>()
+            var dbExamResults = await _unitOfWork.GetRepository<ExamResult, int>()
                                     .Filter(x => x.SubjectId == subjectId && studentIds.Contains(x.StudentId))
                                     .OrderBy(x=>x.Student.LastName)
                                     .ThenBy(x=>x.Student.FirstName)
                                     .ThenBy(x=>x.Student.Patronymic)
                                     .ProjectTo<ExamResultDto>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
-            return result;
+            var results = new List<ExamResultDto>();
+            foreach (var id in studentIds)
+            {
+                var studentResult= dbExamResults.Where(x=>x.StudentId == id).FirstOrDefault();
+                if(studentResult == null) {
+                    var er = new ExamResultDto(){
+                         StudentId = id,
+                         SubjectId = subjectId,
+                    };
+                    results.Add(er);
+                } else 
+                {
+                    var er = new ExamResultDto()
+                    {
+                        StudentId = id,
+                        SubjectId = subjectId,
+                        Points = studentResult.Points,
+                        SecondPassPoints = studentResult.SecondPassPoints,
+                        ThirdPassPoints = studentResult.ThirdPassPoints
+                    };
+                    results.Add(er);
+                }
+            }
+            return results;
         }
         public async Task<bool> UpdateExamResults(List<ExamResultDto> examResults) {
             var examResultsForUpdate = examResults.Where(x => x.Id != 0).ToList();

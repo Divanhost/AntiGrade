@@ -21,15 +21,29 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @Input() subjectId: number;
   @Input() works: Work[] = [];
   @Input() students: Student[] = [];
+  @Input() studentWorks: StudentWork[] = [];
   @Input() disabled = false;
   @Input() mode: Mode;
-  @Output() changeData = new EventEmitter<StudentWork[]>();
+  @Output() changeData = new EventEmitter<StudentWork>();
   @ViewChild(CriteriasComponent) criteriaComponent: CriteriasComponent;
   selectedWork: Work = new Work();
   regex = new RegExp('^-?[0-9][0-9,\.]+$');
-  studentWorks: StudentWork[] = [];
+ // studentWorks: StudentWork[] = [];
   data = [];
   selected = false;
+  get isExamMode() {
+    if (this.mode) {
+      return this.mode.id === 2;
+    }
+  }
+  get isAdditionalMode() {
+    if (this.mode) {
+      return this.mode.id === 3;
+    }
+  }
+  get isExamOrAdditionalMode() {
+    return this.isAdditionalMode || this.isExamMode;
+  }
   constructor(private readonly workService: WorkService,
               private readonly modalService: NgbModal) {
     super();
@@ -39,7 +53,8 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     if (this.mode.id === 3) {
       this.getAdditionalStudentWorks();
     } else {
-      this.getStudentWorks();
+      // this.getStudentWorks();
+      this.createRatingCells();
     }
   }
 
@@ -64,6 +79,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   }
 
   updateWorkPoints(studentWork: StudentWork, event: any) {
+    // debugger;
     const editField = event.target.textContent;
     const work = this.works.find(x => x.id === studentWork.workId);
     if ( editField > work.points /*|| !this.regex.test(editField)*/) {
@@ -82,24 +98,24 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       studentWork.sumOfPoints = 0;
     }
     this.createRatingCells();
-    this.changeData.emit(this.studentWorks);
+    this.changeData.emit(studentWork);
   }
 
-  getStudentWorks() {
-    this.subscriptions.push(
-      this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
-        this.studentWorks = response.payload;
-        this.changeData.emit(this.studentWorks);
-        this.createRatingCells();
-      })
-    );
-  }
+  // getStudentWorks() {
+  //   this.subscriptions.push(
+  //     this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
+  //       this.studentWorks = response.payload;
+  //       // this.changeData.emit(this.studentWorks);
+  //       this.createRatingCells();
+  //     })
+  //   );
+  // }
 
   getAdditionalStudentWorks() {
     this.subscriptions.push(
       this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
         this.studentWorks = response.payload;
-        this.changeData.emit(this.studentWorks);
+        // this.changeData.emit(this.studentWorks);
         this.createRatingCells();
       })
     );
@@ -138,7 +154,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       this.studentWorks.push(element);
     }
     });
-    this.changeData.emit(this.studentWorks);
+    // this.changeData.emit(this.studentWorks);
   }
 
 }

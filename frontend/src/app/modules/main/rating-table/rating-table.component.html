@@ -33,17 +33,17 @@
           </table>
         </td>
         <td class="cell" *ngIf="lects.length">
-          <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId"
+          <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [studentWorks] = "studentWorks"
             [disabled]="disableLects" [mode]="mode" (changeData)=updateData($event)>
           </app-partial-table>
         </td>
         <td class="cell" *ngIf="practs.length">
-          <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId"
+          <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [studentWorks] = "studentWorks"
             [disabled]="disablePracts" [mode]="mode" (changeData)=updateData($event)>
           </app-partial-table>
         </td>
         <td class="cell" *ngIf="labs.length">
-          <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId"
+          <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [studentWorks] = "studentWorks"
             [disabled]="disableLabs" [mode]="mode" (changeData)=updateData($event)>
           </app-partial-table>
         </td>
@@ -79,16 +79,28 @@
             <tbody>
               <tr *ngFor="let sum of totals; let i = index">
                 <td>
-                  <!-- {{sum.totals}} -->
+                  {{sum.totals}}
                 </td>
-                <td *ngIf="additionalTotals.length">
-                  <!-- {{additionalTotals[i].totals}} -->
-                </td>
-                <td *ngIf="examResults.length">
-                  <!-- {{examResults[i].points}} -->
+                <td >
+                  <ng-container *ngIf="additionalTotals.length">
+                    {{additionalTotals[i].totals}}
+                  </ng-container>
                 </td>
                 <td>
-                  <!-- {{sum.totals + additionalTotals[i].totals + examResults[i].points}} -->
+                  <ng-container *ngIf="examResults.length">
+                    {{examResults[i].points}}
+                  </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngIf="true">
+                    {{sum.totals}}
+                  </ng-container>
+                  <ng-container *ngIf="false">
+                    {{sum.totals + additionalTotals[i].totals}}
+                  </ng-container>
+                  <ng-container *ngIf="false">
+                    {{sum.totals + additionalTotals[i].totals + examResults[i].points}}
+                  </ng-container>
                 </td>
               </tr>
             </tbody>

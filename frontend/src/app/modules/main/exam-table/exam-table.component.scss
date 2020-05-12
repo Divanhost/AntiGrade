@@ -14,10 +14,17 @@
       justify-content: center;
   }
 .off-limits {
-    background-color: #e68787c7;
+    background: #e68787c7;
     color: white;
 }
 .disabled {
-    background-color: darkgray !important;
+    background: #a9a9a96b !important;
     color: white;
+}
+.e-container {
+  display: flex;
+  justify-content: center;
+}
+.m-auto {
+  margin: 0 auto;
 }

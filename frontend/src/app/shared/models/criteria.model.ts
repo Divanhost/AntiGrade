@@ -1,6 +1,6 @@
 export class Criteria {
     id: number;
     name: string;
-    points: number;
+    points = 0;
     workId: number;
 }

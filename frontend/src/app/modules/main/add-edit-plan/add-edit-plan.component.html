@@ -44,6 +44,12 @@
                 <fa-icon [icon]="faMinusCircle" size="2x" (click)="removeCriteria(work, criteria)"></fa-icon>
             </div>
         </div>
+        <div class="content-error" *ngIf="!isSumOfCriteriasCorrect(work)">
+            Сумма баллов критериев неверна
+        </div>
+    </div>
+    <div class="content-error" *ngIf="!isSumCorrect">
+        Сумма баллов за контрольные мероприятия неверна
     </div>
     <div class="btn btn-success my-3" (click)="addWork()">Добавить работу</div>
 </div>

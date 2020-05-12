@@ -7,23 +7,37 @@ import { Student } from 'src/app/shared/models/student.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { Totals } from 'src/app/shared/models/totals.model';
 import { ExamResult } from 'src/app/shared/models/exam-result.model';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { Mode } from 'src/app/shared/models/mode.model';
 @Component({
   selector: 'app-exam-table',
   templateUrl: './exam-table.component.html',
   styleUrls: ['./exam-table.component.scss']
 })
 export class ExamTableComponent extends BaseComponent implements OnInit {
+  modes = [{id: 1 , name: 'Текущий учет'}, {id: 2, name: 'Экзамен'}, {id: 3, name: 'Пересдача'}];
   subjectId: number;
-  mode = 1;
+  mode: Mode = new Mode();
   students: Student[] = [];
   editField: string;
   data = [];
   totals: Totals[] = [];
   additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
+  get isExamMode() {
+    if (this.mode) {
+      return this.mode.id === 2;
+    }
+  }
+  get isAdditionalMode() {
+    if (this.mode) {
+      return this.mode.id === 3;
+    }
+  }
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
+    private readonly generalService: GeneralService,
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
@@ -34,6 +48,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeTable();
+    this.getCurrentMode();
   }
 
   initializeTable() {
@@ -107,7 +122,11 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       } else {
         rowSum += +examRes.points;
       }
-      this.data.push({ totals: total, additional: atotal, currentStudent: student, examResult: examRes, sumOfPoints: rowSum});
+      this.data.push({totals: total,
+                      additional: atotal,
+                      currentStudent: student,
+                      examResult: examRes,
+                      sumOfPoints: rowSum > 100 ? 100 : rowSum});
       row = [];
     });
   }
@@ -134,5 +153,24 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     } else {
       return false;
     }
+  }
+  addFull(examResult: ExamResult) {
+    examResult.points === 40 ? examResult.points = 0 :  examResult.points = 40;
+  }
+  addZero(examResult: ExamResult) {
+    examResult.points = 0;
+  }
+  addZeroSecond(examResult: ExamResult) {
+    examResult.secondPassPoints = 0;
+  }
+  addZeroThird(examResult: ExamResult) {
+    examResult.thirdPassPoints = 0;
+  }
+  getCurrentMode() {
+    this.subscriptions.push(
+      this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
+        this.mode = this.modes.find(x => x.id === response.payload);
+      })
+    );
   }
  }

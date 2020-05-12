@@ -3,6 +3,6 @@ export class ExamResult {
     studentId: number;
     subjectId: number;
     points: number;
-    SecondPassPoints: number;
-    ThirdPassPoints: number;
+    secondPassPoints: number;
+    thirdPassPoints: number;
 }

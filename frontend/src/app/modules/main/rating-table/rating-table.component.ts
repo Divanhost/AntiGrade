@@ -46,6 +46,16 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   data = [];
   totals = [];
   loaded = false;
+  get isExamMode() {
+    if (this.mode) {
+      return this.mode.id === 2;
+    }
+  }
+  get isAdditionalMode() {
+    if (this.mode) {
+      return this.mode.id === 3;
+    }
+  }
   constructor(
     private readonly subjectService: SubjectService,
     private readonly studentService: StudentService,
@@ -61,7 +71,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.route.params.subscribe(params => this.subjectId = params.id)
     );
   }
-
+ 
   ngOnInit(): void {
     this.checkStatus();
     this.initializeTable();
@@ -102,11 +112,20 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
+        this.getStudentWorks();
+
+      })
+    );
+  }
+  getStudentWorks() {
+    this.subscriptions.push(
+      this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
+        this.studentWorks = response.payload;
+        this.updateSum();
         this.getCurrentMode();
       })
     );
   }
-
   updateStudentWorks() {
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
@@ -152,15 +171,13 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       });
     });
   }
-  updateData(studentWorks: StudentWork[]) {
-    studentWorks.forEach((item: StudentWork) => {
-      const sw = this.studentWorks.find(x => x.studentId === item.studentId && x.workId === item.workId);
-      if (sw) {
-        sw.sumOfPoints = item.sumOfPoints;
-      } else {
-        this.studentWorks.push(item);
-      }
-    });
+  updateData(studentWork: StudentWork) {
+    const sw = this.studentWorks.find(x => x.studentId === studentWork.studentId && x.workId === studentWork.workId);
+    if (sw) {
+      sw.sumOfPoints = studentWork.sumOfPoints;
+    } else {
+      this.studentWorks.push(studentWork);
+    }
     this.updateSum();
   }
   updateSum() {

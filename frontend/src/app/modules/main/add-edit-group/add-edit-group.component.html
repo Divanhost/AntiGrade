@@ -15,16 +15,15 @@
             <label for="input-name">Название</label>
             <input class="form-control border-style" id="input-name" [(ngModel)]="group.name" type="text">
         </div>
-        <div class="buttons mt-3">
-            <button type="submit" class="btn btn-success" (click)="onSubmit()">Save</button>
-            <button type="button" routerLink="" class="btn btn-dark">Cancel</button>
+        <div class="buttons mt-3 d-flex justify-content-center">
+           
+                <button type="submit" class="btn btn-success w-100 mr-3" (click)="onSubmit()">Сохранить</button>
+                <button type="button" routerLink="" class="btn btn-dark w-100">Отмена</button>
         </div>
         <div class="group-students">
-            <div class="st-header">
-                <h5 class="mb-1">Список студентов</h5>
-                <div class="btn btn-primary" (click)="addStudent()">Добавить</div>
-            </div>
-            <div class="student-row" *ngFor="let student of group.students">
+            <div class="st-header ">
+                <h2 class="mb-1">Список студентов</h2>
+            <div class="student-row mt-3" *ngFor="let student of group.students">
                 <div class="mr-3">
                     <label for="input-last">Фамилия</label>
                     <input class="form-control border-style" id="input-last" type="text" [(ngModel)]="student.lastName">
@@ -43,6 +42,10 @@
                     <img src="assets/remove.png" alt="" class="del-img">
                 </div>
             </div>
+            
+            <div class="btn btn-primary mt-3" (click)="addStudent()">Добавить</div>
+        </div>
+
         </div>
     </div>
 </div>

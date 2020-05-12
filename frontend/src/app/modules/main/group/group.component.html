@@ -1,7 +1,7 @@
 <div class="page-container">
     <h3>Выберите группу</h3>
     <ng-select [searchable]="false" [(ngModel)]="group" class="group-select">
-        <ng-option *ngFor="let group of groups" [value]="group">
+        <ng-option *ngFor="let group of groups" [value]="group" appendTo = "body">
             {{group.name}}
         </ng-option>
     </ng-select>
@@ -13,8 +13,6 @@
                     <th>Фамилия</th>
                     <th>Имя</th>
                     <th>Отчество</th>
-                    <th>
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -30,9 +28,6 @@
                     </td>
                     <td>
                         {{student.patronymic}}
-                    </td>
-                    <td>
-                        <fa-icon [icon] ="faUserEdit" size = "2x"></fa-icon>
                     </td>
                 </tr>
             </tbody>

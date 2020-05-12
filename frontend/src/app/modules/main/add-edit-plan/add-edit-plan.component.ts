@@ -10,6 +10,8 @@ import { SubjectService } from 'src/app/core/services/subject.service';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 import { faPlusSquare, faMinusSquare, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { ExamType } from 'src/app/shared/models/exam-type.model';
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-add-edit-plan',
@@ -28,7 +30,31 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
               private readonly subjectService: SubjectService) {
     super();
   }
+  get maxWorksPoints() {
+    if (this.subject.examType) {
+      switch (this.subject.examType.id) {
+        case 1:
+          return 60;
+        case 2:
+          return 100;
+        case 3:
+          return 60;
+        default:
+          return 100;
+      }
+    }
+  }
+  get currentWorkPoints() {
+    let sum = 0;
+    this.works.forEach(work => {
+      sum += work.points;
+    });
+    return sum;
+  }
 
+  get isSumCorrect() {
+    return this.currentWorkPoints === this.maxWorksPoints;
+  }
   ngOnInit(): void {
     this.updateData(this.subject);
   }
@@ -48,7 +74,17 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     criteria.name = null;
     work.criterias.push(criteria);
   }
-
+  isSumOfCriteriasCorrect(work: Work) {
+    if (work.criterias.length) {
+      let sum = 0;
+      work.criterias.forEach(criteria => {
+        sum += criteria.points;
+      });
+      return sum === work.points;
+    } else {
+      return true;
+    }
+  }
   removeCriteria(work: Work, criteria: Criteria) {
     const index = work.criterias.indexOf(criteria);
     work.criterias.splice(index, 1);
@@ -75,5 +111,16 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
         }
       });
     }
+  }
+  hasErrors() {
+    if (!this.isSumCorrect) {
+      return true;
+    }
+    this.works.forEach(element => {
+      if (!this.isSumOfCriteriasCorrect(element)) {
+        return true;
+      }
+    });
+    return false;
   }
 }

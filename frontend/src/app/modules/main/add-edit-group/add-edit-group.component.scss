@@ -1,9 +1,12 @@
 .student-row {
     display: flex;
 }
-// .st-header {
-//     display: flex;
-// }
+.st-header {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 
 .del-img {
     width: 30px;
