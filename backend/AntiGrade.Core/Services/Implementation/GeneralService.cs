@@ -51,16 +51,35 @@ namespace AntiGrade.Core.Services.Implementation
                                         .ToListAsync();
             return result;
         }
+        public async Task<InstituteView> GetInstitute(int id)
+        {
+            var result = await _unitOfWork.GetRepository<Institute,int>()
+                                        .Filter(x=>x.Id == id)
+                                        .Include(x=>x.Departments)
+                                        .ProjectTo<InstituteView>(_mapper.ConfigurationProvider)
+                                        .FirstOrDefaultAsync();
+            return result;
+        }
         public async Task<bool> CreateInstitute(InstituteView institute)
         {
             var dbInstitute = _mapper.Map<Institute>(institute);
             var result = _unitOfWork.GetRepository<Institute,int>().Create(dbInstitute);
             return await _unitOfWork.Save() >0;
         }
-        public async Task<bool> UpdateInstitute(InstituteView institute)
+        public async Task<bool> UpdateInstitute(InstituteView instituteDto)
         {
-            var dbInstitute = _mapper.Map<Institute>(institute);
+            var institute = _mapper.Map<Institute>(instituteDto);
+            var dbInstitute = await _unitOfWork.GetRepository<Institute, int>()
+                   .Filter(x => x.Id == institute.Id)
+                   .FirstOrDefaultAsync();
+            dbInstitute.Name = institute.Name;
+            dbInstitute.Departments = null;
             _unitOfWork.GetRepository<Institute,int>().Update(dbInstitute);
+            foreach (var item in institute.Departments)
+            {
+                item.InstituteId = dbInstitute.Id;
+            }
+            await UpdateDepartments(institute.Departments, dbInstitute.Id);
             return await _unitOfWork.Save() >0;
         }
         public async Task<bool> DeleteInstitute(int id)
@@ -87,12 +106,12 @@ namespace AntiGrade.Core.Services.Implementation
             _unitOfWork.GetRepository<Department,int>().Create(dbDepartments);
             return await _unitOfWork.Save() >0;
         }
-        public async Task<bool> UpdateDepartments(List<DepartmentView> departments)
-        {
-            var dbDepartments = _mapper.Map<List<Department>>(departments);
-            _unitOfWork.GetRepository<Department,int>().Update(dbDepartments);
-            return await _unitOfWork.Save() >0;
-        }
+        // public async Task<bool> UpdateDepartments(List<DepartmentView> departments)
+        // {
+        //     var dbDepartments = _mapper.Map<List<Department>>(departments);
+        //     _unitOfWork.GetRepository<Department,int>().Update(dbDepartments);
+        //     return await _unitOfWork.Save() >0;
+        // }
         public async Task<bool> DeleteDepartment(int id)
         {
              var institute = await _unitOfWork.GetRepository<Department,int>().Filter(x=>x.Id == id).FirstOrDefaultAsync();
@@ -129,5 +148,29 @@ namespace AntiGrade.Core.Services.Implementation
             return await _unitOfWork.Save() >0;
         }
         // end Course CRUD
+
+        private async Task UpdateDepartments(List<Department> newdepartments, int instituteId)
+        {
+            var existingIds = await GetDepartmentIdsForInstitute(instituteId);
+            var departmentsForDelete = existingIds
+                .Where(sl => !newdepartments.Any(c => c.Id == sl)).ToList();
+            _unitOfWork.GetRepository<Department, int>().Delete(x => departmentsForDelete.Contains(x.Id));
+            
+            var departmentsForUpdate = newdepartments.Where(x => x.Id != 0).ToList();
+            _unitOfWork.GetRepository<Department, int>().Update(departmentsForUpdate);
+
+            var departmentsForCreate = newdepartments.Where(x => x.Id == 0).ToList();
+           
+            _unitOfWork.GetRepository<Department, int>().Create(departmentsForCreate);
+        }
+        private async Task<List<int>> GetDepartmentIdsForInstitute(int id)
+        {
+            var result = await _unitOfWork.GetRepository<Institute, int>()
+                .Filter(x => x.Id == id)
+                .SelectMany(x => x.Departments)
+                .Select(x=>x.Id)
+                .ToListAsync();
+            return result;
+        }
     }
 }

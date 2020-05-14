@@ -8,6 +8,7 @@
         </ng-select>
         <div class="btn btn-info mt-3" (click)="updateCurrentMode()">Обновить режим работы</div>
     </div>
+   
     <div class="page-container mt-3" *ngIf="mode.id === 1">
         <h1>Текущий учет</h1>
         <div *ngFor="let item of subjectGroups" class="mt-3 subject-container">
@@ -56,4 +57,7 @@
             </div>
         </div>
     </div>
+    <ng-template  *ngIf="!subjectGroups.length">
+        Нет данных
+     </ng-template>
 </div>

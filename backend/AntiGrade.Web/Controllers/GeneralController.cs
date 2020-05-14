@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Shared.InputModels;
 using AntiGrade.Shared.Models;
+using AntiGrade.Shared.ViewModels;
 using AntiGrade.Web.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,11 +39,94 @@ namespace AntiGrade.Controllers
             var result = await _service.GetAllStatuses();
             return ResponseModel(result);
         }
+        #region InstituteCRUD
+
         [HttpGet("institutes")]
         public async Task<IActionResult> GetAllInsitutes()
         {
             var result = await _service.GetInstitutes();
             return ResponseModel(result);
         }
+        [HttpGet("institutes/{id}")]
+        public async Task<IActionResult> GetAllInsitutes(int id)
+        {
+            var result = await _service.GetInstitute(id);
+            return ResponseModel(result);
+        }
+        [HttpPost("institutes")]
+        public async Task<IActionResult> CreateInstitute([FromBody] InstituteView institute)
+        {
+            var result = await _service.CreateInstitute(institute);
+            return ResponseModel(result);
+        }
+        [HttpPut("institutes")]
+        public async Task<IActionResult> UpdateInstitute([FromBody] InstituteView institute)
+        {
+            var result = await _service.UpdateInstitute(institute);
+            return ResponseModel(result);
+        }
+        [HttpDelete("institutes")]
+        public async Task<IActionResult> DeleteInstitute([FromQuery] int id)
+        {
+            var result = await _service.DeleteInstitute(id);
+            return ResponseModel(result);
+        }
+        #endregion
+
+        #region DepartmentCRUD
+
+        [HttpGet("departments")]
+        public async Task<IActionResult> GetDepartments([FromQuery] int id)
+        {
+            var result = await _service.GetDepartments(id);
+            return ResponseModel(result);
+        }
+        [HttpPost("departments")]
+        public async Task<IActionResult> CreateDepartment([FromBody] List<DepartmentView> departments)
+        {
+            var result = await _service.CreateDepartments(departments);
+            return ResponseModel(result);
+        }
+        // [HttpPut("departments")]
+        // public async Task<IActionResult> UpdateDepartment([FromBody] List<DepartmentView> departments)
+        // {
+        //     var result = await _service.UpdateDepartments(departments);
+        //     return ResponseModel(result);
+        // }
+        [HttpDelete("departments")]
+        public async Task<IActionResult> DeleteDepartment([FromQuery] int id)
+        {
+            var result = await _service.DeleteDepartment(id);
+            return ResponseModel(result);
+        }
+        #endregion
+
+        #region CourseCRUD
+
+        [HttpGet("courses")]
+        public async Task<IActionResult> GetCourses()
+        {
+            var result = await _service.GetCourses();
+            return ResponseModel(result);
+        }
+        [HttpPost("courses")]
+        public async Task<IActionResult> CreateCourse([FromBody] CourseView course)
+        {
+            var result = await _service.CreateCourse(course);
+            return ResponseModel(result);
+        }
+        [HttpPut("courses")]
+        public async Task<IActionResult> UpdateCourse([FromBody] CourseView course)
+        {
+            var result = await _service.UpdateCourse(course);
+            return ResponseModel(result);
+        }
+        [HttpDelete("courses")]
+        public async Task<IActionResult> DeleteCourse([FromQuery] int id)
+        {
+            var result = await _service.DeleteCourse(id);
+            return ResponseModel(result);
+        }
+        #endregion
     }
 }

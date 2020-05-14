@@ -1,0 +1,31 @@
+<div class="e-container">
+    <div class="page-container">
+            <h2 *ngIf="isCreate; else edit">Создание института</h2>
+            <ng-template #edit>
+                <h2>Изменение института</h2>
+            </ng-template>
+            <div>
+                <label>Название</label>
+                <input class="form-control border-style"  [(ngModel)]="institute.name" type="text">
+            </div>
+            <div class="buttons mt-3 d-flex justify-content-center">
+                <button type="button" class="btn btn-success w-100 mr-3" (click)="onSubmit()">Сохранить</button>
+                <button type="button" routerLink="" class="btn btn-dark w-100">Отмена</button>
+            </div>
+            <div class="group-students" *ngIf="institute.departments">
+                <div class="st-header">
+                    <h2 class="mb-1">Кафедры</h2>
+                <div class="departments-holder mt-3" *ngFor="let department of institute.departments">
+                    <div class="w-100">
+                        <label for="input-last">Название</label>
+                        <input class="form-control border-style" id="input-last" type="text" [(ngModel)]="department.name">
+                    </div>
+                    <div class="img-holder" (click)="removeDepartment(department)">
+                        <img src="assets/remove.png" alt="" class="del-img">
+                    </div>
+                </div>
+                
+                <div class="btn btn-primary w-100 mt-3" (click)="addDepartment()">Добавить</div>
+            </div>
+    </div>
+</div>

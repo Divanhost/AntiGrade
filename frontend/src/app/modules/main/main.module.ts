@@ -32,6 +32,7 @@ import { CriteriasComponent } from './criterias/criterias.component';
 import { UsersComponent } from './users/users.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { InstitutesComponent } from './institutes/institutes.component';
+import { AddEditInstituteComponent } from './add-edit-institute/add-edit-institute.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -55,7 +56,8 @@ registerLocaleData(localeRu, 'ru-RU');
     CriteriasComponent,
     EmployeesComponent,
     UsersComponent,
-    InstitutesComponent
+    InstitutesComponent,
+    AddEditInstituteComponent
   ],
   imports: [
     NgbModule,

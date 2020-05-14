@@ -26,4 +26,16 @@ export class GeneralService {
   getInstitutes(): Observable<ResponseModel<Institute[]>> {
     return this.http.getData(`general/institutes`);
   }
+  getInstitute(id: number): Observable<ResponseModel<Institute>> {
+    return this.http.getData(`general/institutes/${id}`);
+  }
+  createInstitute(data: Institute): Observable<ResponseModel<Institute[]>> {
+    return this.http.postData(`general/institutes`, data);
+  }
+  updateInstitute(data: Institute): Observable<ResponseModel<Institute[]>> {
+    return this.http.putData(`general/institutes`, data);
+  }
+  deleteInstitute(id: number): Observable<ResponseModel<Institute[]>> {
+    return this.http.getData(`general/institutes/${id}`);
+  }
 }

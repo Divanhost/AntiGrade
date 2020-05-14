@@ -15,6 +15,8 @@ import { TeachersComponent } from './teachers/teachers.component';
 import { ExamTableComponent } from './exam-table/exam-table.component';
 import { UsersComponent } from './users/users.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { InstitutesComponent } from './institutes/institutes.component';
+import { AddEditInstituteComponent } from './add-edit-institute/add-edit-institute.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -98,6 +100,18 @@ const appRoutes: Routes = [
       {
         path: 'subjects/exam/:id',
         component: ExamTableComponent
+      },
+      {
+        path: 'institutes',
+        component: InstitutesComponent
+      },
+      {
+        path: 'institutes/edit/:id',
+        component: AddEditInstituteComponent
+      },
+      {
+        path: 'institutes/add',
+        component: AddEditInstituteComponent
       },
     ]
   }

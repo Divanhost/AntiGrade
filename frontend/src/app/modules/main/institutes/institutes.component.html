@@ -1,1 +1,28 @@
-<p>institutes works!</p>
+<div class="page-container container">
+    <div class="btn btn-info mb-3" [routerLink]="['add']">Добавить</div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Название</th>
+          <th scope="col">Изменить</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!institutes.length">
+          <td colspan="4">
+            <h3 class="no-data">Нет ни одного института!</h3>
+          </td>
+        </tr>
+        <tr *ngFor="let institute of institutes">
+          <td>
+            {{institute.name}}
+          </td>
+          <td>
+            <div class="btn btn-info" [routerLink]="['edit',institute.id]">Edit</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+

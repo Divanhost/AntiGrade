@@ -29,7 +29,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getSubjects();
     this.getCurrentMode();
   }
   getSubjects() {
@@ -51,6 +50,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
         this.mode = this.modes.find(x => x.id === response.payload);
+        this.getSubjects();
       })
     );
   }
@@ -58,6 +58,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   updateCurrentMode() {
     this.subscriptions.push(
       this.generalService.updateCurrentMode(this.mode.id).subscribe((response: ResponseModel<boolean>) => {
+        this.getSubjectGroups();
       })
     );
   }
