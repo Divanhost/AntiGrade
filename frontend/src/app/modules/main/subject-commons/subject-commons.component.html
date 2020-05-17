@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container no-overflow">
     <!-- <h2 *ngIf="isCreate; else edit">Создание ведомости</h2>
     <ng-template #edit>
         <h2>Изменение ведомости</h2>
@@ -10,11 +10,21 @@
         </div>
     </div>
     <div>Вид контроля</div>
-    <ng-select [(ngModel)]="examType" appendTo = "body">
-        <ng-option *ngFor="let type of examTypes" [value]="type">
-            {{ type.name }}
-        </ng-option>
-    </ng-select>
+    <div>
+        <ng-select [(ngModel)]="examType" appendTo = "body">
+            <ng-option *ngFor="let type of examTypes" [value]="type">
+                {{ type.name }}
+            </ng-option>
+        </ng-select>
+    </div>
+    <div class="mt-3">Семестр</div>
+    <div>
+        <ng-select [(ngModel)]="semesterId">
+            <ng-option *ngFor="let semester of semesters" [value] = "semester.id" appendTo="body">
+                {{ semester.name }}
+            </ng-option>
+        </ng-select>
+    </div>
     <!-- Default unchecked -->
     <div class="custom-control custom-checkbox mt-3">
         <input type="checkbox" class="custom-control-input" id="defaultUnchecked">

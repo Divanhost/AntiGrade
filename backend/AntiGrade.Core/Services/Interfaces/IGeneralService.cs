@@ -37,6 +37,7 @@ namespace AntiGrade.Core.Services.Interfaces
         // end Course CRUD
 
         Task<List<SemesterView>> GetSemesters();
+        Task<SemesterView> GetLastSemester();
         Task<bool> CreateNewSemester(SemesterView semester);
     }
 }

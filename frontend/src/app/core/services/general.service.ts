@@ -60,6 +60,9 @@ export class GeneralService {
   getSemesters(): Observable<ResponseModel<Semester[]>> {
     return this.http.getData(`general/semesters`);
   }
+  getLastSemester(): Observable<ResponseModel<Semester>> {
+    return this.http.getData(`general/semesters/last`);
+  }
   createSemester(data: Semester): Observable<ResponseModel<boolean>> {
     return this.http.postData(`general/semesters`, data);
   }

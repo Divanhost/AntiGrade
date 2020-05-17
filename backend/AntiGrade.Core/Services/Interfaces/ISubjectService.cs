@@ -10,7 +10,7 @@ namespace AntiGrade.Core.Services.Interfaces
     public interface ISubjectService
     {
         Task<List<SubjectView>> GetAllSubjects();
-        Task<List<MainSubjectView>> GetDistinctSubjects();
+        Task<List<MainSubjectView>> GetDistinctSubjects(int semesterId);
         Task<List<ExamType>> GetExamTypes();
         Task<SubjectDto> GetSubjectById(int subjectId);
         Task<bool> CreateSubject(SubjectDto subjectDto);
@@ -19,7 +19,7 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<List<WorkView>> GetWorks(int subjectId);
         Task<List<StudentView>> GetStudents(int subjectId);
         Task<List<SubjectView>> GetSubjectsWithWorks();
-        Task<List<SubjectView>> GetSubjectsByName(string name);
+        Task<List<SubjectView>> GetSubjectsByName(string name, int semesterId);
         Task<List<Status>> GetEmployeeRoles(int subjectId, int employeeId);
         Task<List<Total>> GetStudentSubjectTotals(int subjectId, List<int> studentIds);
         Task<List<Total>> GetStudentAdditionalTotals(int subjectId, List<int> studentIds);

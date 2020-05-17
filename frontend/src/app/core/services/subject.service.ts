@@ -37,14 +37,14 @@ export class SubjectService {
   getSubjects(): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData('subject/all');
   }
-  getDistinctSubjects(): Observable<ResponseModel<MainSubjectView[]>> {
-    return this.http.getData('subject/distinct');
+  getDistinctSubjects(semesterId: number): Observable<ResponseModel<MainSubjectView[]>> {
+    return this.http.getData(`subject/distinct?semesterId=${semesterId}`);
   }
   getSubject(id: number): Observable<ResponseModel<SubjectDto>> {
     return this.http.getData(`subject/${id}`);
   }
-  getSubjectsByName(name: string): Observable<ResponseModel<SubjectView[]>> {
-    return this.http.getData(`subject/name?name=${name}`);
+  getSubjectsByName(name: string, semesterId: number): Observable<ResponseModel<SubjectView[]>> {
+    return this.http.getData(`subject/name?name=${name}&semesterId=${semesterId}`);
   }
   updateSubject(id: number, data: SubjectDto): Observable<ResponseModel<boolean>> {
     return this.http.putData(`subject/${id}`, data);

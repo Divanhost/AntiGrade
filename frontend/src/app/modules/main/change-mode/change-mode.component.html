@@ -1,0 +1,9 @@
+<div class="page-container central no-overflow mt-3" >
+    <h1>Режим работы</h1>
+    <ng-select [(ngModel)]="mode" (change) = "modeChanged()" class="upper">
+        <ng-option *ngFor="let workMode of modes" [value] = "workMode" >
+            {{ workMode.name }}
+        </ng-option>
+    </ng-select>
+    <div class="btn btn-info mt-3" (click)="updateCurrentMode()">Обновить режим работы</div>
+</div>

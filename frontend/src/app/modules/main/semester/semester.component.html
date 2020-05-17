@@ -1,0 +1,10 @@
+<div class="page-container central mt-3">
+    <h2 class="align-text-center">Вы действительно хотите начать новый семестр?</h2>
+    <div class="d-flex align-items-baseline justify-content-center">
+        <input type="number" class="form-control sem-selector" min="1" max="2" step="1"  [(ngModel)]="semNum">
+        <h3 class="mx-1"> семестр </h3>
+        <input type="number" class="form-control year-selector" min="1900" max="2099" step="1" [(ngModel)]="year" />
+        <h3 class="ml-1"> года</h3>
+    </div>
+    <div class="btn btn-info w-100" (click)="updateSemester()">Начать новый семестр</div>
+</div>

@@ -28,17 +28,17 @@
                   <a class="dropdown-item" [routerLink]="['/employees']">Сотрудники</a>
                 </div>
             </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Действия
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" [routerLink]="['/modes']">Сменить режим</a>
+                  <a class="dropdown-item" [routerLink]="['/semester']">Новый семестр</a>
+                </div>
+            </li>
         </ul>
-        <li class="nav-item dropdown active">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Действия
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item">Сменить режим</a>
-            </div>
-        </li>
-    </ul>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown user-dropdown">
             <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {{ currentUser.userName }}

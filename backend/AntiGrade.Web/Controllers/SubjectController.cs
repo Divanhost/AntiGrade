@@ -86,9 +86,9 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
         [HttpGet("distinct")]
-        public async Task<IActionResult> GetDistinctSubjects()
+        public async Task<IActionResult> GetDistinctSubjects([FromQuery] int semesterId)
         {
-            var result = await _service.GetDistinctSubjects();
+            var result = await _service.GetDistinctSubjects(semesterId);
             return ResponseModel(result);
         }
         [HttpGet("filled")]
@@ -98,9 +98,9 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
         [HttpGet("name")]
-        public async Task<IActionResult> GetSubjectByName([FromQuery] string name)
+        public async Task<IActionResult> GetSubjectByName([FromQuery] string name, [FromQuery] int semesterId)
         {
-            var result = await _service.GetSubjectsByName(name);
+            var result = await _service.GetSubjectsByName(name,semesterId);
             return ResponseModel(result);
         }
         [HttpGet("exam/{id:int}")]

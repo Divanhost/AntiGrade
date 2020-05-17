@@ -32,11 +32,10 @@ export class DashboardComponent extends BaseComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getCurrentMode();
     this.getSemesters();
   }
   getSubjects() {
-    this.subjectService.getDistinctSubjects().subscribe((response: ResponseModel<MainSubjectView[]>) => {
+    this.subjectService.getDistinctSubjects(this.currentSemester.id).subscribe((response: ResponseModel<MainSubjectView[]>) => {
       this.subjects = response.payload;
       console.log(this.subjects);
       this.getSubjectGroups();
@@ -44,7 +43,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   }
   getSubjectGroups() {
     this.subjects.forEach(element => {
-      this.subjectService.getSubjectsByName(element.name).subscribe((response: ResponseModel<SubjectView[]>) => {
+      this.subjectService.getSubjectsByName(element.name, this.currentSemester.id).subscribe((response: ResponseModel<SubjectView[]>) => {
         this.subjectGroups.push({subjectName: element.name, subjects: response.payload});
         this.subjectGroups.sort((a, b) => a.subjectName.localeCompare(b.subjectName));
       });
@@ -58,20 +57,18 @@ export class DashboardComponent extends BaseComponent implements OnInit {
       })
     );
   }
-
-  updateCurrentMode() {
-    this.subscriptions.push(
-      this.generalService.updateCurrentMode(this.mode.id).subscribe((response: ResponseModel<boolean>) => {
-        this.getSubjectGroups();
-      })
-    );
-  }
   getSemesters() {
     this.subscriptions.push(
       this.generalService.getSemesters().subscribe((response: ResponseModel<Semester[]>) => {
         this.semesters = response.payload;
         this.currentSemester = this.semesters[0];
+        this.getCurrentMode();
       })
     );
+  }
+  reloadSubjects() {
+    this.subjects = [];
+    this.subjectGroups = [];
+    this.getSubjects();
   }
 }

@@ -88,6 +88,7 @@ namespace AntiGrade.Core.Services.Implementation
                     subject.Name = subjectDto.Name;
                     subject.TypeId = subjectDto.ExamType.Id;
                     subject.Group = group;
+                    subject.SemestrId = subjectDto.SemesterId;
                     var works = _mapper.Map<List<Work>>(subjectDto.Works);
                     var employeesNew = DivideSubjectEmployees(subjectDto.SubjectEmployees);
                     
@@ -157,15 +158,12 @@ namespace AntiGrade.Core.Services.Implementation
                                     .ToListAsync();
             return result;
         }
-
-        public async Task<List<MainSubjectView>> GetDistinctSubjects()
+        // TODO were to place null sems
+        public async Task<List<MainSubjectView>> GetDistinctSubjects(int semesterId)
         {
             var curYear = DateTime.UtcNow.Year;
-            var currentSem = _unitOfWork.GetRepository<Semester, int>()
-                                    .Filter(x=>x.Year ==curYear)
-                                    .LastOrDefault();
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted &&(x.SemestrId == null ? true : x.SemestrId == currentSem.Id))
+                                    .Filter(x => !x.IsDeleted &&(x.SemestrId == null ? false : x.SemestrId == semesterId))
                                     .GroupBy(x => x.Name)
                                     .Select(y => y.First())
                                     .OrderBy(y => y.Name)
@@ -174,10 +172,10 @@ namespace AntiGrade.Core.Services.Implementation
             return subjects;
         }
 
-        public async Task<List<SubjectView>> GetSubjectsByName(string name)
+        public async Task<List<SubjectView>> GetSubjectsByName(string name, int semesterId)
         {
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted && x.Name == name)
+                                    .Filter(x => !x.IsDeleted && x.Name == name &&(x.SemestrId == null ? false : x.SemestrId == semesterId))
                                     .OrderBy(x=>x.Group.Name)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();

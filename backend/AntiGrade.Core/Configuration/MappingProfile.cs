@@ -45,11 +45,13 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.ExamType, opt=>opt.MapFrom(src => src.Type))
                 .ForMember(x=> x.Group, opt=>opt.MapFrom(src => src.Group))
                 .ForMember(x=> x.Works, opt=>opt.MapFrom(src => src.Works))
+                .ForMember(x=> x.SemesterId, opt=>opt.MapFrom(src => src.SemestrId))
                 .ForMember(x=> x.SubjectEmployees, opt=>opt.Ignore());
             CreateMap<SubjectDto,Subject>()
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
                 .ForMember(x=> x.SubjectEmployees, opt=>opt.Ignore())
                 .ForMember(x=> x.Type, opt=>opt.MapFrom(src => src.ExamType))
+                .ForMember(x=> x.SemestrId, opt=>opt.MapFrom(src => src.SemesterId))
                 .ForMember(x=> x.Group, opt=>opt.Ignore())
                 .ForMember(x=> x.TypeId, opt=>opt.Ignore());
             CreateMap<CriteriaDto,Criteria>()

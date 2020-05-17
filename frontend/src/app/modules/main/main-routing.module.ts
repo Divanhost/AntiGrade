@@ -19,6 +19,8 @@ import { InstitutesComponent } from './institutes/institutes.component';
 import { AddEditInstituteComponent } from './add-edit-institute/add-edit-institute.component';
 import { CoursesComponent } from './courses/courses.component';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
+import { ChangeModeComponent } from './change-mode/change-mode.component';
+import { SemesterComponent } from './semester/semester.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -126,6 +128,14 @@ const appRoutes: Routes = [
       {
         path: 'courses/add',
         component: AddEditCourseComponent
+      },
+      {
+        path: 'modes',
+        component: ChangeModeComponent
+      },
+      {
+        path: 'semester',
+        component: SemesterComponent
       },
     ]
   }

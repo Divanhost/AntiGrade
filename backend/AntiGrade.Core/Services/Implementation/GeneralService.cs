@@ -170,6 +170,16 @@ namespace AntiGrade.Core.Services.Implementation
                                         .ToListAsync();
             return result;
         }
+        public async Task<SemesterView> GetLastSemester()
+        {
+            var result = await _unitOfWork.GetRepository<Semester,int>()
+                                        .All()
+                                        .OrderByDescending(x=>x.Id)
+                                        .Take(1)
+                                        .ProjectTo<SemesterView>(_mapper.ConfigurationProvider)
+                                        .FirstOrDefaultAsync();
+            return result;
+        }
         private async Task UpdateDepartments(List<Department> newdepartments, int instituteId)
         {
             var existingIds = await GetDepartmentIdsForInstitute(instituteId);

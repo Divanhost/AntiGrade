@@ -11,6 +11,8 @@ import { GroupService } from 'src/app/core/services/group.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { SubjectEmployee } from 'src/app/shared/models/subject-employee.model';
+import { Semester } from 'src/app/shared/models/semester.model';
+import { GeneralService } from 'src/app/core/services/general.service';
 
 @Component({
   selector: 'app-subject-commons',
@@ -25,7 +27,9 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   examTypes: ExamType[] = [];
   name: string;
   examType: ExamType = new ExamType();
-  constructor(private readonly employeeService: EmployeeService,
+  semesters: Semester[] = [];
+  semesterId: number;
+  constructor(private readonly generalService: GeneralService,
               private readonly subjectService: SubjectService,
               private readonly groupService: GroupService) {
       super();
@@ -47,6 +51,18 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   updateData(subject: SubjectDto) {
     this.subject = subject;
     this.name = subject.name;
+    this.semesterId = subject.semesterId;
     this.getExamTypes();
+    this.getSemesters();
+  }
+  getSemesters() {
+    this.subscriptions.push(
+      this.generalService.getSemesters().subscribe((response: ResponseModel<Semester[]>) => {
+        this.semesters = response.payload;
+        if (this.semesterId === null  || this.semesterId === undefined || this.semesterId === 0) {
+          this.semesterId = this.semesters[0].id;
+        }
+      })
+    );
   }
 }

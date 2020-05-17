@@ -11,4 +11,5 @@ export class SubjectDto {
     subjectEmployees: SubjectEmployee[];
     works: Work[];
     group: Group;
+    semesterId: number;
 }

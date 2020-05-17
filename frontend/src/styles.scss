@@ -30,6 +30,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     min-width: 35vw;
     white-space: nowrap;
   }
+.central {
+ margin: 0 auto;
+}
+.no-overflow {
+    overflow: unset !important;
+}
 // .ng-select>div {
 //     border: 0!important;
 //     border-radius: 0!important;

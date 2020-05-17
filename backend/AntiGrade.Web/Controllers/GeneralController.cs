@@ -141,6 +141,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetSemesters();
             return ResponseModel(result);
         }
+        [HttpGet("semesters/last")]
+        public async Task<IActionResult> GetLastSemester()
+        {
+            var result = await _service.GetLastSemester();
+            return ResponseModel(result);
+        }
         [HttpPost("semesters")]
         public async Task<IActionResult> CreateSemester([FromBody] SemesterView semester)
         {
