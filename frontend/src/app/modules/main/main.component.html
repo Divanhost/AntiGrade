@@ -44,7 +44,8 @@
                 {{ currentUser.userName }}
             </a>
             <div class="dropdown-menu" aria-labelledby="userDropdownDropdown">
-                <a class="dropdown-item" href="#" (click)="logout()">Log out</a>
+                <a class="dropdown-item" href="#" [routerLink]="['/users/edit',currentUser.id]">Профиль</a>
+                <a class="dropdown-item" href="#" (click)="logout()">Выйти</a>
             </div>
         </li>
     </div>

@@ -1,4 +1,5 @@
-<div class="col-5 page-container container">
+<div class="page-container central mt-3">
+  <h2>Сотрудники</h2>
   <div class="btn btn-info mb-3" [routerLink]="['add']">Добавить нового сотудника</div>
   <div *ngIf="institutes.length">
     <ng-select appendTo="body" placeholder="Институт" class="type-select mb-3"  [(ngModel)]="currentInstitute">

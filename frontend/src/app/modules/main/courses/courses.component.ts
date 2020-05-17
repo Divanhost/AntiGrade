@@ -21,7 +21,7 @@ export class CoursesComponent extends BaseComponent implements OnInit {
   }
   getCourses() {
     this.subscriptions.push(
-      this.generalService.getInstitutes().subscribe((response: ResponseModel<Course[]>) => {
+      this.generalService.getCourses().subscribe((response: ResponseModel<Course[]>) => {
         this.courses = response.payload;
       })
     );

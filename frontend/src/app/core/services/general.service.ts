@@ -41,8 +41,8 @@ export class GeneralService {
     return this.http.getData(`general/institutes/${id}`);
   }
 
-  getCourses(id: number): Observable<ResponseModel<Course[]>> {
-    return this.http.getData(`general/courses/all}`);
+  getCourses(): Observable<ResponseModel<Course[]>> {
+    return this.http.getData(`general/courses/all`);
   }
   getCourse(id: number): Observable<ResponseModel<Course>> {
     return this.http.getData(`general/courses/${id}`);

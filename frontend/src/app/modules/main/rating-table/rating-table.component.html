@@ -1,10 +1,6 @@
-<div class="r-container">
-  <div class="page-container mt-2 table-editable">
+  <div class="page-container mt-3 central table-editable">
+    <h2>Рейтинговая таблица</h2>
     <div *ngIf="loaded" class="rating-holder">
-      <!-- <button (click)="exportData('full-table')">
-        <span class="mdi mdi-file-export"> </span>
-        <small>Export</small>
-      </button> -->
       <div id="full-table">
         <td class="cell">
           <table class="table table-bordered table-responsive-md table-striped text-center">
@@ -111,4 +107,3 @@
     <div class="btn btn-success mb-1" (click)="updateStudentWorks()"> Сохранить</div>
     <div class="btn btn-primary" [routerLink]="['/subjects']"> Назад</div>
   </div>
-</div>

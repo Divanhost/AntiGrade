@@ -1,88 +1,90 @@
 <div class="user-block">
+
     <div class="form-block page-container" [ngClass]="{ 'create-form' : isCreateMode}">
-                <form (ngSubmit)="onSubmit()" [formGroup]="addUserForm" autocomplete="off">
-                    <div>
-                        <label for="userName">Имя пользователя</label>
-                        <input id="userName" class="form-control" type="text" formControlName="userName"
-                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.userName)}">
-                        <div *ngIf="isInputHasErrors(form.userName)" class="invalid-feedback">
-                            <div *ngIf="form.userName.errors">Имя пользователя пустое или содержит пробелы</div>
-                            <div *ngIf="form.userName.errors.maxlength">Имя пользователя слишком длинное</div>
-                        </div>
-                        <small  class="form-text text-muted">
-                            Введите имя пользователя
-                        </small>
+        <ng-container *ngIf="isCreateMode; else elseTemplate">
+            <h2>Создание пользователя</h2>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <h2>Редактирование пользователя</h2>
+        </ng-template>
+        <form (ngSubmit)="onSubmit()" [formGroup]="addUserForm" autocomplete="off">
+            <div>
+                <label for="userName">Имя пользователя</label>
+                <input id="userName" class="form-control" type="text" formControlName="userName"
+                    [ngClass]="{ 'is-invalid': isInputHasErrors(form.userName)}">
+                <div *ngIf="isInputHasErrors(form.userName)" class="invalid-feedback">
+                    <div *ngIf="form.userName.errors">Имя пользователя пустое или содержит пробелы</div>
+                    <div *ngIf="form.userName.errors.maxlength">Имя пользователя слишком длинное</div>
+                </div>
+                <small class="form-text text-muted">
+                    Введите имя пользователя
+                </small>
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input id="email" class="form-control" type="email" formControlName="email"
+                    [ngClass]="{ 'is-invalid': isInputHasErrors(form.email)}">
+                <div *ngIf="isInputHasErrors(form.email)" class="invalid-feedback">
+                    <div *ngIf="form.email.errors.required || form.email.errors.maxlength">Email пустой или слишком
+                        длинный</div>
+                    <div *ngIf="form.email.errors.email">Email должен быть корректным</div>
+                </div>
+                <small class="form-text text-muted">
+                    Введите email
+                </small>
+            </div>
+            <div>
+                <label for="input-category">Роли</label>
+                <div>
+                    <ng-select [searchable]="false" bindLabel="name" bindValue="name" formControlName="roles"
+                        appendTo="body" [ngClass]="{ 'is-invalid': isInputHasErrors(form.roles)}" [multiple]="true"
+                        [closeOnSelect]="false">
+                        <ng-option *ngFor="let role of roles" [value]="role">{{ role }}</ng-option>
+                    </ng-select>
+                    <div *ngIf="isInputHasErrors(form.roles)" class="invalid-feedback">
+                        <div *ngIf="form.roles.errors.required">Роли обязательны</div>
                     </div>
-                    <div>
-                        <label for="email">Email</label>
-                        <input id="email" class="form-control" type="email" formControlName="email"
-                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.email)}">
-                        <div *ngIf="isInputHasErrors(form.email)" class="invalid-feedback">
-                            <div *ngIf="form.email.errors.required || form.email.errors.maxlength">Email пустой или слишком длинный</div>
-                            <div *ngIf="form.email.errors.email">Email должен быть корректным</div>
-                        </div>
-                        <small  class="form-text text-muted">
-                            Введите email
-                        </small>
+
+                </div>
+            </div>
+            <div class="checkbox-container" *ngIf="isShowChangePassword">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="changePassword"
+                        (change)="changePassword($event)">
+                    <label class="custom-control-label" for="changePassword">Изменить пароль</label>
+                </div>
+            </div>
+            <div *ngIf="showPasswords || showPasswordInput">
+                <label for="input-category">Пароль</label>
+                <input class="form-control border-style" type="password" formControlName="newPassword"
+                    [ngClass]="{ 'is-invalid': isInputHasErrors(form.newPassword) }" autocomplete="new-password">
+                <div *ngIf="isInputHasErrors(form.newPassword)" class="invalid-feedback">
+                    <div *ngIf="form.newPassword.errors">
+                        Пароль должен быть от 8 до 20 символов и содержать как минимум одну прописную, одну строчную
+                        букву,
+                        одну цифру
                     </div>
-                    <div>
-                        <label for="input-category">Роли</label>
-                        <!-- <div [ngClass]="{ 'role-field': !isNotCurrentAdminProfile }"> -->
-                        <div>
-                            <ng-select [searchable]="false" bindLabel="name" bindValue="name" formControlName="roles" appendTo="body"
-                                [ngClass]="{ 'is-invalid': isInputHasErrors(form.roles)}"
-                                [multiple]="true" [closeOnSelect]="false">
-                                <ng-option *ngFor="let role of roles" [value]="role">{{ role }}</ng-option>
-                            </ng-select>
-                            <div *ngIf="isInputHasErrors(form.roles)" class="invalid-feedback">
-                                <div *ngIf="form.roles.errors.required">Роли обязательны</div>
-                            </div>
-                            <!-- <small *ngIf="isNotCurrentAdminProfile" class="form-text text-muted">
-                                Select role for the user
-                            </small> -->
-                        </div>
-                    </div>
-                    <div class="checkbox-container" *ngIf="isShowChangePassword">
-                        <!-- <label for="changePassword">Change password</label>
-                        <div class="material-switch pl-1">
-                            <input id="changePassword" type="checkbox" (change)="changePassword($event)" />
-                            <label for="changePassword"></label>
-                        </div> -->
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="changePassword" (change)="changePassword($event)">
-                            <label class="custom-control-label" for="changePassword">Изменить пароль</label>
-                        </div>
-                    </div>
-                    <div *ngIf="showPasswords || showPasswordInput">
-                        <label for="input-category">Пароль</label>
-                        <input class="form-control border-style" type="password" formControlName="newPassword"
-                            [ngClass]="{ 'is-invalid': isInputHasErrors(form.newPassword) }" autocomplete="new-password">
-                        <div *ngIf="isInputHasErrors(form.newPassword)" class="invalid-feedback">
-                            <div *ngIf="form.newPassword.errors">
-                                Пароль должен быть от 8 до 20 символов и содержать как минимум одну прописную, одну строчную букву,
-                                одну цифру
-                            </div>
-                        </div>
-                        <!-- <small class="form-text text-muted">
+                </div>
+                <!-- <small class="form-text text-muted">
                             Enter the new password
                         </small> -->
-                    </div>
-                    <div *ngIf="showPasswords">
-                        <label for="input-category">Повторите пароль</label>
-                        <input class="form-control border-style" type="password" formControlName="confirmPassword">
-                        <div *ngIf="mustMatch" class="invalid">
-                            Пароли не совпадают.
-                        </div>
-                        <small class="form-text text-muted">
-                            Подтвердите новый пароль
-                        </small>
-                    </div>
-                    <div class="buttons mt-2">
-                        <button type="submit" class="btn-success btn btn-primary mr-3">Сохранить</button>
-                        <button type="submit" *ngIf="isShowDeleteButton" (click)="isDeleteMode = true"
-                            class="btn-danger btn btn-primary mr-3">Удалить</button>
-                        <button type="button" routerLink="/users" class="btn btn-dark">Отменить</button>
-                    </div>
-                </form>
+            </div>
+            <div *ngIf="showPasswords">
+                <label for="input-category">Повторите пароль</label>
+                <input class="form-control border-style" type="password" formControlName="confirmPassword">
+                <div *ngIf="mustMatch" class="invalid">
+                    Пароли не совпадают.
+                </div>
+                <small class="form-text text-muted">
+                    Подтвердите новый пароль
+                </small>
+            </div>
+            <div class="buttons mt-2">
+                <button type="submit" class="btn-success btn btn-primary mr-3 w-100">Сохранить</button>
+                <button type="submit" *ngIf="isShowDeleteButton" (click)="isDeleteMode = true"
+                    class="btn-danger btn btn-primary mr-3  w-100">Удалить</button>
+                <button type="button" routerLink="/users" class="btn btn-dark  w-100">Отменить</button>
+            </div>
+        </form>
     </div>
 </div>
