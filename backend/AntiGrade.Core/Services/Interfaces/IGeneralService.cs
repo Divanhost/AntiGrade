@@ -30,10 +30,14 @@ namespace AntiGrade.Core.Services.Interfaces
 
          // Course CRUD
         Task<List<CourseView>> GetCourses();
+        Task<CourseView> GetCourse(int id);
         Task<bool> CreateCourse(CourseView course);
         Task<bool> UpdateCourse(CourseView course);
         Task<bool> DeleteCourse(int id);
         // end Course CRUD
+
+        Task<List<SemesterView>> GetSemesters();
+        Task<bool> CreateNewSemester(SemesterView semester);
     }
 }
 

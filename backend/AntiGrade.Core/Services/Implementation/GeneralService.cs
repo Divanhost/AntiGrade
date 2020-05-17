@@ -129,6 +129,14 @@ namespace AntiGrade.Core.Services.Implementation
                                         .ToListAsync();
             return result;
         }
+          public async Task<CourseView> GetCourse(int id)
+        {
+            var result = await _unitOfWork.GetRepository<Course,int>()
+                                        .Filter(x=>x.Id == id)
+                                        .ProjectTo<CourseView>(_mapper.ConfigurationProvider)
+                                        .FirstOrDefaultAsync();
+            return result;
+        }
         public async Task<bool> CreateCourse(CourseView course)
         {
             var dbCourse = _mapper.Map<Course>(course);
@@ -148,7 +156,20 @@ namespace AntiGrade.Core.Services.Implementation
             return await _unitOfWork.Save() >0;
         }
         // end Course CRUD
-
+        public async Task<bool> CreateNewSemester(SemesterView semester)
+        {
+            var dbSemester = _mapper.Map<Semester>(semester);
+            _unitOfWork.GetRepository<Semester,int>().Create(dbSemester);
+            return await _unitOfWork.Save() >0;
+        }
+        public async Task<List<SemesterView>> GetSemesters()
+        {
+            var result = await _unitOfWork.GetRepository<Semester,int>()
+                                        .All()
+                                        .ProjectTo<SemesterView>(_mapper.ConfigurationProvider)
+                                        .ToListAsync();
+            return result;
+        }
         private async Task UpdateDepartments(List<Department> newdepartments, int instituteId)
         {
             var existingIds = await GetDepartmentIdsForInstitute(instituteId);

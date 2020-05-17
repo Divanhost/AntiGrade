@@ -1,0 +1,28 @@
+<div class="page-container container">
+    <div class="btn btn-info mb-3" [routerLink]="['add']">Добавить</div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Название</th>
+          <th scope="col">Изменить</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!courses.length">
+          <td colspan="4">
+            <h3 class="no-data">Нет ни одного направления!</h3>
+          </td>
+        </tr>
+        <tr *ngFor="let course of courses">
+          <td>
+            {{course.name}}
+          </td>
+          <td>
+            <div class="btn btn-info" [routerLink]="['edit',course.id]">Edit</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+

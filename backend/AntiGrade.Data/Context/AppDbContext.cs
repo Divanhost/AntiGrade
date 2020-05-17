@@ -31,6 +31,7 @@ namespace AntiGrade.Data.Context
         public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Institute> Institutes { get; set; }
+        public DbSet<Semester> Semesters { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -17,6 +17,8 @@ import { UsersComponent } from './users/users.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { InstitutesComponent } from './institutes/institutes.component';
 import { AddEditInstituteComponent } from './add-edit-institute/add-edit-institute.component';
+import { CoursesComponent } from './courses/courses.component';
+import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -112,6 +114,18 @@ const appRoutes: Routes = [
       {
         path: 'institutes/add',
         component: AddEditInstituteComponent
+      },
+      {
+        path: 'courses',
+        component: CoursesComponent
+      },
+      {
+        path: 'courses/edit/:id',
+        component: AddEditCourseComponent
+      },
+      {
+        path: 'courses/add',
+        component: AddEditCourseComponent
       },
     ]
   }

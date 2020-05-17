@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200516121114_AddedSems")]
+    partial class AddedSems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,21 +216,21 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "685774a5-98ce-4bf2-ad3d-92ef1e541950",
+                            ConcurrencyStamp = "ae57cf05-4095-467d-a56b-1ed716758792",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ec2fd6c7-fd33-4b17-81e3-ae8bd760bf7c",
+                            ConcurrencyStamp = "05d65c6c-e2be-4e69-8a8f-567128ca9e43",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "5527c673-96f3-45af-8270-4b61c7522cf6",
+                            ConcurrencyStamp = "ffa39c34-c70f-49a7-8e20-25d9370799c5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -353,7 +355,7 @@ namespace AntiGrade.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Semesters");
+                    b.ToTable("Semester");
                 });
 
             modelBuilder.Entity("AntiGrade.Shared.Models.Status", b =>

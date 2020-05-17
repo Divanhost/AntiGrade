@@ -17,10 +17,13 @@ namespace AntiGrade.Shared.Models
         
         [ForeignKey(nameof(Group))]
         public int GroupId {get;set;}
+        [ForeignKey(nameof(Semester))]
+        public int? SemestrId {get;set;}
         public bool IsDeleted {get;set;}
         public bool HasBonuses {get;set;}
         public virtual ExamType Type {get;set;}
         public virtual Group Group {get;set;}
+        public virtual Semester Semester {get;set;}
         public virtual List<Work> Works {get;set;}
         public virtual List<SubjectEmployee> SubjectEmployees {get;set;}
     }

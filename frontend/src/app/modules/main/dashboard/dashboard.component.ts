@@ -8,6 +8,7 @@ import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
 import { Mode } from 'src/app/shared/models/mode.model';
 import { BaseComponent } from 'src/app/shared/classes';
 import { GeneralService } from 'src/app/core/services/general.service';
+import { Semester } from 'src/app/shared/models/semester.model';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   modes = [{id: 1 , name: 'Текущий учет'}, {id: 2, name: 'Экзамен'}, {id: 3, name: 'Пересдача'}];
   subjects: MainSubjectView[];
   subjectGroups = [];
+  semesters: Semester[] = [];
+  currentSemester: Semester = new Semester();
   constructor(
     private readonly subjectService: SubjectService,
     private readonly groupService: GroupService,
@@ -30,6 +33,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentMode();
+    this.getSemesters();
   }
   getSubjects() {
     this.subjectService.getDistinctSubjects().subscribe((response: ResponseModel<MainSubjectView[]>) => {
@@ -59,6 +63,14 @@ export class DashboardComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.updateCurrentMode(this.mode.id).subscribe((response: ResponseModel<boolean>) => {
         this.getSubjectGroups();
+      })
+    );
+  }
+  getSemesters() {
+    this.subscriptions.push(
+      this.generalService.getSemesters().subscribe((response: ResponseModel<Semester[]>) => {
+        this.semesters = response.payload;
+        this.currentSemester = this.semesters[0];
       })
     );
   }

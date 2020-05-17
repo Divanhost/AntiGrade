@@ -1,0 +1,16 @@
+<div class="e-container">
+    <div class="page-container">
+            <h2 *ngIf="isCreate; else edit">Создание направления</h2>
+            <ng-template #edit>
+                <h2>Изменение направления</h2>
+            </ng-template>
+            <div>
+                <label>Название</label>
+                <input class="form-control border-style"  [(ngModel)]="course.name" type="text">
+            </div>
+            <div class="buttons mt-3 d-flex justify-content-center">
+                <button type="button" class="btn btn-success w-100 mr-3" (click)="onSubmit()">Сохранить</button>
+                <button type="button" routerLink="" class="btn btn-dark w-100">Отмена</button>
+            </div>
+    </div>
+</div>

@@ -33,6 +33,8 @@ import { UsersComponent } from './users/users.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { InstitutesComponent } from './institutes/institutes.component';
 import { AddEditInstituteComponent } from './add-edit-institute/add-edit-institute.component';
+import { CoursesComponent } from './courses/courses.component';
+import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 registerLocaleData(localeRu, 'ru-RU');
 
 @NgModule({
@@ -57,7 +59,9 @@ registerLocaleData(localeRu, 'ru-RU');
     EmployeesComponent,
     UsersComponent,
     InstitutesComponent,
-    AddEditInstituteComponent
+    AddEditInstituteComponent,
+    CoursesComponent,
+    AddEditCourseComponent
   ],
   imports: [
     NgbModule,

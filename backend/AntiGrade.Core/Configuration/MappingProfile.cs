@@ -147,6 +147,8 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name));
             CreateMap<CourseView,Course>().ReverseMap();
+            CreateMap<Semester,SemesterView>();
+            CreateMap<SemesterView,Semester>();
         }
     }
 }

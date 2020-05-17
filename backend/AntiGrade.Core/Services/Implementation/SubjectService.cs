@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -159,8 +160,12 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<MainSubjectView>> GetDistinctSubjects()
         {
+            var curYear = DateTime.UtcNow.Year;
+            var currentSem = _unitOfWork.GetRepository<Semester, int>()
+                                    .Filter(x=>x.Year ==curYear)
+                                    .LastOrDefault();
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted)
+                                    .Filter(x => !x.IsDeleted &&(x.SemestrId == null ? true : x.SemestrId == currentSem.Id))
                                     .GroupBy(x => x.Name)
                                     .Select(y => y.First())
                                     .OrderBy(y => y.Name)

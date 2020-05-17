@@ -16,22 +16,34 @@
             <li class="nav-item active">
                 <a class="nav-link" [routerLink]="['/groups']">Группы<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" [routerLink]="['/users']">Пользователи<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" [routerLink]="['/employees']">Сотрудники<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" [routerLink]="['/institutes']">Институты<span class="sr-only">(current)</span></a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Дополнительно
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" [routerLink]="['/institutes']">Институты</a>
+                  <a class="dropdown-item" [routerLink]="['/courses']">Направления подготовки</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" [routerLink]="['/users']">Пользователи</a>
+                  <a class="dropdown-item" [routerLink]="['/employees']">Сотрудники</a>
+                </div>
             </li>
         </ul>
+        <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Действия
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item">Сменить режим</a>
+            </div>
+        </li>
+    </ul>
         <li class="nav-item dropdown">
-            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <a class="dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {{ currentUser.userName }}
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <div class="dropdown-menu" aria-labelledby="userDropdownDropdown">
                 <a class="dropdown-item" href="#" (click)="logout()">Log out</a>
             </div>
         </li>

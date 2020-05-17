@@ -235,7 +235,7 @@ namespace AntiGrade.Data.Repositories.Implementation
                 return _departmentRepository;
             }
         }
-          public IRepository<Course, int> CourseRepository 
+        public IRepository<Course, int> CourseRepository 
         {
             get
             {
@@ -245,6 +245,18 @@ namespace AntiGrade.Data.Repositories.Implementation
                 }
 
                 return _courseRepository;
+            }
+        }
+        public IRepository<Semester, int> SemesterRepository 
+        {
+            get
+            {
+                if (_semesterRepository == null)
+                {
+                    _semesterRepository = new Repository<Semester, int>(_context);
+                }
+
+                return _semesterRepository;
             }
         }
         public async Task<int> Save()
@@ -295,6 +307,7 @@ namespace AntiGrade.Data.Repositories.Implementation
         private IRepository<Institute, int> _instituteRepository;
         private IRepository<Department, int> _departmentRepository;
         private IRepository<Course, int> _courseRepository;
+        private IRepository<Semester, int> _semesterRepository;
 
 
     }

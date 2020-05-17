@@ -103,8 +103,14 @@ namespace AntiGrade.Controllers
 
         #region CourseCRUD
 
-        [HttpGet("courses")]
+        [HttpGet("courses/all")]
         public async Task<IActionResult> GetCourses()
+        {
+            var result = await _service.GetCourses();
+            return ResponseModel(result);
+        }
+         [HttpGet("courses/{id}")]
+        public async Task<IActionResult> GetCourses(int id)
         {
             var result = await _service.GetCourses();
             return ResponseModel(result);
@@ -128,5 +134,18 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
         #endregion
+
+        [HttpGet("semesters")]
+        public async Task<IActionResult> GetSemesters()
+        {
+            var result = await _service.GetSemesters();
+            return ResponseModel(result);
+        }
+        [HttpPost("semesters")]
+        public async Task<IActionResult> CreateSemester([FromBody] SemesterView semester)
+        {
+            var result = await _service.CreateNewSemester(semester);
+            return ResponseModel(result);
+        }
     }
 }
