@@ -2,46 +2,39 @@
     <div *ngFor="let work of works" class="content-wrapper work-wrapper mb-3">
         <div class="work-holder">
             <div class="mr-3">
-                <div class="md-form">
                     <input  type="text" class="form-control" placeholder="Название работы"
                         [(ngModel)]="work.name">
-                </div>
             </div>
             <div class="mr-3">
-                <div class="md-form">
                     <input mdbInput type="number" class="form-control" placeholder="Макс. балл"
                         [(ngModel)]="work.points">
-                </div>
             </div>
             <div class="pr-3 type">
-                <div class="md-form">
                     <ng-select [(ngModel)]="work.workTypeId" appendTo="body" placeholder="Вид занятия"
                         class="type-select">
                         <ng-option *ngFor="let type of workTypes" [value]="type.id">
                             {{ type.value }}
                         </ng-option>
                     </ng-select>
-                </div>
             </div>
             <div class="img-holder color-plus">
-                <fa-icon [icon]="faPlusCircle" size="2x" (click)="addCriteria(work)"></fa-icon>
+                <fa-icon [icon]="faPlusCircle" size="2x" (click)="addCriteria(work)" style="color: #28a745;"></fa-icon>
             </div>
         </div>
-        <div class="criteria-holder" *ngFor="let criteria of work.criterias">
+        <h3 *ngIf="work.criterias.length">Критерии</h3>
+        <div class="criteria-holder align-items-center" *ngFor="let criteria of work.criterias">
             <div class="mr-3">
-                <div class="md-form form-sm">
                     <input type="text" class="form-control form-control-sm" placeholder="Название критерия"
                         [(ngModel)]="criteria.name">
-                </div>
             </div>
             <div>
-                <div class="md-form form-sm pr-3">
+                <div class="pr-3">
                     <input type="number" class="form-control form-control-sm" placeholder="Макс. балл"
                         [(ngModel)]="criteria.points">
                 </div>
             </div>
             <div class="img-holder color-minus">
-                <fa-icon [icon]="faMinusCircle" size="2x" (click)="removeCriteria(work, criteria)"></fa-icon>
+                <fa-icon [icon]="faMinusCircle" size="2x" (click)="removeCriteria(work, criteria)" style="color: #c36767;"></fa-icon>
             </div>
         </div>
         <div class="content-error" *ngIf="!isSumOfCriteriasCorrect(work)">

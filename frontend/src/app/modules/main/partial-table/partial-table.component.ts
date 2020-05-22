@@ -94,38 +94,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     this.changeData.emit(studentWork);
   }
 
-  // getStudentWorks() {
-  //   this.subscriptions.push(
-  //     this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
-  //       this.studentWorks = response.payload;
-  //       // this.changeData.emit(this.studentWorks);
-  //       this.createRatingCells();
-  //     })
-  //   );
-  // }
-
-  // getAdditionalStudentWorks() {
-  //   this.subscriptions.push(
-  //     this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
-  //       this.studentWorks = response.payload;
-  //       // this.changeData.emit(this.studentWorks);
-  //       this.createRatingCells();
-  //     })
-  //   );
-  // }
-
-  // updateStudentWorks() {
-  //   if (this.mode.id === 3) {
-  //     this.studentWorks.forEach(element => {
-  //       debugger;
-  //       element.isAdditional = true;
-  //     });
-  //   }
-  //   this.subscriptions.push(
-  //     this.workService.updateStudentWorks(this.studentWorks).subscribe(() => {
-  //     })
-  //   );
-  // }
   selectWork(workId) {
     this.selectedWork = this.works.find(x => x.id === workId);
     this.open();
