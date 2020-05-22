@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container no-overflow">
     <h3>Выберите группу</h3>
     <ng-select [searchable]="false" [(ngModel)]="group" class="group-select">
         <ng-option *ngFor="let group of groups" [value]="group" appendTo = "body">

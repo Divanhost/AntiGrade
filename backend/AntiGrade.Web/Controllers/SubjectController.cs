@@ -27,9 +27,9 @@ namespace AntiGrade.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetSubjects()
+        public async Task<IActionResult> GetSubjects([FromQuery] int skip)
         {
-            var result = await _service.GetAllSubjects();
+            var result = await _service.GetAllSubjects(skip);
             return ResponseModel(result);
         }
         [HttpGet("{id:int}")]
@@ -91,10 +91,10 @@ namespace AntiGrade.Controllers
             var result = await _service.GetDistinctSubjects(semesterId);
             return ResponseModel(result);
         }
-        [HttpGet("filled")]
-        public async Task<IActionResult> GetSubjectWithWorks()
+        [HttpGet("filled/{semesterId}")]
+        public async Task<IActionResult> GetSubjectWithWorks(int semesterId)
         {
-            var result = await _service.GetSubjectsWithWorks();
+            var result = await _service.GetSubjectsWithWorks(semesterId);
             return ResponseModel(result);
         }
         [HttpGet("name")]

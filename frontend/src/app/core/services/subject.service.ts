@@ -34,8 +34,8 @@ export class SubjectService {
   removeSubject(id: number): Observable<ResponseModel<boolean>> {
     return this.http.deleteData(`subject/${id}`);
   }
-  getSubjects(): Observable<ResponseModel<SubjectView[]>> {
-    return this.http.getData('subject/all');
+  getSubjects(skip: number): Observable<ResponseModel<SubjectView[]>> {
+    return this.http.getData(`subject/all?skip=${skip}`);
   }
   getDistinctSubjects(semesterId: number): Observable<ResponseModel<MainSubjectView[]>> {
     return this.http.getData(`subject/distinct?semesterId=${semesterId}`);
@@ -77,7 +77,7 @@ export class SubjectService {
   getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<Status[]>> {
     return this.http.getData(`subject/roles?subjectId=${subjectId}&employeeId=${employeeId}`);
   }
-  getSubjectsWithWorks(): Observable<ResponseModel<SubjectView[]>> {
-    return this.http.getData(`subject/filled`);
+  getSubjectsWithWorks(semesterId: number): Observable<ResponseModel<SubjectView[]>> {
+    return this.http.getData(`subject/filled/${semesterId}`);
   }
 }

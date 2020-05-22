@@ -23,6 +23,7 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
 
   isCreate: boolean;
   @Input() subjectId: number;
+  @Output() changeExamType: EventEmitter<ExamType> = new EventEmitter();
   @Input() subject: SubjectDto = new SubjectDto();
   examTypes: ExamType[] = [];
   name: string;
@@ -44,9 +45,13 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
         this.examTypes = responce.payload;
         if (this.subject.examType) {
           this.examType = this.examTypes.find(x => x.id === this.subject.examType.id);
+          this.changeType();
         }
       })
     );
+  }
+  changeType() {
+    this.changeExamType.emit(this.examType);
   }
   updateData(subject: SubjectDto) {
     this.subject = subject;

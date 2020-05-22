@@ -1,20 +1,39 @@
 .buttons{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 }
 .subject-card{
-    max-width: max-content;
+    width: 20vw;
     max-height: max-content;
     margin-right: 1em;
     margin-bottom: 2em;
+    word-wrap: break-word;
 }
 .subject-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 .link-img{
     width: 100px;
     height: 100px;
+}
+.full-screen {
+    max-width: 90vw;
+}
+@media(max-width:950px) {
+    .subject-card{
+        width: 25vw;
+    }
+}
+@media(max-width:700px) {
+    .subject-card{
+        width: 40vw;
+    }
+}
+@media(max-width:560px) {
+    .subject-card{
+        width: 80vw;
+    }
 }

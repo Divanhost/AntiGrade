@@ -1,20 +1,19 @@
 <div class="subject-container">
     <div class="buttons m-3">
+        <div class="btn btn-info mr-2" (click)="createOrUpdateSubject()">Сохранить</div>
+        <div class="btn btn-info mr-2" (click)="importPlan()" data-toggle="modal" data-target="#chooseSubjectModal">Импорт</div>
         <div class="btn btn-primary mr-2" (click)="toggleCommons()" [ngClass]="{'disabled': isCommonsVisible}">Общие сведения</div>
         <div class="btn btn-primary mr-2" (click)="togglePlan()" [ngClass]="{'disabled': isPlanVisible}">Мероприятия</div>
         <div class="btn btn-primary  mr-2" (click)="toggleTeachers()" [ngClass]="{'disabled': isTeachersVisible}">Преподаватели</div>
         <div class="btn btn-primary mr-2" (click)="toggleGroup()" [ngClass]="{'disabled': isGroupVisible}">Группа</div>
         <div class="btn btn-warning" (click)="saveAndRedirect()">Перейти к оцениванию</div>
     </div>
-    <div>
-        <div class="btn btn-info" (click)="importPlan()" data-toggle="modal" data-target="#chooseSubjectModal">Импорт учебной карты</div>
-    </div>
     <div class="items" *ngIf="loaded">
         <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">
-            <app-subject-commons [subjectId] = "subjectId" [subject] = "subject"></app-subject-commons>
+            <app-subject-commons [subjectId] = "subjectId" [subject] = "subject" (changeExamType) = "changeType($event)"></app-subject-commons>
         </div>
         <div class="plan" [ngClass]="{'d-none': !isPlanVisible}">
-            <app-add-edit-plan [subjectId] = "subjectId" [subject] = "subject"></app-add-edit-plan>
+            <app-add-edit-plan [subjectId] = "subjectId" [subject] = "subject"  [currentExamType] = "currentExamType"></app-add-edit-plan>
         </div>
         <div class="teachers" [ngClass]="{'d-none': !isTeachersVisible}">
             <app-teachers [subjectId] = "subjectId" [subject] = "subject"></app-teachers>
@@ -23,9 +22,7 @@
             <app-group [subjectId] = "subjectId" [subject] = "subject"></app-group>
         </div>
     </div>
-    <div>
-      <div class="btn btn-info" (click)="createOrUpdateSubject()">Сохранить</div>
-    </div>
+    
 </div>
 
 <!-- Modal -->
@@ -34,21 +31,29 @@ aria-hidden="true">
 <div class="modal-dialog" role="document">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h3 class="modal-title" id="exampleModalLabel">Выберите предмет</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
-        <div *ngFor="let item of filledSubjects">
-            {{item.name}} 
-            ({{item.group.name}})
-            <div class="btn btn-info" (click)="getAnotherSubject(item.id)"> Get</div>
+        <div class="mb-3">
+            <ng-select [(ngModel)]="currentSemester" (change) = "importPlan()">
+                <ng-option *ngFor="let semester of semesters" [value] = "semester" appendTo="body">
+                    {{ semester.name }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div *ngFor="let item of filledSubjects" class="d-flex justify-content-between align-items-center mb-1">
+            <div>
+                {{item.name}} 
+                ({{item.group.name}})
+            </div>
+            <div class="btn btn-info" data-dismiss="modal" (click)="getAnotherSubject(item.id)">+</div>
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"  data-dismiss="modal">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
     </div>
     </div>
 </div>

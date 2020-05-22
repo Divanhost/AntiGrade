@@ -22,6 +22,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   faPlusCircle = faPlusCircle;
   faMinusCircle = faMinusCircle;
   @Input() subjectId: number;
+  @Input() currentExamType: ExamType;
   @Input() subject: SubjectDto = new SubjectDto();
   workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
   works: Work[] = [];
@@ -31,8 +32,8 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     super();
   }
   get maxWorksPoints() {
-    if (this.subject.examType) {
-      switch (this.subject.examType.id) {
+    if (this.currentExamType) {
+      switch (this.currentExamType.id) {
         case 1:
           return 60;
         case 2:
@@ -99,6 +100,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
       this.works = [];
       this.addWork();
     }
+
   }
   renewWorks() {
     if (this.works) {

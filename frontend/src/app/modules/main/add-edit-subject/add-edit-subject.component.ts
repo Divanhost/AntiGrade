@@ -13,6 +13,10 @@ import { Work } from 'src/app/shared/models/work.model';
 import { NotifierService } from 'angular-notifier';
 import { GroupComponent } from '../group/group.component';
 import { SubjectView } from 'src/app/shared/models/subject-view.model';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { Semester } from 'src/app/shared/models/semester.model';
+import { ExamType } from 'src/app/shared/models/exam-type.model';
+import { EventEmitter } from 'protractor';
 
 
 @Component({
@@ -37,10 +41,15 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   group: Group = new Group();
   mainTeacher: Employee = new Employee();
   loaded = false;
+  semesters: Semester[] = [];
+  currentSemester: Semester = new Semester();
   filledSubjects: SubjectView[];
+  
+  currentExamType: ExamType = new ExamType();
   constructor(private readonly route: ActivatedRoute,
               private readonly router: Router,
               private readonly subjectService: SubjectService,
+              private readonly generalService: GeneralService,
               private readonly notifierService: NotifierService) {
     super();
     this.subscriptions.push(
@@ -50,6 +59,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
 
   ngOnInit(): void {
+    this.getSemesters();
     if (!this.isCreate) {
       this.getSubject();
     } else {
@@ -166,13 +176,28 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.createOrUpdateSubject();
   }
   importPlan() {
-    this.subjectService.getSubjectsWithWorks().subscribe((response: ResponseModel<SubjectView[]>) => {
+    this.subjectService.getSubjectsWithWorks(this.currentSemester.id).subscribe((response: ResponseModel<SubjectView[]>) => {
       this.filledSubjects = response.payload;
+      if (this.subjectId) {
+        const index = this.filledSubjects.findIndex(x => x.id === +this.subjectId);
+        this.filledSubjects.splice(index, 1);
+      }
     });
   }
   getAnotherSubject(id: number) {
     this.subjectId = id;
     this.getSubject();
 
+  }
+  getSemesters() {
+    this.subscriptions.push(
+      this.generalService.getSemesters().subscribe((response: ResponseModel<Semester[]>) => {
+        this.semesters = response.payload;
+        this.currentSemester = this.semesters[0];
+      })
+    );
+  }
+  changeType(type: ExamType) {
+    this.currentExamType = type;
   }
 }

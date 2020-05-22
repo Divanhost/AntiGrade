@@ -12,17 +12,22 @@ import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
 })
 export class SubjectsComponent extends BaseComponent implements OnInit {
   subjects: SubjectView[] = [];
+  loaded = 0;
+  isLoaderShown = true;
   constructor(private readonly subjectService: SubjectService) {
     super();
    }
 
   ngOnInit(): void {
-    this.getSubjects();
+    this.getSubjects(this.loaded);
   }
-  getSubjects() {
+  getSubjects(skip: number) {
     this.subscriptions.push(
-      this.subjectService.getSubjects().subscribe((responce: ResponseModel<SubjectView[]>) => {
-        this.subjects = responce.payload;
+      this.subjectService.getSubjects(skip).subscribe((responce: ResponseModel<SubjectView[]>) => {
+        this.subjects = Array.prototype.concat(this.subjects, responce.payload);
+        if (!responce.payload.length) {
+          this.isLoaderShown = false;
+        }
       })
     );
   }
@@ -32,5 +37,9 @@ export class SubjectsComponent extends BaseComponent implements OnInit {
         this.subjects = this.subjects.filter(x => x !== subject);
       })
     );
+  }
+  loadMore() {
+    this.loaded += 8;
+    this.getSubjects(this.loaded);
   }
 }

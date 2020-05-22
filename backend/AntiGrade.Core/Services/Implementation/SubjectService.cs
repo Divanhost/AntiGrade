@@ -48,10 +48,12 @@ namespace AntiGrade.Core.Services.Implementation
             }
         }
 
-        public async Task<List<SubjectView>> GetAllSubjects()
+        public async Task<List<SubjectView>> GetAllSubjects(int skip)
         {
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => !x.IsDeleted)
+                                    .Skip(skip)
+                                    .Take(8)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return subjects;
@@ -182,10 +184,10 @@ namespace AntiGrade.Core.Services.Implementation
             return subjects;
         }
 
-        public async Task<List<SubjectView>> GetSubjectsWithWorks()
+        public async Task<List<SubjectView>> GetSubjectsWithWorks(int semesterId)
         {
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted && x.Works.Any())
+                                    .Filter(x => !x.IsDeleted && x.Works.Any() && (x.SemestrId.HasValue && x.SemestrId == semesterId))
                                     .OrderBy(x=>x.Name)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();

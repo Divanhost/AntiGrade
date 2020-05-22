@@ -11,7 +11,7 @@
     </div>
     <div>Вид контроля</div>
     <div>
-        <ng-select [(ngModel)]="examType" appendTo = "body">
+        <ng-select [(ngModel)]="examType" appendTo = "body" (change) = "changeType()">
             <ng-option *ngFor="let type of examTypes" [value]="type">
                 {{ type.name }}
             </ng-option>
