@@ -202,20 +202,22 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
         this.mode = this.modes.find(x => x.id === response.payload);
-        if (this.mode.id === 2) {
+        if (this.mode.id !== 1) {
           this.getExamResults();
         }
         if (this.mode.id !== 3) {
           this.getStudentWorks();
         } else {
-          this.getAdditionalStudentWorks();
-          this.getAdditionals();
-          this.getExamResults();
+          this.fillAdditional();
         }
       })
     );
   }
-
+  fillAdditional() {
+    this.getAdditionalStudentWorks();
+    this.getAdditionals();
+    this.getExamResults();
+  }
   getAdditionalStudentWorks() {
     this.subscriptions.push(
       this.workService.getAdditionalStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
@@ -246,5 +248,11 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
 
   exportData(tableId: string) {
     this.excelSrv.exportToFile('contacts', tableId).subscribe();
+  }
+  getCurrentRating() {
+
+  }
+  getAdditionalRating() {
+
   }
 }

@@ -1,5 +1,10 @@
   <div class="page-container mt-3 central table-editable">
     <h2>Рейтинговая таблица</h2>
+    <div class="d-flex mb-1">
+      <div class="btn btn-outline-primary" (click)="getCurrentRating()">Рейтинг</div>
+      <div class="btn btn-outline-primary" (click)="getAdditionalRating()">Добор</div>
+    </div>
+    
     <div *ngIf="loaded" class="rating-holder">
       <div id="full-table">
         <td class="cell">

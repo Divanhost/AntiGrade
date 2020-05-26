@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Data.Repositories.Interfaces;
+using AntiGrade.Shared;
 using AntiGrade.Shared.Exceptions;
 using AntiGrade.Shared.InputModels;
 using AntiGrade.Shared.Models;
@@ -16,8 +17,10 @@ namespace AntiGrade.Core.Services.Implementation
 {
     public class SubjectService : ServiceBase, ISubjectService
     {
-        public SubjectService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+        IContextAccessor _context;
+        public SubjectService(IUnitOfWork unitOfWork, IMapper mapper, IContextAccessor context) : base(unitOfWork, mapper)
         {
+            _context = context;
         }
 
         public async Task<bool> CreateSubject(SubjectDto subjectDto)
@@ -50,15 +53,28 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<SubjectView>> GetAllSubjects(int skip)
         {
+            var subjectIds = await GetAvialableSubjectIds();
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted)
+                                    .Filter(x => !x.IsDeleted && subjectIds.Contains(x.Id))
                                     .Skip(skip)
                                     .Take(8)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return subjects;
         }
-
+        private async Task<List<int>> GetAvialableSubjectIds()
+        {
+            var userId = _context.GetUserId();
+            var employeeId = await _unitOfWork.GetRepository<Employee, int>()
+                                                .Filter(x=>x.UserId.HasValue && x.UserId.Value == userId)
+                                                .Select(x=>x.Id)
+                                                .SingleOrDefaultAsync();
+            var subjectIds = await _unitOfWork.GetRepository<SubjectEmployee, int>()
+                                                .Filter(x=>x.EmployeeId == employeeId || _context.IsUserInRole(Roles.Admin)) 
+                                                .Select(x=>x.SubjectId)
+                                                .ToListAsync();
+            return subjectIds;
+        }
         public async Task<SubjectDto> GetSubjectById(int subjectId)
         {
             var subject = await _unitOfWork.GetRepository<Subject, int>()
@@ -163,9 +179,11 @@ namespace AntiGrade.Core.Services.Implementation
         // TODO were to place null sems
         public async Task<List<MainSubjectView>> GetDistinctSubjects(int semesterId)
         {
+            var subjectIds = await GetAvialableSubjectIds();
+
             var curYear = DateTime.UtcNow.Year;
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted &&(x.SemestrId == null ? false : x.SemestrId == semesterId))
+                                    .Filter(x => !x.IsDeleted &&(x.SemestrId == null ? false : x.SemestrId == semesterId) && subjectIds.Contains(x.Id))
                                     .GroupBy(x => x.Name)
                                     .Select(y => y.First())
                                     .OrderBy(y => y.Name)
@@ -176,8 +194,12 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<SubjectView>> GetSubjectsByName(string name, int semesterId)
         {
+            var subjectIds = await GetAvialableSubjectIds();
+
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted && x.Name == name &&(x.SemestrId == null ? false : x.SemestrId == semesterId))
+                                    .Filter(x => !x.IsDeleted && x.Name == name 
+                                    && (x.SemestrId == null ? false : x.SemestrId == semesterId) 
+                                    && subjectIds.Contains(x.Id))
                                     .OrderBy(x=>x.Group.Name)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
@@ -186,8 +208,13 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<List<SubjectView>> GetSubjectsWithWorks(int semesterId)
         {
+            var subjectIds = await GetAvialableSubjectIds();
+
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
-                                    .Filter(x => !x.IsDeleted && x.Works.Any() && (x.SemestrId.HasValue && x.SemestrId == semesterId))
+                                    .Filter(x => !x.IsDeleted 
+                                    && x.Works.Any() 
+                                    && subjectIds.Contains(x.Id)
+                                    && (x.SemestrId.HasValue && x.SemestrId == semesterId))
                                     .OrderBy(x=>x.Name)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
