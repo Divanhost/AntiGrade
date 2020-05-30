@@ -8,10 +8,11 @@
       <tr>
         <ng-container *ngFor="let work of works">
         <th>
-          <div  *ngIf="work.criterias.length" type="button" (click) = "selectWork(work.id)">
+          <div  *ngIf="work.criterias.length" type="button" (click) = "selectWork(work.id)" class="">
             <!-- <button type="button" data-toggle="modal" data-target="#exampleModal" (click) = "selectWork(work.id)"> -->
             {{work.name}} 
             <!-- </button> -->
+            <fa-icon [icon]="faPencilAlt" style="color: #28a745;"></fa-icon>
           </div>
           <div  *ngIf="!work.criterias.length">
             {{work.name}} 

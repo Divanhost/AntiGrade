@@ -1,8 +1,11 @@
   <div class="page-container mt-3 central table-editable">
-    <h2>Рейтинговая таблица</h2>
+    <!-- <h2> <a [ngClass]="{'active': true}" [routerLink]="[ '/subjects/rating', subjectId ]">Рейтинговая таблица</a> / 
+        <a [ngClass]="{'active': true}"  [routerLink]="[ '/subjects/rating', subjectId ]">Добор</a> </h2> -->
+    <h2 *ngIf="!isAdditionalMode">Рейтинговая таблица</h2>
+    <h2 *ngIf="isAdditionalMode">Добор</h2>
     <div class="d-flex mb-1">
-      <div class="btn btn-outline-primary" (click)="getCurrentRating()">Рейтинг</div>
-      <div class="btn btn-outline-primary" (click)="getAdditionalRating()">Добор</div>
+      <div class="btn btn-success mr-1" (click)="updateStudentWorks()"> Сохранить</div>
+      <div class="btn btn-primary" [routerLink]="['/subjects']"> Назад</div>
     </div>
     
     <div *ngIf="loaded" class="rating-holder">
@@ -60,10 +63,10 @@
                 <th>
                   Всего за семестр
                 </th>
-                <th>
+                <th *ngIf="isAdditionalMode">
                   Добор
                 </th>
-                <th>
+                <th *ngIf="isAdditionalMode || isExamMode">
                   Экзамен
                 </th>
                 <th>
@@ -73,8 +76,8 @@
               <tr>
                 <th class="readonly-cell"> </th>
                 <th class="readonly-cell"> </th>
-                <th class="readonly-cell"> </th>
-                <th class="readonly-cell"> </th>
+                <th class="readonly-cell" *ngIf="isAdditionalMode"> </th>
+                <th class="readonly-cell" *ngIf="isAdditionalMode || isExamMode"> </th>
               </tr>
             </thead>
             <tbody>
@@ -82,12 +85,12 @@
                 <td>
                   {{sum.totals}}
                 </td>
-                <td >
+                <td *ngIf="isAdditionalMode">
                   <ng-container *ngIf="additionalTotals.length">
                     {{additionalTotals[i].totals}}
                   </ng-container>
                 </td>
-                <td>
+                <td *ngIf="isAdditionalMode || isExamMode">
                   <ng-container *ngIf="examResults.length">
                     {{examResults[i].points}}
                   </ng-container>
@@ -109,6 +112,5 @@
         </td>
       </div>
     </div>
-    <div class="btn btn-success mb-1" (click)="updateStudentWorks()"> Сохранить</div>
-    <div class="btn btn-primary" [routerLink]="['/subjects']"> Назад</div>
+    
   </div>

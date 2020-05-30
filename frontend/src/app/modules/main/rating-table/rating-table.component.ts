@@ -67,6 +67,9 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
+    // this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    //   return false;
+    // };
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
     );

@@ -10,6 +10,7 @@ import { CriteriasComponent } from '../criterias/criterias.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Criteria } from 'src/app/shared/models/criteria.model';
 import { Mode } from 'src/app/shared/models/mode.model';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-partial-table',
@@ -27,6 +28,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @Output() changeData = new EventEmitter<StudentWork>();
   @ViewChild(CriteriasComponent) criteriaComponent: CriteriasComponent;
   selectedWork: Work = new Work();
+  faPencilAlt = faPencilAlt;
   regex = new RegExp('^-?[0-9][0-9,\.]+$');
   data = [];
   selected = false;

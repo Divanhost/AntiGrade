@@ -24,8 +24,7 @@
 .img-holder {
     display: flex;
     align-items: flex-end;
-    margin-left: 0.5em;
-    padding-bottom: 3px;
+    margin-top: 30px;
 }
 
 .teacher-container {
@@ -34,6 +33,8 @@
 }
 .info-holder {
     display: flex;
+    align-items: flex-start;
+
 }
 @media(max-width:800px) {
     .info-holder {

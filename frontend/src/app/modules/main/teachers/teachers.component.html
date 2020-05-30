@@ -21,19 +21,12 @@
                             {{ status.name }}
                         </ng-option>
                     </ng-select>
-                    <!-- <ng-multiselect-dropdown [data]="statusList" [(ngModel)]="selectedStatuses" [settings]="statusDropdownSettings"
-                        class="multiselect">
-                    </ng-multiselect-dropdown> -->
                 </div>
-            </div>
-            <div class="img-holder">
-                <fa-icon [icon]="faTrashAlt" size="2x" (click)="removeSubjectEmployee(teacher)"></fa-icon>
+                <div class="img-holder" (click)="removeSubjectEmployee(teacher)">
+                    <img src="assets/remove.png" alt="" class="del-img">
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div *ngIf="statusList.length">
-    <!-- <ng-multiselect-dropdown [data]="statusList" [settings]="statusDropdownSettings"
-     class="multiselect">
-</ng-multiselect-dropdown> -->
-</div>
+
