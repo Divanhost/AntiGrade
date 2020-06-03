@@ -11,6 +11,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Criteria } from 'src/app/shared/models/criteria.model';
 import { Mode } from 'src/app/shared/models/mode.model';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-partial-table',
@@ -29,7 +30,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @ViewChild(CriteriasComponent) criteriaComponent: CriteriasComponent;
   selectedWork: Work = new Work();
   faPencilAlt = faPencilAlt;
-  regex = new RegExp('^-?[0-9][0-9,\.]+$');
+
   data = [];
   selected = false;
   get isExamMode() {
@@ -46,6 +47,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     return this.isAdditionalMode || this.isExamMode;
   }
   constructor(private readonly workService: WorkService,
+              private readonly notifier: NotifierService,
               private readonly modalService: NgbModal) {
     super();
   }
@@ -75,22 +77,28 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   }
 
   updateWorkPoints(studentWork: StudentWork, event: any) {
-    const editField = event.target.textContent;
+    const editField = event.target.textContent.replace(/\s/g, '');
     const work = this.works.find(x => x.id === studentWork.workId);
-    if ( editField > work.points /*|| !this.regex.test(editField)*/) {
-      event.target.classList.add('off-limits');
+    const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
+    const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
+    if (!work.canBeQuickRated) {
+      event.target.textContent = 0;
+      this.notifier.notify('error', 'Работа может быть оценена только с помощью критериев');
       return;
-    } else {
-      event.target.classList.remove('off-limits');
     }
-    studentWork.sumOfPoints = +editField;
-    if ( studentWork.sumOfPoints.toString() !== '' && studentWork.sumOfPoints !== null) {
-      const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
-      if (!hasWork) {
-        this.studentWorks.push(studentWork);
+    if ( +editField > work.points || !matchOnlyNumberRe.test(editField)) {
+      if (!editField) {
+        return;
       }
-    } else {
-      studentWork.sumOfPoints = 0;
+      event.target.textContent = 0;
+      this.notifier.notify('error', 'Неверно введены баллы');
+      return;
+    }
+
+    studentWork.sumOfPoints = +editField;
+    const hasWork = this.studentWorks.find(x => x.workId === studentWork.workId && x.studentId === studentWork.studentId);
+    if (!hasWork) {
+      this.studentWorks.push(studentWork);
     }
     this.createRatingCells();
     this.changeData.emit(studentWork);
@@ -107,6 +115,8 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     modalRef.componentInstance.students = this.students;
     modalRef.componentInstance.changeData.subscribe((receivedEntry: StudentWork[]) => {
       this.updateData(receivedEntry);
+      this.selectedWork.canBeQuickRated = false;
+      this.selectedWork.additionalsCanBeQuickRated = false;
     });
   }
   updateData(studentWorks: StudentWork[]) {
@@ -119,6 +129,13 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       this.studentWorks.push(element);
     }
     });
+  }
+  canRate(work: Work) {
+    if (this.mode.id === 1) {
+      return work.canBeQuickRated;
+    } else {
+      return work.additionalsCanBeQuickRated;
+    }
   }
 
 }

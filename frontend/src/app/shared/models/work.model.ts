@@ -7,4 +7,6 @@ export class Work {
     workTypeId: number;
     criterias: Criteria[];
     subjectId: number;
+    canBeQuickRated: boolean;
+    additionalsCanBeQuickRated: boolean;
 }

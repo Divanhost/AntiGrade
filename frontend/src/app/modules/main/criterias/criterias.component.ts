@@ -7,6 +7,7 @@ import { ResponseModel } from 'src/app/shared/models/response.model';
 import { WorkService } from 'src/app/core/services/work.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StudentWork } from 'src/app/shared/models/student-work.model';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-criterias',
@@ -22,6 +23,7 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
   studentWorks: StudentWork[] = [];
   data = [];
   constructor(private readonly workService: WorkService,
+              private readonly notifier: NotifierService,
               public activeModal: NgbActiveModal) {
     super();
   }
@@ -30,16 +32,23 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
    this.getStudentCriteria();
   }
   updateCriteriaPoints(studentCriteria: StudentCriteria, event: any) {
-    const editField = event.target.textContent;
-    studentCriteria.points = +editField;
-    if (studentCriteria.points.toString() !== '' && studentCriteria.points !== null) {
-      const hasCriteria = this.studentCriterias.find(x => x.criteriaId === studentCriteria.criteriaId
-        && x.studentId === studentCriteria.studentId);
-      if (!hasCriteria) {
-        this.studentCriterias.push(studentCriteria);
+    const editField = event.target.textContent.replace(/\s/g, '');
+    const criteria = this.criterias.find(x => x.id === studentCriteria.criteriaId);
+    const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
+    const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
+    if ( +editField > criteria.points || !matchOnlyNumberRe.test(editField)) {
+      if (!editField) {
+        return;
       }
-    } else {
-      studentCriteria.points = 0;
+      event.target.textContent = 0;
+      this.notifier.notify('error', 'Неверно введены баллы');
+      return;
+    }
+    studentCriteria.points = +editField;
+    const hasCriteria = this.studentCriterias.find(x => x.criteriaId === studentCriteria.criteriaId
+      && x.studentId === studentCriteria.studentId);
+    if (!hasCriteria) {
+      this.studentCriterias.push(studentCriteria);
     }
     this.createRatingCells();
   }

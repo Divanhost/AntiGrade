@@ -9,10 +9,8 @@
         <ng-container *ngFor="let work of works">
         <th>
           <div  *ngIf="work.criterias.length" type="button" (click) = "selectWork(work.id)" class="">
-            <!-- <button type="button" data-toggle="modal" data-target="#exampleModal" (click) = "selectWork(work.id)"> -->
             {{work.name}} 
-            <!-- </button> -->
-            <fa-icon [icon]="faPencilAlt" style="color: #28a745;"></fa-icon>
+            <fa-icon [icon]="faPencilAlt" [ngClass]="{'free': canRate(work),'closed': !canRate(work)}"></fa-icon>
           </div>
           <div  *ngIf="!work.criterias.length">
             {{work.name}} 
@@ -44,28 +42,3 @@
     </tr>
   </tbody>
 </table>
-<!-- <div *ngIf="selected">
-  <app-criterias [workId] = "selectedWork.id" [criterias] = "selectedWork.criterias" [students] = "students"></app-criterias>
-</div> -->
-<!-- Modal -->
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-   
-        <div *ngIf="selected">
-          <app-criterias [workId] = "selectedWork.id" [criterias] = "selectedWork.criterias" [students] = "students"></app-criterias>
-        </div>
-       
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->

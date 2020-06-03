@@ -137,6 +137,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     }
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
+        this.notifierService.notify('success', 'Изменения сохранены');
         this.router.navigate(['/subjects']);
       })
     );

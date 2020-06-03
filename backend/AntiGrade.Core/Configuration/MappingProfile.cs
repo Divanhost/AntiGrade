@@ -80,7 +80,9 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
                 .ForMember(x=> x.Points, opt=>opt.MapFrom(src => src.MaxPoints))
-                .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias));
+                .ForMember(x=> x.Criterias, opt=>opt.MapFrom(src => src.Criterias))
+                .ForMember(x=> x.CanBeQuickRated, opt=>opt.MapFrom(src => !src.Criterias.Any(y=>y.StudentCriterias.Any(z=>!z.IsAdditional))))
+                .ForMember(x=> x.AdditionalsCanBeQuickRated, opt=>opt.MapFrom(src => !src.Criterias.Any(y=>y.StudentCriterias.Any(z=>z.IsAdditional))));
             CreateMap<Group,GroupView>()
                 .ForMember(x=> x.Id, opt=>opt.MapFrom(src => src.Id))
                 .ForMember(x=> x.Name, opt=>opt.MapFrom(src => src.Name))
