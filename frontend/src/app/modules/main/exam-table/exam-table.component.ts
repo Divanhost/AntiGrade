@@ -29,6 +29,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
   hasAccess = false;
+  loaded = false;
   get isExamMode() {
     if (this.mode) {
       return this.mode.id === 2;
@@ -147,6 +148,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
                       sumOfPoints: rowSum > 100 ? 100 : rowSum});
       row = [];
     });
+    this.loaded = true;
   }
   getExamResults() {
     const studentIds = this.students.map(({ id }) => id);

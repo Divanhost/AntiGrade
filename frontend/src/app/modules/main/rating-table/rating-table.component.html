@@ -1,119 +1,121 @@
-  <div class="page-container mt-3 central table-editable">
-    <!-- <h2> <a [ngClass]="{'active': true}" [routerLink]="[ '/subjects/rating', subjectId ]">Рейтинговая таблица</a> / 
-        <a [ngClass]="{'active': true}"  [routerLink]="[ '/subjects/rating', subjectId ]">Добор</a> </h2> -->
-    <h2 *ngIf="!isAdditionalMode">Рейтинговая таблица</h2>
-    <h2 *ngIf="isAdditionalMode">Добор</h2>
-    <div class="d-flex mb-1">
-      <div class="btn btn-success mr-1" (click)="updateStudentWorks()"> Сохранить</div>
-      <div class="btn btn-primary" [routerLink]="['/subjects']"> Назад</div>
-    </div>
-    
-    <div *ngIf="loaded" class="rating-holder">
-      <div id="full-table">
-        <td class="cell">
-          <table class="table table-bordered table-responsive-md table-striped text-center">
-            <thead>
-              <tr>
-                <th>
-                  Вид работы
-                </th>
-              </tr>
-              <tr>
-                <th>
-                  Студент
-                </th>
-              </tr>
-              <tr>
-                <th class="readonly-cell"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let student of students">
-                <td>
-                  {{student.lastName}} {{student.firstName}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-        <td class="cell" *ngIf="lects.length">
-          <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId" [studentWorks] = "studentWorks"
-            [disabled]="disableLects" [mode]="mode" (changeData)=updateData($event)>
-          </app-partial-table>
-        </td>
-        <td class="cell" *ngIf="practs.length">
-          <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId" [studentWorks] = "studentWorks"
-            [disabled]="disablePracts" [mode]="mode" (changeData)=updateData($event)>
-          </app-partial-table>
-        </td>
-        <td class="cell" *ngIf="labs.length">
-          <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId" [studentWorks] = "studentWorks"
-            [disabled]="disableLabs" [mode]="mode" (changeData)=updateData($event)>
-          </app-partial-table>
-        </td>
-        <td class="cell">
-          <table class="table table-bordered table-responsive-md table-striped text-center">
-            <thead>
-              <tr>
-                <th colspan="4">
-                  Итоги
-                </th>
-              </tr>
-              <tr>
-                <th>
-                  Всего за семестр
-                </th>
-                <th *ngIf="isAdditionalMode">
-                  Добор
-                </th>
-                <th *ngIf="isAdditionalMode || isExamMode">
-                  Экзамен
-                </th>
-                <th>
-                  Итого
-                </th>
-              </tr>
-              <tr>
-                <th class="readonly-cell"> </th>
-                <th class="readonly-cell"> </th>
-                <th class="readonly-cell" *ngIf="isAdditionalMode"> </th>
-                <th class="readonly-cell" *ngIf="isAdditionalMode || isExamMode"> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let sum of totals; let i = index">
-                <td>
-                  {{sum.totals}}
-                </td>
-                <td *ngIf="isAdditionalMode">
-                  <ng-container *ngIf="additionalTotals.length">
-                    {{additionalTotals[i].totals}}
-                  </ng-container>
-                </td>
-                <td *ngIf="isAdditionalMode || isExamMode">
-                  <ng-container *ngIf="examResults.length">
-                    {{examResults[i].points}}
-                  </ng-container>
-                </td>
-                <td>
-                  <ng-container *ngIf="true">
-                    {{sum.totals}}
-                  </ng-container>
-                  <ng-container *ngIf="false">
-                    {{sum.totals + additionalTotals[i].totals}}
-                  </ng-container>
-                  <ng-container *ngIf="false">
-                    {{sum.totals + additionalTotals[i].totals + examResults[i].points}}
-                  </ng-container>
-                </td>
-                <!-- <td>
-                  {{getGrade()}}
-                </td> -->
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </div>
-    </div>
-    
+<div class="page-container mt-3 central table-editable no-overflow">
+  <div class="d-flex justify-content-between w-100">
+    <h2>
+      <a [ngClass]="{'active': !additionalPageMode}" [routerLink]="[ '/subjects/rating', subjectId ]" class="mr-1">
+        Рейтинговая таблица</a> |
+      <a [routerLink]="[ '/subjects/exam', subjectId ]" class="mx-1">Экзамен</a> |
+      <a [ngClass]="{'active': additionalPageMode}" [routerLink]="[ '/subjects/rating/additional', subjectId ]"
+        class="ml-1">Добор</a> 
+        <img src="assets/undo.svg" style="width: 25px; height: 25px; cursor:pointer;" [routerLink]="['/subjects']" class="ml-3 mb-1">
+    </h2>
+
+    <div class="btn btn-success mb-3" (click)="updateStudentWorks()"> Сохранить</div>
+    <!-- <div class="btn btn-primary" > Назад</div> -->
   </div>
+
+  <div class="text-center" *ngIf="!loaded">
+    <div class="spinner-border" style="width: 10rem; height: 10rem; color: #007bff;" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="loaded" class="rating-holder">
+    <div id="full-table">
+      <td class="cell">
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+          <thead>
+            <tr>
+              <th>
+                Вид работы
+              </th>
+            </tr>
+            <tr>
+              <th>
+                Студент
+              </th>
+            </tr>
+            <tr>
+              <th class="readonly-cell"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td>
+                {{student.lastName}} {{student.firstName}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+      <td class="cell" *ngIf="lects.length">
+        <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId"
+          [studentWorks]="studentWorks" [disabled]="disableLects" [mode]="mode" (changeData)=updateData($event)>
+        </app-partial-table>
+      </td>
+      <td class="cell" *ngIf="practs.length">
+        <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId"
+          [studentWorks]="studentWorks" [disabled]="disablePracts" [mode]="mode" (changeData)=updateData($event)>
+        </app-partial-table>
+      </td>
+      <td class="cell" *ngIf="labs.length">
+        <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId"
+          [studentWorks]="studentWorks" [disabled]="disableLabs" [mode]="mode" (changeData)=updateData($event)>
+        </app-partial-table>
+      </td>
+      <td class="cell">
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+          <thead>
+            <tr>
+              <th colspan="4">
+                Итоги
+              </th>
+            </tr>
+            <tr>
+              <th>
+                Всего за семестр
+              </th>
+              <th *ngIf="isAdditionalMode">
+                Добор
+              </th>
+              <th *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
+                Экзамен
+              </th>
+              <th>
+                Итого
+              </th>
+            </tr>
+            <tr>
+              <th class="readonly-cell"> </th>
+              <th class="readonly-cell"> </th>
+              <th class="readonly-cell" *ngIf="isAdditionalMode"> </th>
+              <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode"> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sum of totals; let i = index">
+              <td>
+                {{sum.totals}}
+              </td>
+              <td *ngIf="isAdditionalMode">
+                <ng-container *ngIf="additionalTotals.length">
+                  {{additionalTotals[i].totals}}
+                </ng-container>
+              </td>
+              <td *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
+                <ng-container *ngIf="examResults.length">
+                  {{examResults[i].points}}
+                </ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="true">
+                  {{getSum(i)}}
+                </ng-container>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </div>
+
+  </div>
+
+</div>

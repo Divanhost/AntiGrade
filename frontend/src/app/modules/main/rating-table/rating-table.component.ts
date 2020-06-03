@@ -27,6 +27,7 @@ import { ExamResult } from 'src/app/shared/models/exam-result.model';
 })
 export class RatingTableComponent extends BaseComponent implements OnInit {
   modes = [{id: 1 , name: 'Текущий учет'}, {id: 2, name: 'Экзамен'}, {id: 3, name: 'Пересдача'}];
+  additionalPageMode: boolean;
   lects: Work[] = [];
   disableLects = true;
   practs: Work[] = [];
@@ -67,9 +68,10 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router) {
     super();
-    // this.router.routeReuseStrategy.shouldReuseRoute = function() {
-    //   return false;
-    // };
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+    this.additionalPageMode = this.route.snapshot.url[2].toString() === 'additional';
     this.subscriptions.push(
       this.route.params.subscribe(params => this.subjectId = params.id)
     );
@@ -206,10 +208,10 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.getCurrentMode().subscribe((response: ResponseModel<number>) => {
         this.mode = this.modes.find(x => x.id === response.payload);
-        if (this.mode.id !== 1) {
+        if (this.mode.id !== 1 && !this.additionalPageMode) {
           this.getExamResults();
         }
-        if (this.mode.id !== 3) {
+        if (this.mode.id !== 3 && !this.additionalPageMode) {
           this.getStudentWorks();
         } else {
           this.fillAdditional();
@@ -258,5 +260,15 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   }
   getAdditionalRating() {
 
+  }
+  getSum(index) {
+    let sum = this.totals[index].totals;
+    if (this.additionalTotals.length) {
+      sum += this.additionalTotals[index].totals;
+    }
+    if (this.examResults.length) {
+      sum += this.examResults[index].points;
+    }
+    return sum;
   }
 }

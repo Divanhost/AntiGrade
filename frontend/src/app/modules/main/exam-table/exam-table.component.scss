@@ -18,8 +18,8 @@
     color: white;
 }
 .disabled {
-    background: #a9a9a96b !important;
-    color: white;
+    // background: #a9a9a96b !important;
+    // color: white;
 }
 .e-container {
   display: flex;
@@ -27,4 +27,10 @@
 }
 .m-auto {
   margin: 0 auto;
+}
+.active {
+  color: black;
+}
+a {
+  text-decoration: none;
 }

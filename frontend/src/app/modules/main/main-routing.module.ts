@@ -78,6 +78,10 @@ const appRoutes: Routes = [
         component: RatingTableComponent
       },
       {
+        path: 'subjects/rating/additional/:id',
+        component: RatingTableComponent
+      },
+      {
         path: 'subjects/groups/:id',
         component: GroupsComponent
       },
