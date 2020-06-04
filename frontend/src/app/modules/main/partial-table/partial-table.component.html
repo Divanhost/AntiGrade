@@ -28,7 +28,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of data">
-      <ng-container *ngIf="disabled || isExamMode; else elseTemplate">
+      <ng-container *ngIf="isDisabled; else elseTemplate">
         <td *ngFor="let sWork of row.studentWorks" class = "readonly-cell">
           {{sWork.sumOfPoints}}
         </td>

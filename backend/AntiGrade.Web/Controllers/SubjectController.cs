@@ -85,6 +85,12 @@ namespace AntiGrade.Controllers
             var result = await _service.GetStudents(id);
             return ResponseModel(result);
         }
+         [HttpGet("students/no_exam/{id:int}")]
+        public async Task<IActionResult> GetSubjectStudentsWithoutExam(int id)
+        {
+            var result = await _service.GetStudentsWithoutExam(id);
+            return ResponseModel(result);
+        }
         [HttpGet("distinct")]
         public async Task<IActionResult> GetDistinctSubjects([FromQuery] int semesterId)
         {

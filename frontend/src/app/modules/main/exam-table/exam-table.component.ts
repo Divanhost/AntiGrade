@@ -19,7 +19,7 @@ import { Status } from 'src/app/shared/models/status.model';
   styleUrls: ['./exam-table.component.scss']
 })
 export class ExamTableComponent extends BaseComponent implements OnInit {
-  modes = [{id: 1 , name: 'Текущий учет'}, {id: 2, name: 'Экзамен'}, {id: 3, name: 'Пересдача'}];
+  modes = [{ id: 1, name: 'Текущий учет' }, { id: 2, name: 'Экзамен' }, { id: 3, name: 'Пересдача' }];
   subjectId: number;
   mode: Mode = new Mode();
   students: Student[] = [];
@@ -73,7 +73,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   }
   updateWorkPoints(examResult: ExamResult, type: string, event: any) {
     const editField = event.target.textContent;
-    if ( editField > 40 /*|| !this.regex.test(editField)*/) {
+    if (editField > 40 /*|| !this.regex.test(editField)*/) {
       event.target.classList.add('off-limits');
       return;
     } else {
@@ -92,7 +92,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       default:
         break;
     }
-    if ( examResult.points.toString() !== '' && examResult.points !== null) {
+    if (examResult.points.toString() !== '' && examResult.points !== null) {
       const hasWork = this.examResults.find(x => x.studentId === examResult.studentId);
       if (!hasWork) {
         this.examResults.push(examResult);
@@ -141,11 +141,13 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       } else {
         rowSum += +examRes.points;
       }
-      this.data.push({totals: total,
-                      additional: atotal,
-                      currentStudent: student,
-                      examResult: examRes,
-                      sumOfPoints: rowSum > 100 ? 100 : rowSum});
+      this.data.push({
+        totals: total,
+        additional: atotal,
+        currentStudent: student,
+        examResult: examRes,
+        sumOfPoints: rowSum > 100 ? 100 : rowSum
+      });
       row = [];
     });
     this.loaded = true;
@@ -155,30 +157,65 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getExamResults(this.subjectId, studentIds).subscribe((response: ResponseModel<ExamResult[]>) => {
         this.examResults = response.payload;
-        console.log(this.examResults);
         this.createRatingCells();
       })
     );
   }
   updateExamResults() {
-    console.log(this.examResults);
     this.subscriptions.push(
       this.subjectService.updateExamResults(this.examResults).subscribe((response: ResponseModel<boolean>) => {
+        this.notifierService.notify('success', 'Изменения сохранены');
       })
     );
   }
-  canEdit(totals: number) {
+  canEdit(row) {
+    const totals = row.totals;
+    const additionals = row.additional;
     if (!this.hasAccess) {
       return false;
     }
-    if (totals >= 38) {
+    if (totals + additionals > 37) {
       return true;
     } else {
       return false;
     }
   }
+  canEditFirst(row) {
+      const totals = row.totals;
+      const additionals = row.additional;
+      if (!this.hasAccess) {
+        return false;
+      }
+      if (row.examResult) {
+        if (row.examResult.points) {
+          return false;
+        }
+      }
+      if (totals + additionals >= 38) {
+        return true;
+      } else {
+        return false;
+      }
+  }
+  canEditSecond(row) {
+    const totals = row.totals;
+    const additionals = row.additional;
+    if (!this.hasAccess) {
+      return false;
+    }
+    if (row.examResult) {
+      if (row.examResult.secondPassPoints || row.examResult.points) {
+        return false;
+      }
+    }
+    if (totals + additionals >= 38) {
+      return true;
+    } else {
+      return false;
+    }
+}
   addFull(examResult: ExamResult) {
-    examResult.points === 40 ? examResult.points = 0 :  examResult.points = 40;
+    examResult.points === 40 ? examResult.points = 0 : examResult.points = 40;
   }
   addZero(examResult: ExamResult) {
     examResult.points = 0;
@@ -213,4 +250,4 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       });
     });
   }
- }
+}

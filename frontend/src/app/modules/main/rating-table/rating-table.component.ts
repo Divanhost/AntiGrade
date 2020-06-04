@@ -92,7 +92,11 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
         this.works = response.payload;
         console.log(this.works);
         this.countWorks();
-        this.getStudents();
+        if (!this.additionalPageMode) {
+          this.getStudents();
+        } else {
+          this.getStudentsWithoutExam();
+        }
       })
     );
   }
@@ -116,6 +120,14 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   getStudents() {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
+        this.students = response.payload;
+        this.getCurrentMode();
+      })
+    );
+  }
+  getStudentsWithoutExam() {
+    this.subscriptions.push(
+      this.subjectService.getSubjectStudentsWithoutExam(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
         this.students = response.payload;
         this.getCurrentMode();
       })
@@ -155,7 +167,6 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.notifierService.notify('error', 'У вас нет прав на редактирование');
     }
     this.subjectService.getRoles(this.subjectId, employeeId).subscribe((response: ResponseModel<Status[]>) => {
-      console.log(response.payload);
       response.payload.forEach(element => {
         switch (element.name) {
           case StatusEnum.Main:
@@ -211,7 +222,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
         if (this.mode.id !== 1 && !this.additionalPageMode) {
           this.getExamResults();
         }
-        if (this.mode.id !== 3 && !this.additionalPageMode) {
+        if (!this.additionalPageMode) {
           this.getStudentWorks();
         } else {
           this.fillAdditional();

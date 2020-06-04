@@ -18,6 +18,7 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<bool> DeleteById(int subjectId);
         Task<List<WorkView>> GetWorks(int subjectId);
         Task<List<StudentView>> GetStudents(int subjectId);
+        Task<List<StudentView>> GetStudentsWithoutExam(int subjectId);
         Task<List<SubjectView>> GetSubjectsWithWorks(int semesterId);
         Task<List<SubjectView>> GetSubjectsByName(string name, int semesterId);
         Task<List<Status>> GetEmployeeRoles(int subjectId, int employeeId);

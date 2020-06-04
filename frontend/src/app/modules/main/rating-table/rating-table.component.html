@@ -1,16 +1,17 @@
 <div class="page-container mt-3 central table-editable no-overflow">
   <div class="d-flex justify-content-between w-100">
     <h2>
-      <a [ngClass]="{'active': !additionalPageMode}" [routerLink]="[ '/subjects/rating', subjectId ]" class="mr-1">
-        Рейтинговая таблица</a> |
-      <a [routerLink]="[ '/subjects/exam', subjectId ]" class="mx-1">Экзамен</a> |
-      <a [ngClass]="{'active': additionalPageMode}" [routerLink]="[ '/subjects/rating/additional', subjectId ]"
-        class="ml-1">Добор</a> 
+      <a [ngClass]="{'active': !additionalPageMode}" [routerLink]="[ '/subjects/rating', subjectId ]" class="mr-1">Рейтинговая таблица</a> 
+      <ng-container *ngIf="isExamMode || isAdditionalMode">
+        | <a [routerLink]="[ '/subjects/exam', subjectId ]" class="mx-1">Экзамен</a> 
+      </ng-container>
+      <ng-container *ngIf="isAdditionalMode">
+        | <a [ngClass]="{'active': additionalPageMode}" [routerLink]="[ '/subjects/rating/additional', subjectId ]" class="ml-1">Добор</a> 
+      </ng-container>
         <img src="assets/undo.svg" style="width: 25px; height: 25px; cursor:pointer;" [routerLink]="['/subjects']" class="ml-3 mb-1">
     </h2>
 
     <div class="btn btn-success mb-3" (click)="updateStudentWorks()"> Сохранить</div>
-    <!-- <div class="btn btn-primary" > Назад</div> -->
   </div>
 
   <div class="text-center" *ngIf="!loaded">
@@ -48,17 +49,17 @@
       </td>
       <td class="cell" *ngIf="lects.length">
         <app-partial-table title="Лекции" [works]="lects" [students]="students" [subjectId]="subjectId"
-          [studentWorks]="studentWorks" [disabled]="disableLects" [mode]="mode" (changeData)=updateData($event)>
+          [studentWorks]="studentWorks" [disabled]="disableLects" [mode]="mode" [isAdditionalPageMode] = "additionalPageMode" (changeData)=updateData($event)>
         </app-partial-table>
       </td>
       <td class="cell" *ngIf="practs.length">
         <app-partial-table title="Практики" [works]="practs" [students]="students" [subjectId]="subjectId"
-          [studentWorks]="studentWorks" [disabled]="disablePracts" [mode]="mode" (changeData)=updateData($event)>
+          [studentWorks]="studentWorks" [disabled]="disablePracts" [mode]="mode" [isAdditionalPageMode] = "additionalPageMode" (changeData)=updateData($event)>
         </app-partial-table>
       </td>
       <td class="cell" *ngIf="labs.length">
         <app-partial-table title="Лабораторные работы" [works]="labs" [students]="students" [subjectId]="subjectId"
-          [studentWorks]="studentWorks" [disabled]="disableLabs" [mode]="mode" (changeData)=updateData($event)>
+          [studentWorks]="studentWorks" [disabled]="disableLabs" [mode]="mode" [isAdditionalPageMode] = "additionalPageMode" (changeData)=updateData($event)>
         </app-partial-table>
       </td>
       <td class="cell">
@@ -73,7 +74,7 @@
               <th>
                 Всего за семестр
               </th>
-              <th *ngIf="isAdditionalMode">
+              <th *ngIf="isAdditionalMode && !additionalPageMode">
                 Добор
               </th>
               <th *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
@@ -86,7 +87,7 @@
             <tr>
               <th class="readonly-cell"> </th>
               <th class="readonly-cell"> </th>
-              <th class="readonly-cell" *ngIf="isAdditionalMode"> </th>
+              <th class="readonly-cell" *ngIf="isAdditionalMode && !additionalPageMode"f> </th>
               <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode"> </th>
             </tr>
           </thead>
@@ -95,7 +96,7 @@
               <td>
                 {{sum.totals}}
               </td>
-              <td *ngIf="isAdditionalMode">
+              <td *ngIf="isAdditionalMode && !additionalPageMode">
                 <ng-container *ngIf="additionalTotals.length">
                   {{additionalTotals[i].totals}}
                 </ng-container>

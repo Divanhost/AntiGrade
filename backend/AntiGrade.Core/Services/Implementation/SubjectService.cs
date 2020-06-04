@@ -176,6 +176,21 @@ namespace AntiGrade.Core.Services.Implementation
                                     .ToListAsync();
             return result;
         }
+        public async Task<List<StudentView>> GetStudentsWithoutExam(int subjectId)
+        {
+        
+            var students = await _unitOfWork.GetRepository<Subject, int>()
+                                    .Filter(x => x.Id == subjectId)
+                                    .Select(x => x.Group)
+                                    .SelectMany(y => y.Students)
+                                    .Where(z=>z.ExamResult == null || z.ExamResult.Points ==0)
+                                    .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
+                                    .OrderBy(z=>z.LastName)
+                                    .ThenBy(z=>z.FirstName)
+                                    .ThenBy(x=>x.Patronymic)
+                                    .ToListAsync();
+            return students;
+        }
         // TODO were to place null sems
         public async Task<List<MainSubjectView>> GetDistinctSubjects(int semesterId)
         {

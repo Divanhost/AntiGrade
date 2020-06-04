@@ -56,6 +56,9 @@ export class SubjectService {
   getSubjectStudents(id: number): Observable<ResponseModel<Student[]>> {
     return this.http.getData(`subject/students/${id}`);
   }
+  getSubjectStudentsWithoutExam(id: number): Observable<ResponseModel<Student[]>> {
+    return this.http.getData(`subject/students/no_exam/${id}`);
+  }
   updateSubjectGroups(id: number, data: SubjectGroup[]): Observable<ResponseModel<Group[]>> {
     return this.http.putData(`subject/groups/${id}`, data);
   }

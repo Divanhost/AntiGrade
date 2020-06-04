@@ -25,6 +25,7 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
   @Input() students: Student[] = [];
   @Input() studentWorks: StudentWork[] = [];
   @Input() disabled = false;
+  @Input() isAdditionalPageMode = false;
   @Input() mode: Mode;
   @Output() changeData = new EventEmitter<StudentWork>();
   @ViewChild(CriteriasComponent) criteriaComponent: CriteriasComponent;
@@ -137,5 +138,18 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
       return work.additionalsCanBeQuickRated;
     }
   }
-
+  get isDisabled() {
+    if (this.disabled) {
+      return true;
+    }
+    if (this.isExamMode) {
+      return true;
+    }
+    if (this.isAdditionalPageMode && this.isAdditionalMode) {
+      return false;
+    }
+    if (this.isAdditionalMode) {
+      return true;
+    }
+  }
 }
