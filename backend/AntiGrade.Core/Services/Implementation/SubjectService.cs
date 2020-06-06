@@ -50,6 +50,34 @@ namespace AntiGrade.Core.Services.Implementation
                 throw new WebsiteException("Такой дисциплины не существует");
             }
         }
+        public async Task<SubjectExamStatusView> GetExamStatus(int subjectId)
+        {
+            var examStatus = await _unitOfWork.GetRepository<SubjectExamStatus, int>()
+                                        .Filter(x => x.SubjectId == subjectId)
+                                        .FirstOrDefaultAsync();
+            if(examStatus == null) {
+                examStatus = new SubjectExamStatus();
+                examStatus.SubjectId = subjectId;
+                _unitOfWork.GetRepository<SubjectExamStatus, int>().Create(examStatus);
+                await _unitOfWork.Save();
+            }
+            var result = _mapper.Map<SubjectExamStatusView>(examStatus);
+            return result;
+        }
+        public async Task<bool> UpdateExamStatus(int subjectId, SubjectExamStatusView data)
+        {   
+            var examStatus = await _unitOfWork.GetRepository<SubjectExamStatus, int>()
+                                        .Filter(x => x.SubjectId == subjectId)
+                                        .FirstOrDefaultAsync();
+            examStatus.IsExamClosed = data.IsExamClosed;
+            examStatus.IsExamStarted = data.IsExamStarted;
+            examStatus.IsFirstRetakeClosed = data.IsFirstRetakeClosed;
+            examStatus.IsFirstRetakeStarted = data.IsFirstRetakeStarted;
+            examStatus.IsSecondRetakeClosed = data.IsSecondRetakeClosed;
+            examStatus.IsSecondRetakeStarted = data.IsSecondRetakeStarted;
+            _unitOfWork.GetRepository<SubjectExamStatus, int>().Update(examStatus);
+            return await _unitOfWork.Save() > 0;
+        }
 
         public async Task<List<SubjectView>> GetAllSubjects(int skip)
         {
@@ -267,6 +295,7 @@ namespace AntiGrade.Core.Services.Implementation
                 {
                     var er = new ExamResultDto()
                     {
+                        Id = studentResult.Id,
                         StudentId = id,
                         SubjectId = subjectId,
                         Points = studentResult.Points,

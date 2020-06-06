@@ -41,7 +41,6 @@ export class EmployeesComponent extends BaseComponent implements OnInit {
       this.generalService.getInstitutes().subscribe((response: ResponseModel<Institute[]>) => {
         this.institutes = response.payload;
         this.currentInstitute = this.institutes[0];
-        console.log(this.institutes);
       })
     );
   }

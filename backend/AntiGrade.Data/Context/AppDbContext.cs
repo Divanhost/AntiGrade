@@ -14,7 +14,7 @@ namespace AntiGrade.Data.Context
 
         }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeePosition> EmployeePositions { get; set; }
+        // public DbSet<EmployeePosition> EmployeePositions { get; set; }
         public DbSet<TokenCouple> TokenCouples { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -32,6 +32,7 @@ namespace AntiGrade.Data.Context
         public DbSet<Department> Departments { get; set; }
         public DbSet<Institute> Institutes { get; set; }
         public DbSet<Semester> Semesters { get; set; }
+        public DbSet<SubjectExamStatus> SubjectExamStatuses { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

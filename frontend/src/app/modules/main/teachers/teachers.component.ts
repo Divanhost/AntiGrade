@@ -48,7 +48,6 @@ export class TeachersComponent extends BaseComponent implements OnInit {
     } else {
       this.subjectEmployees = [];
     }
-    console.log(this.subjectEmployees);
     this.getAllStatuses();
     this.getEmployees();
 
@@ -84,7 +83,6 @@ export class TeachersComponent extends BaseComponent implements OnInit {
     } else {
       this.subjectEmployees.push({employeeId: null, subjectId: this.subjectId, statuses: null});
     }
-    console.log(this.subjectEmployees);
   }
   removeSubjectEmployee(teacher: SubjectEmployee) {
     const index = this.subjectEmployees.indexOf(teacher);
@@ -92,7 +90,6 @@ export class TeachersComponent extends BaseComponent implements OnInit {
     this.selectedEmployees = this.selectedEmployees.filter(x => x.id !== teacher.employeeId);
   }
   onItemSelect(item: Employee) {
-    console.log(this.statusList);
     this.addSubjectEmployee(item);
   }
   onItemDeSelect(item: Employee) {

@@ -28,7 +28,6 @@ namespace AntiGrade.Core.Configuration
                 .ForMember(x => x.UserId, _ => _.MapFrom(r => r.UserId))
                 .ForMember(x => x.Patronymic, _ => _.MapFrom(r => r.Patronymic))
                 .ForMember(x => x.DepartmentId, _ => _.MapFrom(r => r.DepartmentId))
-                .ForMember(x => x.EmployeePositionId, _ => _.Ignore())
                 .ForMember(x => x.Id, _ => _.MapFrom(r => r.Id));
             CreateMap<Employee,EmployeeDto>().ReverseMap();
             CreateMap<Subject,SubjectView>()
@@ -153,6 +152,7 @@ namespace AntiGrade.Core.Configuration
             CreateMap<CourseView,Course>().ReverseMap();
             CreateMap<Semester,SemesterView>();
             CreateMap<SemesterView,Semester>();
+            CreateMap<SubjectExamStatus,SubjectExamStatusView>();
         }
     }
 }

@@ -13,6 +13,7 @@ import { NotifierService } from 'angular-notifier';
 import { RoleService } from 'src/app/core/services/role.service';
 import { StatusEnum } from 'src/app/shared/enums/status.enum';
 import { Status } from 'src/app/shared/models/status.model';
+import { SubjectExamStatus } from 'src/app/shared/models/subject-exam-status.model';
 @Component({
   selector: 'app-exam-table',
   templateUrl: './exam-table.component.html',
@@ -28,6 +29,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   totals: Totals[] = [];
   additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
+  examStatus: SubjectExamStatus = new SubjectExamStatus();
   hasAccess = false;
   loaded = false;
   get isExamMode() {
@@ -60,9 +62,16 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   }
 
   initializeTable() {
+    this.getExamStatus();
     this.getStudents();
   }
-
+  getExamStatus() {
+    this.subscriptions.push(
+      this.subjectService.getExamStatus(this.subjectId).subscribe((response: ResponseModel<SubjectExamStatus>) => {
+        this.examStatus = response.payload;
+      })
+    );
+  }
   getStudents() {
     this.subscriptions.push(
       this.subjectService.getSubjectStudents(this.subjectId).subscribe((response: ResponseModel<Student[]>) => {
@@ -130,7 +139,10 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.students.forEach(student => {
       let rowSum = 0;
       const total = this.totals.find(x => x.studentId === student.id).totals;
-      const atotal = this.additionalTotals.find(x => x.studentId === student.id).totals;
+      let atotal = this.additionalTotals.find(x => x.studentId === student.id).totals;
+      if (total + atotal >= 38 && total < 38) {
+        atotal = 38 - total;
+      }
       let examRes = this.examResults.find(x => x.studentId === student.id);
       rowSum += total;
       rowSum += atotal;
@@ -139,14 +151,23 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
         examRes.studentId = student.id;
         examRes.subjectId = this.subjectId;
       } else {
-        rowSum += +examRes.points;
+        if (examRes.thirdPassPoints) {
+          rowSum += examRes.thirdPassPoints;
+          rowSum = rowSum > 60 ? 60 : rowSum;
+        } else if (examRes.secondPassPoints) {
+          rowSum += examRes.secondPassPoints;
+          rowSum = rowSum > 60 ? 60 : rowSum;
+        } else if (examRes.points) {
+          rowSum += examRes.points;
+          rowSum = rowSum > 100 ? 100 : rowSum;
+        }
       }
       this.data.push({
         totals: total,
         additional: atotal,
         currentStudent: student,
         examResult: examRes,
-        sumOfPoints: rowSum > 100 ? 100 : rowSum
+        sumOfPoints: rowSum
       });
       row = [];
     });
@@ -174,7 +195,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     if (!this.hasAccess) {
       return false;
     }
-    if (totals + additionals > 37) {
+    if (totals > 37) {
       return true;
     } else {
       return false;
@@ -187,15 +208,15 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
         return false;
       }
       if (row.examResult) {
-        if (row.examResult.points) {
+        if (row.examResult.points > 21) {
           return false;
         }
       }
       if (totals + additionals >= 38) {
         return true;
-      } else {
-        return false;
       }
+
+      return false;
   }
   canEditSecond(row) {
     const totals = row.totals;
@@ -208,11 +229,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
         return false;
       }
     }
+
     if (totals + additionals >= 38) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
 }
   addFull(examResult: ExamResult) {
     examResult.points === 40 ? examResult.points = 0 : examResult.points = 40;
@@ -249,5 +271,37 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
         }
       });
     });
+  }
+  startExam() {
+    this.examStatus.isExamStarted = true;
+    this.updateExamStatus();
+  }
+  closeExam() {
+    this.examStatus.isExamClosed = true;
+    this.updateExamStatus();
+
+  }
+  startFirstRetake() {
+    this.examStatus.isFirstRetakeStarted = true;
+    this.updateExamStatus();
+  }
+  closeFirstRetake() {
+    this.examStatus.isFirstRetakeClosed = true;
+    this.updateExamStatus();
+  }
+  startSecondRetake() {
+    this.examStatus.isSecondRetakeStarted = true;
+    this.updateExamStatus();
+  }
+  closeSecondRetake() {
+    this.examStatus.isSecondRetakeClosed = true;
+    this.updateExamStatus();
+  }
+  updateExamStatus() {
+    this.subscriptions.push(
+      this.subjectService.updateExamStatus(this.subjectId, this.examStatus).subscribe((response: ResponseModel<boolean>) => {
+        this.updateExamResults();
+      })
+    );
   }
 }

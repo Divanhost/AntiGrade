@@ -9,6 +9,7 @@ using AntiGrade.Data.Repositories.Interfaces;
 using AntiGrade.Shared.Models;
 using AutoMapper;
 using DocumentFormat.OpenXml.Packaging;
+using Microsoft.EntityFrameworkCore;
 
 namespace AntiGrade.Core.Services.Implementation
 {
@@ -20,9 +21,9 @@ namespace AntiGrade.Core.Services.Implementation
 
         public async Task<bool> ExportRatingTable(int subjectId)
         {
-             var employees = _unitOfWork.GetRepository<Employee,int>()
+             var employees = await _unitOfWork.GetRepository<Employee,int>()
                                     .All()
-                                    .ToList();
+                                    .ToListAsync();
             var students = _unitOfWork.GetRepository<Student,int>()
                                         .All()
                                         .ToList();

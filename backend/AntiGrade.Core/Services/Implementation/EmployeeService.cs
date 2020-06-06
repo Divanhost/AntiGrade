@@ -61,7 +61,7 @@ namespace AntiGrade.Core.Services.Implementation
         public async Task<List<EmployeeView>> GetAllTeachers()
         {
             var employees = await _unitOfWork.GetRepository<Employee,int>()
-                                    .Filter(x=> x.EmployeePositionId == (int)Positions.Teacher)
+                                    .All()
                                     .ProjectTo<EmployeeView>(_mapper.ConfigurationProvider)
                                     .ToListAsync();
             return employees;

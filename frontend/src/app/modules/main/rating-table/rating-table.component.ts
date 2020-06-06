@@ -90,7 +90,6 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
         this.works = response.payload;
-        console.log(this.works);
         this.countWorks();
         if (!this.additionalPageMode) {
           this.getStudents();
@@ -224,6 +223,9 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
         }
         if (!this.additionalPageMode) {
           this.getStudentWorks();
+          if (this.isAdditionalMode) {
+            this.getAdditionals();
+          }
         } else {
           this.fillAdditional();
         }

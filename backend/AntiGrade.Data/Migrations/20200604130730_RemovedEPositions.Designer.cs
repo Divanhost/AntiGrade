@@ -4,14 +4,16 @@ using AntiGrade.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AntiGrade.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200604130730_RemovedEPositions")]
+    partial class RemovedEPositions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,21 +199,21 @@ namespace AntiGrade.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "94bfae49-194e-4f50-a692-b64b2be4c4b8",
+                            ConcurrencyStamp = "b9d63bd8-8042-437f-8eab-af2856869785",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "dfbba9d9-cdd2-430c-893d-3caf05c98203",
+                            ConcurrencyStamp = "16641311-4733-464e-9229-c451336df659",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = 6,
-                            ConcurrencyStamp = "9e619ad9-eb15-4792-bde1-d2bfb44b3706",
+                            ConcurrencyStamp = "bf7edcc2-a652-4609-a244-ff2bc390cf61",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -460,6 +462,14 @@ namespace AntiGrade.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsExamClosed");
+
+                    b.Property<bool>("IsExamStarted");
+
+                    b.Property<bool>("IsFirstRetakeClosed");
+
+                    b.Property<bool>("IsSecondRetakeClosed");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100);
 
@@ -495,33 +505,6 @@ namespace AntiGrade.Data.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("SubjectEmployees");
-                });
-
-            modelBuilder.Entity("AntiGrade.Shared.Models.SubjectExamStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsExamClosed");
-
-                    b.Property<bool>("IsExamStarted");
-
-                    b.Property<bool>("IsFirstRetakeClosed");
-
-                    b.Property<bool>("IsFirstRetakeStarted");
-
-                    b.Property<bool>("IsSecondRetakeClosed");
-
-                    b.Property<bool>("IsSecondRetakeStarted");
-
-                    b.Property<int>("SubjectId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("SubjectExamStatuses");
                 });
 
             modelBuilder.Entity("AntiGrade.Shared.Models.TokenCouple", b =>
@@ -782,14 +765,6 @@ namespace AntiGrade.Data.Migrations
 
                     b.HasOne("AntiGrade.Shared.Models.Subject", "Subject")
                         .WithMany("SubjectEmployees")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("AntiGrade.Shared.Models.SubjectExamStatus", b =>
-                {
-                    b.HasOne("AntiGrade.Shared.Models.Subject", "Subject")
-                        .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

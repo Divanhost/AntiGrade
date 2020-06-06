@@ -70,7 +70,6 @@ export class GroupsComponent extends BaseComponent implements OnInit {
         } else {
           this.groups = response.payload;
         }
-        console.log(this.modalGroups);
       })
     );
   }

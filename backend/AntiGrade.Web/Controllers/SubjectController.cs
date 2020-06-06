@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AntiGrade.Core.Services.Interfaces;
 using AntiGrade.Shared.InputModels;
 using AntiGrade.Shared.Models;
+using AntiGrade.Shared.ViewModels;
 using AntiGrade.Web.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -125,6 +126,18 @@ namespace AntiGrade.Controllers
         public async Task<IActionResult> RemoveSubject(int id)
         {
             var result = await _service.DeleteById(id);
+            return ResponseModel(result);
+        }
+        [HttpGet("exam_status/{id:int}")]
+        public async Task<IActionResult> GetExamStatus(int id)
+        {
+            var result = await _service.GetExamStatus(id);
+            return ResponseModel(result);
+        }
+        [HttpPut("exam_status/{id:int}")]
+        public async Task<IActionResult> UpdateExamStatus(int id,[FromBody] SubjectExamStatusView data)
+        {
+            var result = await _service.UpdateExamStatus(id, data);
             return ResponseModel(result);
         }
     }

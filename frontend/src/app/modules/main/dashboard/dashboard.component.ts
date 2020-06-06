@@ -37,7 +37,6 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   getSubjects() {
     this.subjectService.getDistinctSubjects(this.currentSemester.id).subscribe((response: ResponseModel<MainSubjectView[]>) => {
       this.subjects = response.payload;
-      console.log(this.subjects);
       this.getSubjectGroups();
     });
   }

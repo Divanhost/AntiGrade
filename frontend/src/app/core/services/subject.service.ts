@@ -15,6 +15,7 @@ import { MainSubjectView } from 'src/app/shared/models/main-subject-view.model';
 import { Totals } from 'src/app/shared/models/totals.model';
 import { ExamResult } from 'src/app/shared/models/exam-result.model';
 import { Status } from 'src/app/shared/models/status.model';
+import { SubjectExamStatus } from 'src/app/shared/models/subject-exam-status.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,12 @@ export class SubjectService {
   }
   updateExamResults(data: ExamResult[]): Observable<ResponseModel<boolean>> {
     return this.http.putData(`subject/exam`, data);
+  }
+  getExamStatus(id: number): Observable<ResponseModel<SubjectExamStatus>> {
+    return this.http.getData(`subject/exam_status/${id}`);
+  }
+  updateExamStatus(id: number, data: SubjectExamStatus): Observable<ResponseModel<boolean>> {
+    return this.http.putData(`subject/exam_status/${id}`, data);
   }
   getRoles(subjectId: number, employeeId: number): Observable<ResponseModel<Status[]>> {
     return this.http.getData(`subject/roles?subjectId=${subjectId}&employeeId=${employeeId}`);

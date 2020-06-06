@@ -151,5 +151,6 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     if (this.isAdditionalMode) {
       return true;
     }
+    return false;
   }
 }

@@ -87,7 +87,11 @@ namespace AntiGrade.Data.Repositories.Interfaces
         {
             get;
         }
-         IRepository<Semester, int> SemesterRepository
+        IRepository<Semester, int> SemesterRepository
+        {
+            get;
+        }
+        IRepository<SubjectExamStatus, int> SubjectExamStatusRepository
         {
             get;
         }

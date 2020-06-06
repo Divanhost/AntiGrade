@@ -25,10 +25,10 @@ namespace AntiGrade.Shared.Models
         [ForeignKey(nameof(Department))]
         public int? DepartmentId {get;set;}
         
-        public int? EmployeePositionId {get;set;}
+        // public int? EmployeePositionId {get;set;}
         public bool IsFired {get;set;}
         public DateTime UpdatedAt {get;set;}
-        public virtual EmployeePosition EmployeePosition {get;set;}
+        // public virtual EmployeePosition EmployeePosition {get;set;}
         public virtual User User {get;set;}
         public virtual Department Department {get;set;}
         public virtual List<SubjectEmployee> SubjectEmployees {get;set;}
