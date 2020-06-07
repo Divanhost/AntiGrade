@@ -219,7 +219,7 @@ namespace AntiGrade.Core.Services.Implementation
                                     .Filter(x => x.Id == subjectId)
                                     .Select(x => x.Group)
                                     .SelectMany(y => y.Students)
-                                    .Where(z=>z.ExamResult == null || z.ExamResult.Points ==0)
+                                    .Where(z=> z.ExamResults.Any(f=>f.SubjectId == subjectId &&(f.Points <= 21 )))
                                     .ProjectTo<StudentView>(_mapper.ConfigurationProvider)
                                     .OrderBy(z=>z.LastName)
                                     .ThenBy(z=>z.FirstName)
