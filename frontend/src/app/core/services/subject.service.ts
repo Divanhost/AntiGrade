@@ -90,4 +90,7 @@ export class SubjectService {
   getSubjectsWithWorks(semesterId: number): Observable<ResponseModel<SubjectView[]>> {
     return this.http.getData(`subject/filled/${semesterId}`);
   }
+  getExamType(id: number): Observable<ResponseModel<ExamType>> {
+    return this.http.getData(`subject/exam_type/${id}`);
+  }
 }

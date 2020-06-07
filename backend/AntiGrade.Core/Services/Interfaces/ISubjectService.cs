@@ -17,6 +17,7 @@ namespace AntiGrade.Core.Services.Interfaces
         Task<bool> UpdateSubject(int subjectId, SubjectDto subject);
         Task<bool> DeleteById(int subjectId);
         Task<SubjectExamStatusView> GetExamStatus(int subjectId);
+        Task<ExamType> GetExamType(int subjectId);
         Task<bool> UpdateExamStatus(int subjectId, SubjectExamStatusView data);
         Task<List<WorkView>> GetWorks(int subjectId);
         Task<List<StudentView>> GetStudents(int subjectId);

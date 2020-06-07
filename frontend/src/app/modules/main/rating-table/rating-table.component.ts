@@ -20,6 +20,7 @@ import * as XLSX from 'xlsx';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { Totals } from 'src/app/shared/models/totals.model';
 import { ExamResult } from 'src/app/shared/models/exam-result.model';
+import { ExamType } from 'src/app/shared/models/exam-type.model';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
@@ -42,6 +43,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   studentCriteria: StudentCriteria[] = [];
   studentWorks: StudentWork[] = [];
   editField: string;
+  examType: ExamType = new ExamType();
   additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
   data = [];
@@ -85,11 +87,18 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   initializeTable() {
     this.getWorks();
   }
-
+  getExamType() {
+    this.subscriptions.push(
+      this.subjectService.getExamType(this.subjectId).subscribe((response: ResponseModel<ExamType>) => {
+        this.examType = response.payload;
+      })
+    );
+  }
   getWorks() {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
         this.works = response.payload;
+        this.getExamType();
         this.countWorks();
         if (!this.additionalPageMode) {
           this.getStudents();
@@ -279,9 +288,47 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     if (this.additionalTotals.length) {
       sum += this.additionalTotals[index].totals;
     }
-    if (this.examResults.length) {
-      sum += this.examResults[index].points;
+    if (this.examResults.length && this.examType.id === 1) {
+      sum += this.getExamPoints(this.examResults[index]);
     }
-    return sum;
+    if (isNaN(sum)) {
+      return 0;
+    }
+    if (this.examResults.length) {
+      if (this.examResults[index].isFailed) {
+        return sum > 60 ? 60 : sum;
+      } else {
+        return sum > 100 ? 100 : sum;
+      }
+    } else {
+      return sum > 100 ? 100 : sum;
+    }
+  }
+
+  getExamPoints(examResult: ExamResult) {
+    if (examResult.thirdPassPoints) {
+      return examResult.thirdPassPoints;
+    }
+    if (examResult.secondPassPoints) {
+      return examResult.secondPassPoints;
+    }
+    if (examResult.points) {
+      return examResult.points;
+    }
+  }
+  getGrade(index: number) {
+    const points = this.getSum(index);
+    if (this.examType.id === 3) {
+      if (points >= 60 ) {
+        return 'Зачет';
+      } else {
+        return 'Незачет';
+      }
+    } else {
+      if (points >= 85 ) { return 'Отлично'; }
+      if (points >= 71 ) { return 'Хорошо'; }
+      if (points >= 60 ) { return 'Удовл.'; }
+      return 'Неуд.';
+    }
   }
 }

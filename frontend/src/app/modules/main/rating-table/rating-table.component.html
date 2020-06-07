@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between w-100">
     <h2>
       <a [ngClass]="{'active': !additionalPageMode}" [routerLink]="[ '/subjects/rating', subjectId ]" class="mr-1">Рейтинговая таблица</a> 
-      <ng-container *ngIf="isExamMode || isAdditionalMode">
+      <ng-container *ngIf="(isExamMode || isAdditionalMode) && examType.id === 1">
         | <a [routerLink]="[ '/subjects/exam', subjectId ]" class="mx-1">Экзамен</a> 
       </ng-container>
       <ng-container *ngIf="isAdditionalMode">
@@ -11,7 +11,7 @@
         <img src="assets/undo.svg" style="width: 25px; height: 25px; cursor:pointer;" [routerLink]="['/subjects']" class="ml-3 mb-1">
     </h2>
 
-    <div class="btn btn-success mb-3" (click)="updateStudentWorks()"> Сохранить</div>
+    <div class="btn btn-success mb-3" *ngIf="(!isAdditionalMode && !isExamMode) || additionalPageMode" (click)="updateStudentWorks()"> Сохранить</div>
   </div>
 
   <div class="text-center" *ngIf="!loaded">
@@ -19,8 +19,8 @@
       <span class="sr-only">Loading...</span>
     </div>
   </div>
-  <div *ngIf="loaded" class="rating-holder">
-    <div id="full-table">
+  <div *ngIf="loaded" class="rating-holder w-100">
+    <div id="full-table" class="central">
       <td class="cell">
         <table class="table table-bordered table-responsive-md table-striped text-center">
           <thead>
@@ -66,7 +66,7 @@
         <table class="table table-bordered table-responsive-md table-striped text-center">
           <thead>
             <tr>
-              <th colspan="4">
+              <th colspan="5">
                 Итоги
               </th>
             </tr>
@@ -77,17 +77,21 @@
               <th *ngIf="isAdditionalMode && !additionalPageMode">
                 Добор
               </th>
-              <th *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
+              <th *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode && examType.id === 1">
                 Экзамен
               </th>
-              <th>
+              <th *ngIf="!this.additionalPageMode">
                 Итого
+              </th>
+              <th *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
+                Оценка
               </th>
             </tr>
             <tr>
               <th class="readonly-cell"> </th>
-              <th class="readonly-cell"> </th>
               <th class="readonly-cell" *ngIf="isAdditionalMode && !additionalPageMode"f> </th>
+              <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode && examType.id === 1" > </th>
+              <th class="readonly-cell" *ngIf="!this.additionalPageMode"> </th>
               <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode"> </th>
             </tr>
           </thead>
@@ -101,15 +105,16 @@
                   {{additionalTotals[i].totals}}
                 </ng-container>
               </td>
-              <td *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
+              <td *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode && examType.id === 1">
                 <ng-container *ngIf="examResults.length">
-                  {{examResults[i].points}}
+                  {{getExamPoints(examResults[i])}}
                 </ng-container>
               </td>
-              <td>
-                <ng-container *ngIf="true">
+              <td *ngIf="!this.additionalPageMode">
                   {{getSum(i)}}
-                </ng-container>
+              </td>
+              <td *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode">
+                  {{getGrade(i)}}
               </td>
             </tr>
           </tbody>

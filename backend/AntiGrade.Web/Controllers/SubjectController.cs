@@ -140,5 +140,11 @@ namespace AntiGrade.Controllers
             var result = await _service.UpdateExamStatus(id, data);
             return ResponseModel(result);
         }
+        [HttpGet("exam_type/{id:int}")]
+        public async Task<IActionResult> GetExamType(int id)
+        {
+            var result = await _service.GetExamType(id);
+            return ResponseModel(result);
+        }
     }
 }

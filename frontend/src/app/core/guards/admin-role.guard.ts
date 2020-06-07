@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { RoleService } from '@bi/services';
-import { Role } from '@bi/enums';
+import { RoleService } from '../services/role.service';
+import { Role } from 'src/app/shared/enums/role.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ import { Role } from '@bi/enums';
 export class AdminRoleGuard implements CanActivate {
 
   constructor(private router: Router,
-    private roleService: RoleService) { }
+              private roleService: RoleService) { }
 
   canActivate() {
     if (this.roleService.checkIfRole(Role.Admin)) {

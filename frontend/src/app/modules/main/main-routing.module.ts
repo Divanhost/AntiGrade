@@ -21,6 +21,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { AddEditCourseComponent } from './add-edit-course/add-edit-course.component';
 import { ChangeModeComponent } from './change-mode/change-mode.component';
 import { SemesterComponent } from './semester/semester.component';
+import { AdminRoleGuard } from 'src/app/core/guards/admin-role.guard';
 
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -35,11 +36,13 @@ const appRoutes: Routes = [
       },
       {
         path: 'users',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'users/add',
-        component: UserEditCreateComponent
+        component: UserEditCreateComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'users/edit/:id',
@@ -91,55 +94,66 @@ const appRoutes: Routes = [
       },
       {
         path: 'employees',
-        component: EmployeesComponent
+        component: EmployeesComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'employees/edit/:id',
-        component: AddEditEmployeeComponent
+        component: AddEditEmployeeComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'employees/add',
-        component: AddEditEmployeeComponent
+        component: AddEditEmployeeComponent,
+        canActivate: [AdminRoleGuard]
       },
-      {
-        path: 'subjects/:id/teachers',
-        component: TeachersComponent
-      },
+      // {
+      //   path: 'subjects/:id/teachers',
+      //   component: TeachersComponent
+      // },
       {
         path: 'subjects/exam/:id',
         component: ExamTableComponent
       },
       {
         path: 'institutes',
-        component: InstitutesComponent
+        component: InstitutesComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'institutes/edit/:id',
-        component: AddEditInstituteComponent
+        component: AddEditInstituteComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'institutes/add',
-        component: AddEditInstituteComponent
+        component: AddEditInstituteComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'courses',
-        component: CoursesComponent
+        component: CoursesComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'courses/edit/:id',
-        component: AddEditCourseComponent
+        component: AddEditCourseComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'courses/add',
-        component: AddEditCourseComponent
+        component: AddEditCourseComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'modes',
-        component: ChangeModeComponent
+        component: ChangeModeComponent,
+        canActivate: [AdminRoleGuard]
       },
       {
         path: 'semester',
-        component: SemesterComponent
+        component: SemesterComponent,
+        canActivate: [AdminRoleGuard]
       },
     ]
   }

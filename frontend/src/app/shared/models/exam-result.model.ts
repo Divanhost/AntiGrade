@@ -5,4 +5,5 @@ export class ExamResult {
     points: number;
     secondPassPoints: number;
     thirdPassPoints: number;
+    isFailed: boolean;
 }

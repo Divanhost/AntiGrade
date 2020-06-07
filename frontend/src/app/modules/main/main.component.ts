@@ -3,6 +3,7 @@ import { CurrentUserViewModel } from 'src/app/shared/models/current-user.model';
 import { RoleService } from 'src/app/core/services/role.service';
 import { LoginService } from 'src/app/core/services';
 import { Router } from '@angular/router';
+import { Role } from 'src/app/shared/enums/role.enum';
 
 @Component({
   selector: 'app-main',
@@ -22,6 +23,9 @@ export class MainComponent implements OnInit {
   getCurrentUser() {
     this.currentUser = this.roleService.getCurrentUser();
     localStorage.setItem('currentId', this.currentUser.id.toString());
+  }
+  get isAdmin() {
+    return this.roleService.checkIfRole(Role.Admin);
   }
   logout() {
     this.loginService.logout();

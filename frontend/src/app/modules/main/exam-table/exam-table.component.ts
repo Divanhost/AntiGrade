@@ -82,11 +82,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   }
   updateWorkPoints(examResult: ExamResult, type: string, event: any) {
     const editField = event.target.textContent;
-    if (editField > 40 /*|| !this.regex.test(editField)*/) {
-      event.target.classList.add('off-limits');
+    const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
+    const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
+    if (editField > 40 || !matchOnlyNumberRe.test(editField)) {
+      event.target.textContent = 0;
+      this.notifierService.notify('error', 'Неверно введены баллы');
       return;
-    } else {
-      event.target.classList.remove('off-limits');
     }
     switch (type) {
       case 'first':
@@ -275,32 +276,39 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
   startExam() {
     this.examStatus.isExamStarted = true;
     this.updateExamStatus();
+    this.notifierService.notify('success', 'Экзамен начался');
   }
   closeExam() {
     this.examStatus.isExamClosed = true;
     this.updateExamStatus();
-
+    this.updateExamResults();
+    this.notifierService.notify('success', 'Экзамен завершен');
   }
   startFirstRetake() {
     this.examStatus.isFirstRetakeStarted = true;
     this.updateExamStatus();
+    this.notifierService.notify('success', 'Пересдача начата');
   }
   closeFirstRetake() {
     this.examStatus.isFirstRetakeClosed = true;
     this.updateExamStatus();
+    this.updateExamResults();
+    this.notifierService.notify('success', 'Пересдача завершена');
   }
   startSecondRetake() {
     this.examStatus.isSecondRetakeStarted = true;
     this.updateExamStatus();
+    this.notifierService.notify('success', 'Пересдача начата');
   }
   closeSecondRetake() {
     this.examStatus.isSecondRetakeClosed = true;
     this.updateExamStatus();
+    this.updateExamResults();
+    this.notifierService.notify('success', 'Пересдача завершена');
   }
   updateExamStatus() {
     this.subscriptions.push(
       this.subjectService.updateExamStatus(this.subjectId, this.examStatus).subscribe((response: ResponseModel<boolean>) => {
-        this.updateExamResults();
       })
     );
   }

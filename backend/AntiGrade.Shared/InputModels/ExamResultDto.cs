@@ -14,5 +14,6 @@ namespace AntiGrade.Shared.InputModels
         public decimal Points {get;set;}
         public decimal SecondPassPoints {get;set;}
         public decimal ThirdPassPoints {get;set;}
+        public bool IsFailed {get;set;}
     }
 }

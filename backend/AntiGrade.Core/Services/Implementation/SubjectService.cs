@@ -161,6 +161,14 @@ namespace AntiGrade.Core.Services.Implementation
             var examTypes = await _unitOfWork.GetRepository<ExamType, int>().All().ToListAsync();
             return examTypes;
         }
+        public async Task<ExamType> GetExamType(int subjectId)
+        {
+            var examType = await _unitOfWork.GetRepository<Subject, int>()
+                                                .Filter(x=>x.Id == subjectId)
+                                                .Select(x=>x.Type)
+                                                .FirstOrDefaultAsync();
+            return examType;
+        }
 
         private async Task UpdateWorks(List<Work> works,int subjectId) {
             var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == subjectId).Include(x => x.Criterias).ToListAsync();
@@ -293,6 +301,7 @@ namespace AntiGrade.Core.Services.Implementation
                     results.Add(er);
                 } else 
                 {
+                    var IsFailed = studentResult.SecondPassPoints != 0 || studentResult.ThirdPassPoints != 0 || studentResult.Points < 21;
                     var er = new ExamResultDto()
                     {
                         Id = studentResult.Id,
@@ -300,7 +309,8 @@ namespace AntiGrade.Core.Services.Implementation
                         SubjectId = subjectId,
                         Points = studentResult.Points,
                         SecondPassPoints = studentResult.SecondPassPoints,
-                        ThirdPassPoints = studentResult.ThirdPassPoints
+                        ThirdPassPoints = studentResult.ThirdPassPoints,
+                        IsFailed = IsFailed
                     };
                     results.Add(er);
                 }
