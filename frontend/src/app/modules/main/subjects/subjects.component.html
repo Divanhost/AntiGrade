@@ -8,8 +8,8 @@
         <div *ngFor="let subject of subjects" class="card subject-card">
             <div class="card-header d-flex justify-content-between flex-wrap">
                 <h3 class="card-title">
-                    <div>{{subject.name}}</div>
-                    <div *ngIf="subject.group">
+                    <div class="title">{{subject.name}}</div>
+                    <div *ngIf="subject.group" class="title">
                         {{subject.group.name}}
                     </div>
                 </h3>
