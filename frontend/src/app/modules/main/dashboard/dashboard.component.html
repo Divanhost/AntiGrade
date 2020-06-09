@@ -10,9 +10,9 @@
         <h1 *ngIf="mode.id === 3">Добор и пересдача</h1>
         <h1 *ngIf="mode.id === 2">Сессия</h1>
         <h1 *ngIf="mode.id === 1">Текущий учет</h1>
-        <ng-template  *ngIf="!subjectGroups.length">
+        <ng-container  *ngIf="!subjectGroups.length">
             <h2>Нет данных</h2>
-        </ng-template>
+        </ng-container>
         <div *ngFor="let item of subjectGroups" class="mt-3">
             <h3 class="mb-3">{{item.subjectName}}</h3>
             <div class="s-container ">

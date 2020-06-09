@@ -37,6 +37,15 @@
         width: 80vw;
     }
 }
+@media(max-width:400px) {
+    .page-header {
+        flex-direction: column;
+    }
+}
 .load-btn {
     max-width: 320px;
+}
+.page-header {
+    display: flex;
+    justify-content: space-between;
 }

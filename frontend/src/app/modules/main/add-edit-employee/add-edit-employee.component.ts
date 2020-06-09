@@ -75,6 +75,13 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
     );
   }
   createOrUpdateEmployee() {
+    if (this.employee.firstName === '' ||
+        this.employee.firstName === undefined ||
+        this.employee.lastName === '' ||
+        this.employee.lastName === undefined) {
+          this.notifier.notify('error', 'Фамилия и имя обязательны');
+          return;
+    }
     if (this.isCreate) {
       this.createEmployee();
     } else {

@@ -84,6 +84,8 @@ namespace AntiGrade.Core.Services.Implementation
             var subjectIds = await GetAvialableSubjectIds();
             var subjects = await _unitOfWork.GetRepository<Subject, int>()
                                     .Filter(x => !x.IsDeleted && subjectIds.Contains(x.Id))
+                                    .OrderBy(x=>x.Name)
+                                    .ThenBy(x=>x.Group.Name)
                                     .Skip(skip)
                                     .Take(8)
                                     .ProjectTo<SubjectView>(_mapper.ConfigurationProvider)

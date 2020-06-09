@@ -4,7 +4,7 @@
 .group-container{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
 }
 .students-list{
     max-height: 300px;
@@ -31,4 +31,14 @@
 .buttons {
     display: flex;
     flex-direction: column;
+}
+@media(max-width:400px) {
+    .page-header {
+        flex-direction: column;
+    }
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
 }
