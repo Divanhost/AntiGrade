@@ -34,7 +34,7 @@ export class RequestInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(catchError((error) => {
       if (error.status === 401) {
         if (localStorage.getItem('jwtToken')) {
-          this.notifier.notify('error', 'Token expired');
+          this.notifier.notify('error', 'Сеанс истек');
           this.loginService.logout();
         }
       } else {

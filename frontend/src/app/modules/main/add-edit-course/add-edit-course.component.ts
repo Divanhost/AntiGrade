@@ -35,6 +35,7 @@ export class AddEditCourseComponent extends BaseComponent implements OnInit {
     this.subscriptions.push(
       this.generalService.getCourse(this.courseId).subscribe((response: ResponseModel<Course>) => {
         this.course = response.payload;
+        console.log(this.course);
       })
     );
   }

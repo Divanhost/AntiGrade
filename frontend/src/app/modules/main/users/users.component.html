@@ -7,7 +7,7 @@
         <th scope="col">Имя пользователя</th>
         <th scope="col">Email</th>
         <th scope="col">Роли</th>
-        <th scope="col">Изменть</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
         </td>
         <td>{{bindRoles(user.roles)}}</td>
         <td>
-          <div class="btn btn-info" [routerLink]="['edit',user.id]">Edit</div>
+          <div class="btn btn-info" [routerLink]="['edit',user.id]">Изменить</div>
         </td>
       </tr>
     </tbody>

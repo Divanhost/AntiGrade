@@ -110,9 +110,9 @@ namespace AntiGrade.Controllers
             return ResponseModel(result);
         }
          [HttpGet("courses/{id}")]
-        public async Task<IActionResult> GetCourses(int id)
+        public async Task<IActionResult> GetCourse(int id)
         {
-            var result = await _service.GetCourses();
+            var result = await _service.GetCourse(id);
             return ResponseModel(result);
         }
         [HttpPost("courses")]

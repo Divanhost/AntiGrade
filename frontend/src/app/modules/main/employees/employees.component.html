@@ -1,6 +1,6 @@
 <div class="page-container central mt-3">
   <h2>Сотрудники</h2>
-  <div class="btn btn-info mb-3" [routerLink]="['add']">Добавить нового сотудника</div>
+  <div class="btn btn-info mb-3" [routerLink]="['add']">Добавить нового сотрудника</div>
   <div *ngIf="institutes.length">
     <ng-select appendTo="body" placeholder="Институт" class="type-select mb-3"  [(ngModel)]="currentInstitute">
       <ng-option *ngFor="let institute of institutes" [value]="institute">
@@ -19,13 +19,13 @@
         <th scope="col">Фамилия</th>
         <th scope="col">Имя</th>
         <th scope="col">Отчество</th>
-        <th scope="col">Изменить</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngIf="!employees.length">
         <td colspan="4">
-          <h3 class="no-data">Нет ни одного сотудника!</h3>
+          <h3 class="no-data">Нет ни одного сотрудника!</h3>
         </td>
       </tr>
       <tr *ngFor="let employee of employees">
@@ -37,7 +37,7 @@
         </td>
         <td>{{employee.patronymic}}</td>
         <td>
-          <div class="btn btn-info" [routerLink]="['edit',employee.id]">Edit</div>
+          <div class="btn btn-info" [routerLink]="['edit',employee.id]">Изменить</div>
         </td>
       </tr>
     </tbody>

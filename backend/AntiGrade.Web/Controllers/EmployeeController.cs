@@ -59,5 +59,11 @@ namespace AntiGrade.Controllers
             var result = await _service.CreateEmployee(employeeDto);
             return ResponseModel(result);
         }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateEmployee(int id,[FromBody] EmployeeDto employeeDto)
+        {
+            var result = await _service.UpdateEmployee(id, employeeDto);
+            return ResponseModel(result);
+        }
     }
 }

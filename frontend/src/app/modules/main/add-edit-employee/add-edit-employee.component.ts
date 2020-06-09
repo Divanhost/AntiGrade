@@ -11,6 +11,7 @@ import { EmployeePosition } from 'src/app/shared/models/employee-position.model'
 import { Institute } from 'src/app/shared/models/institute.model';
 import { Department } from 'src/app/shared/models/department.model';
 import { GeneralService } from 'src/app/core/services/general.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-add-edit-employee',
@@ -31,6 +32,7 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
               private readonly route: ActivatedRoute,
               private readonly employeeService: EmployeeService,
               private readonly userService: UserService,
+              private readonly notifier: NotifierService,
               private readonly generalService: GeneralService) {
     super();
     this.subscriptions.push(
@@ -72,10 +74,25 @@ export class AddEditEmployeeComponent extends BaseComponent implements OnInit {
       })
     );
   }
-
+  createOrUpdateEmployee() {
+    if (this.isCreate) {
+      this.createEmployee();
+    } else {
+      this.updateEmployee();
+    }
+  }
   createEmployee() {
     this.subscriptions.push(
-      this.employeeService.createEmployee(this.employee).subscribe()
+      this.employeeService.createEmployee(this.employee).subscribe(() => {
+        this.notifier.notify('success', 'Данные сохранены');
+      })
+    );
+  }
+  updateEmployee() {
+    this.subscriptions.push(
+      this.employeeService.updateEmployee(this.employeeId, this.employee).subscribe(() => {
+        this.notifier.notify('success', 'Данные обновлены');
+      })
     );
   }
 }

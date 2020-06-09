@@ -19,7 +19,12 @@
       <span class="sr-only">Loading...</span>
     </div>
   </div>
-  <div *ngIf="loaded" class="rating-holder w-100">
+  <ng-container *ngIf="!students.length">
+    <h2  *ngIf="additionalPageMode">Нет студентов с задолженностью</h2>
+    <h2  *ngIf="!additionalPageMode"> В группе нет студентов</h2>
+  </ng-container>
+  
+  <div *ngIf="loaded && students.length" class="rating-holder w-100">
     <div id="full-table" class="central">
       <td class="cell">
         <table class="table table-bordered table-responsive-md table-striped text-center">

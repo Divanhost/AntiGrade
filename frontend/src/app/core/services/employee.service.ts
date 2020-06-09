@@ -33,6 +33,9 @@ export class EmployeeService {
   createEmployee(data: EmployeeDtoModel): Observable<boolean> {
     return this.http.postData(`employee`, data);
   }
+  updateEmployee(id: number, data: EmployeeDtoModel): Observable<boolean> {
+    return this.http.putData(`employee/${id}`, data);
+  }
   getEmployeePositions(): Observable<EmployeePosition[]> {
     return this.http.getData(`employee/positions`);
   }
