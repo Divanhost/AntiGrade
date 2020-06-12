@@ -30,6 +30,7 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   examType: ExamType = new ExamType();
   semesters: Semester[] = [];
   semesterId: number;
+  hasBonuses = false;
   constructor(private readonly generalService: GeneralService,
               private readonly subjectService: SubjectService,
               private readonly groupService: GroupService) {
@@ -57,6 +58,7 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
     this.subject = subject;
     this.name = subject.name;
     this.semesterId = subject.semesterId;
+    this.hasBonuses = subject.hasBonuses;
     this.getExamTypes();
     this.getSemesters();
   }

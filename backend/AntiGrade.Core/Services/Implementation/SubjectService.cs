@@ -131,12 +131,35 @@ namespace AntiGrade.Core.Services.Implementation
                 var group = await _unitOfWork.GetRepository<Group, int>()
                    .Filter(x => x.Id == subjectDto.Group.Id)
                    .FirstOrDefaultAsync();
+                var bonusWork = await _unitOfWork.GetRepository<Work, int>()
+                   .Filter(x => x.SubjectId == subjectId && x.Name == "Бонусы")
+                   .FirstOrDefaultAsync();
                 if (subject != null)
                 {
                     subject.Name = subjectDto.Name;
                     subject.TypeId = subjectDto.ExamType.Id;
                     subject.Group = group;
                     subject.SemestrId = subjectDto.SemesterId;
+                    subject.HasBonuses = subjectDto.HasBonuses;
+                    if(bonusWork != null) {
+                        if(!subject.HasBonuses) {
+                            _unitOfWork.GetRepository<Work, int>().Delete(bonusWork);
+                        }
+                    } 
+                    else 
+                    {
+                        if(subject.HasBonuses) {
+                            var bonus = new Work 
+                            {
+                                Name = "Бонусы",
+                                SubjectId = subjectId,
+                                MaxPoints = 10,
+                                WorkTypeId = 4
+                            };
+                            _unitOfWork.GetRepository<Work, int>().Create(bonus);
+                        }
+                    }
+                    
                     var works = _mapper.Map<List<Work>>(subjectDto.Works);
                     var employeesNew = DivideSubjectEmployees(subjectDto.SubjectEmployees);
                     

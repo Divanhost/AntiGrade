@@ -12,4 +12,5 @@ export class SubjectDto {
     works: Work[];
     group: Group;
     semesterId: number;
+    hasBonuses: boolean;
 }

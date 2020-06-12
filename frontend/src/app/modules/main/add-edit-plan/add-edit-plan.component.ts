@@ -91,11 +91,12 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     work.criterias.splice(index, 1);
   }
   getWorksData() {
-    return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null);
+    const bonus = this.subject.works.filter(x => x.workTypeId === 4);
+    return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null).concat(bonus);
   }
   updateData(subject: SubjectDto) {
     this.subject = subject;
-    this.works = this.subject.works;
+    this.works = this.subject.works.filter(x => x.workTypeId !== 4);
     if (!this.works) {
       this.works = [];
       this.addWork();

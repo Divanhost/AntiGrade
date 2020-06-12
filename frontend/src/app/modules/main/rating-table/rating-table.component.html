@@ -79,6 +79,9 @@
               <th>
                 Всего за семестр
               </th>
+              <th *ngIf="!additionalPageMode">
+                Бонусы
+              </th>
               <th *ngIf="isAdditionalMode && !additionalPageMode">
                 Добор
               </th>
@@ -94,10 +97,11 @@
             </tr>
             <tr>
               <th class="readonly-cell"> </th>
+              <th class="readonly-cell" *ngIf="!additionalPageMode"> </th>
               <th class="readonly-cell" *ngIf="isAdditionalMode && !additionalPageMode"f> </th>
-              <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode && examType.id === 1" > </th>
+              <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !additionalPageMode && examType.id === 1" > </th>
               <th class="readonly-cell" *ngIf="!this.additionalPageMode"> </th>
-              <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode"> </th>
+              <th class="readonly-cell" *ngIf="(isAdditionalMode || isExamMode) && !additionalPageMode"> </th>
             </tr>
           </thead>
           <tbody>
@@ -105,6 +109,17 @@
               <td>
                 {{sum.totals}}
               </td>
+              <ng-container *ngIf="isExamMode || isAdditionalMode; else elseTemplate">
+                <td  class = "readonly-cell" *ngIf="!additionalPageMode">
+                  {{getStudentBonus(students[i])}}
+                </td>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <td (keydown.enter)="$event.target.blur();" *ngIf="!additionalPageMode"
+                  (blur)="updateBonusPoints(i, $event)" contenteditable="true">
+                  {{getStudentBonus(students[i])}}
+                </td>
+              </ng-template>
               <td *ngIf="isAdditionalMode && !additionalPageMode">
                 <ng-container *ngIf="additionalTotals.length">
                   {{additionalTotals[i].totals}}

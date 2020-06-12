@@ -167,6 +167,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
   uniteData() {
     this.subject.name = this.subjectCommonsComponent.name;
+    this.subject.hasBonuses = this.subjectCommonsComponent.hasBonuses;
     this.subject.semesterId = this.subjectCommonsComponent.semesterId;
     this.subject.examType = this.subjectCommonsComponent.examType;
     this.subject.works = this.planComponent.getWorksData();

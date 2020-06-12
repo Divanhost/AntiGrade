@@ -38,10 +38,12 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   subject: SubjectDto;
   works: Work[];
   mode: Mode = new Mode();
-  students: Student[];
+  students: Student[] = [];
   subjectId: number;
   studentCriteria: StudentCriteria[] = [];
   studentWorks: StudentWork[] = [];
+  bonusWorkPoints: StudentWork[] = [];
+  bonusWork: Work = new Work();
   editField: string;
   examType: ExamType = new ExamType();
   additionalTotals: Totals[] = [];
@@ -97,7 +99,8 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   getWorks() {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
-        this.works = response.payload;
+        this.works = response.payload.filter(x => x.workTypeId !== 4);
+        this.bonusWork = response.payload.find(x => x.workTypeId === 4);
         this.getExamType();
         this.countWorks();
         if (!this.additionalPageMode) {
@@ -144,7 +147,8 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   getStudentWorks() {
     this.subscriptions.push(
       this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
-        this.studentWorks = response.payload;
+        this.studentWorks = response.payload.filter(x => x.workId !== this.bonusWork.id);
+        this.bonusWorkPoints = response.payload.filter(x => x.workId === this.bonusWork.id);
         this.loaded = true;
         this.updateSum();
       })
@@ -157,6 +161,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
         element.isAdditional = true;
       });
     }
+    this.studentWorks = [...this.studentWorks, ...this.bonusWorkPoints];
     this.subscriptions.push(
       this.studentService.updateStudentWorks(this.studentWorks).subscribe(() => {
         this.notifierService.notify('success', 'Изменения сохранены');
@@ -331,4 +336,36 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       return 'Неуд.';
     }
   }
+  getStudentBonus(student: Student) {
+    const wp = this.bonusWorkPoints.find(x => x.studentId === student.id);
+    if (wp) {
+      return wp.sumOfPoints;
+    } else {
+      return 0;
+    }
+  }
+  updateBonusPoints(i: number, event: any) {
+    const editField = event.target.textContent.replace(/\s/g, '');
+    const student = this.students[i];
+    const studentBonuses = new StudentWork();
+    studentBonuses.isAdditional = false;
+    studentBonuses.studentId = student.id;
+    studentBonuses.workId = this.bonusWork.id;
+    studentBonuses.sumOfPoints = +editField;
+    const hasBonuses = this.bonusWorkPoints.find(x => x.studentId === student.id);
+    const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
+    const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
+    if ( +editField > 10 || !matchOnlyNumberRe.test(editField)) {
+      if (!editField) {
+        return;
+      }
+      event.target.textContent = 0;
+      this.notifierService.notify('error', 'Неверно введены баллы');
+      return;
+    }
+    if (!hasBonuses) {
+      this.bonusWorkPoints.push(studentBonuses);
+    }
+  }
+
 }
