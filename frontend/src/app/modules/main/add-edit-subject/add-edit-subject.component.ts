@@ -33,6 +33,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   isPlanVisible = false;
   isTeachersVisible = false;
   isGroupVisible = false;
+  disabled = false;
   isCreate: boolean;
   subjectId: number;
   subject: SubjectDto;
@@ -199,5 +200,12 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
   }
   changeType(type: ExamType) {
     this.currentExamType = type;
+  }
+  checkAvailability() {
+    this.subscriptions.push(
+      this.subjectService.checkAvailability(this.subjectId).subscribe((response: ResponseModel<boolean>) => {
+        this.disabled = response.payload;
+      })
+    );
   }
 }

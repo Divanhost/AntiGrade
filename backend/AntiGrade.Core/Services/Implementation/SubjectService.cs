@@ -171,6 +171,14 @@ namespace AntiGrade.Core.Services.Implementation
                                                 .FirstOrDefaultAsync();
             return examType;
         }
+        // public async Task<ExamType> CheckAvailability(int subjectId)
+        // {
+        //     var examType = _unitOfWork.GetRepository<Work, int>()
+        //                                         .Filter(x=>x.Id == subjectId)
+        //                                         .ProjectTo<>
+        //                                         .ToList();
+        //     return examType;
+        // }
 
         private async Task UpdateWorks(List<Work> works,int subjectId) {
             var worksOld = await _unitOfWork.GetRepository<Work, int>().Filter(x => x.SubjectId == subjectId).Include(x => x.Criterias).ToListAsync();

@@ -9,6 +9,7 @@ import { Student } from 'src/app/shared/models/student.model';
 import { ResponseModel } from 'src/app/shared/models/response.model';
 import { NotifierService } from 'angular-notifier';
 import { Course } from 'src/app/shared/models/course.model';
+import { ExcelService } from 'src/app/core/services/excel.service';
 @Component({
   selector: 'app-add-edit-group',
   templateUrl: './add-edit-group.component.html',
@@ -23,6 +24,7 @@ export class AddEditGroupComponent extends BaseComponent implements OnInit {
   dropdownSettings = {};
   constructor(private readonly router: Router,
               private readonly route: ActivatedRoute,
+              private readonly excelService: ExcelService,
               private readonly notifierService: NotifierService,
               private readonly groupService: GroupService) {
     super();
@@ -88,5 +90,31 @@ export class AddEditGroupComponent extends BaseComponent implements OnInit {
         })
       );
     }
+  }
+  onFileChange(evt: any) {
+    const target: DataTransfer = (evt.target) as DataTransfer;
+    if (target.files.length !== 1) { throw new Error('Cannot use multiple files'); }
+
+    const reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+
+      const bstr: string = e.target.result;
+      const data = this.excelService.importFromFile(bstr) as any[];
+
+      const header: string[] = Object.getOwnPropertyNames(new Student());
+      const importedData = data.slice(1, -1);
+
+      this.group.students = importedData.map(arr => {
+        const obj = {};
+        for (let i = 0; i < header.length; i++) {
+          const k = header[i];
+          obj[k] = arr[i];
+        }
+        return obj as Student;
+      });
+
+    };
+    reader.readAsBinaryString(target.files[0]);
+
   }
 }

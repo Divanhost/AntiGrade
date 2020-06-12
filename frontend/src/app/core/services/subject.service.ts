@@ -93,4 +93,7 @@ export class SubjectService {
   getExamType(id: number): Observable<ResponseModel<ExamType>> {
     return this.http.getData(`subject/exam_type/${id}`);
   }
+  checkAvailability(id: number): Observable<ResponseModel<boolean>> {
+    return this.http.getData(`subject/check_availability/${id}`);
+  }
 }

@@ -39,7 +39,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
         case 2:
           return 100;
         case 3:
-          return 60;
+          return 100;
         default:
           return 100;
       }
