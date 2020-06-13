@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" [ngClass]="{'disabled': disabled}">
     <div *ngFor="let work of works" class="content-wrapper work-wrapper mb-3">
         <div class="work-holder">
             <div class="mr-3">

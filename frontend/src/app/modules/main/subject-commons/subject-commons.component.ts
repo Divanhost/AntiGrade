@@ -25,6 +25,7 @@ export class SubjectCommonsComponent extends BaseFormComponent implements OnInit
   @Input() subjectId: number;
   @Output() changeExamType: EventEmitter<ExamType> = new EventEmitter();
   @Input() subject: SubjectDto = new SubjectDto();
+  @Input() disabled: boolean;
   examTypes: ExamType[] = [];
   name: string;
   examType: ExamType = new ExamType();

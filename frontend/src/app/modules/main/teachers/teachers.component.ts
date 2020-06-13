@@ -17,12 +17,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 export class TeachersComponent extends BaseComponent implements OnInit {
   @Input() subjectId: number;
   @Input() subject: SubjectDto = new SubjectDto();
-  // @Output() changeData: EventEmitter<SubjectEmployee[]> = new EventEmitter();
-  // statusList = [{id: 1, name: 'Ответственный преподаватель'},
-  //             {id: 2, name: 'Лектор'},
-  //             {id: 3, name: 'Преподаватель практики'},
-  //             {id: 4, name: 'Преподаватель лабораторных занятий'},
-  //             {id: 5, name: 'Экзаменатор'}];
+  @Input() disabled: boolean;
+
   statusList: Status[] = [];
   employees: Employee[] = [];
   subjectEmployees: SubjectEmployee[] = [];

@@ -24,6 +24,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   @Input() subjectId: number;
   @Input() currentExamType: ExamType;
   @Input() subject: SubjectDto = new SubjectDto();
+  @Input() disabled: boolean;
   workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
   works: Work[] = [];
   constructor(private readonly router: Router,

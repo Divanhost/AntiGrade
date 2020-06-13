@@ -156,12 +156,7 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subscriptions.push(
       this.subjectService.getSubject(this.subjectId).subscribe((response: ResponseModel<SubjectDto>) => {
         this.subject = response.payload;
-        this.loaded = true;
-        this.subjectCommonsComponent.updateData(this.subject);
-        this.planComponent.updateData(this.subject);
-        this.planComponent.renewWorks();
-        this.teachersComponent.updateData(this.subject);
-        this.groupComponent.updateData(this.subject);
+        this.checkAvailability();
       })
     );
   }
@@ -206,6 +201,13 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subscriptions.push(
       this.subjectService.checkAvailability(this.subjectId).subscribe((response: ResponseModel<boolean>) => {
         this.disabled = response.payload;
+        console.log(this.disabled)
+        this.loaded = true;
+        this.subjectCommonsComponent.updateData(this.subject);
+        this.planComponent.updateData(this.subject);
+        this.planComponent.renewWorks();
+        this.teachersComponent.updateData(this.subject);
+        this.groupComponent.updateData(this.subject);
       })
     );
   }

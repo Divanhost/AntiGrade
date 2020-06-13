@@ -15,6 +15,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
   faUserEdit = faUserEdit;
   @Input() subjectId: number;
   @Input() subject: SubjectDto = new SubjectDto();
+  @Input() disabled: boolean;
   groups: Group[] = [];
   group: Group;
   constructor(private readonly groupService: GroupService) {

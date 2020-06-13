@@ -149,7 +149,7 @@ namespace AntiGrade.Controllers
         [HttpGet("check_availability/{id:int}")]
         public async Task<IActionResult> CheckAvailability(int id)
         {
-            var result = await _service.GetExamType(id);
+            var result = await _service.CheckAvailability(id);
             return ResponseModel(result);
         }
     }

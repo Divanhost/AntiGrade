@@ -1,25 +1,25 @@
 <div class="subject-container">
     <div class="buttons m-3">
         <div class="btn btn-info mr-2" (click)="createOrUpdateSubject()">Сохранить</div>
-        <div class="btn btn-info mr-2" (click)="importPlan()" data-toggle="modal" data-target="#chooseSubjectModal">Импорт</div>
+        <div class="btn btn-info mr-2" (click)="importPlan()" data-toggle="modal" data-target="#chooseSubjectModal" *ngIf="!disabled">Импорт</div>
         <div class="btn btn-primary mr-2" (click)="toggleCommons()" [ngClass]="{'disabled': isCommonsVisible}">Общие сведения</div>
         <div class="btn btn-primary mr-2" (click)="togglePlan()" [ngClass]="{'disabled': isPlanVisible}">Мероприятия</div>
         <div class="btn btn-primary  mr-2" (click)="toggleTeachers()" [ngClass]="{'disabled': isTeachersVisible}">Преподаватели</div>
         <div class="btn btn-primary mr-2" (click)="toggleGroup()" [ngClass]="{'disabled': isGroupVisible}">Группа</div>
-        <div class="btn btn-warning" (click)="saveAndRedirect()">Перейти к оцениванию</div>
+        <div class="btn btn-warning" (click)="saveAndRedirect()" *ngIf="!isCreate">Перейти к оцениванию</div>
     </div>
     <div class="items" *ngIf="loaded">
         <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">
-            <app-subject-commons [subjectId] = "subjectId" [subject] = "subject" (changeExamType) = "changeType($event)"></app-subject-commons>
+            <app-subject-commons [subjectId] = "subjectId" [subject] = "subject" (changeExamType) = "changeType($event)" [disabled] = "disabled"></app-subject-commons>
         </div>
         <div class="plan" [ngClass]="{'d-none': !isPlanVisible}">
-            <app-add-edit-plan [subjectId] = "subjectId" [subject] = "subject"  [currentExamType] = "currentExamType"></app-add-edit-plan>
+            <app-add-edit-plan [subjectId] = "subjectId" [subject] = "subject"  [currentExamType] = "currentExamType" [disabled] = "disabled"></app-add-edit-plan>
         </div>
         <div class="teachers" [ngClass]="{'d-none': !isTeachersVisible}">
-            <app-teachers [subjectId] = "subjectId" [subject] = "subject"></app-teachers>
+            <app-teachers [subjectId] = "subjectId" [subject] = "subject" [disabled] = "disabled"></app-teachers>
         </div>
         <div class="group" [ngClass]="{'d-none': !isGroupVisible}">
-            <app-group [subjectId] = "subjectId" [subject] = "subject"></app-group>
+            <app-group [subjectId] = "subjectId" [subject] = "subject" [disabled] = "disabled"></app-group>
         </div>
     </div>
     

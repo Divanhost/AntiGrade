@@ -1,4 +1,4 @@
-<div class="container-fluid teacher-container">
+<div class="container-fluid teacher-container" [ngClass]="{'disabled': disabled}">
     <div>Список преподавателей</div>
     <ng-multiselect-dropdown [data]="employees" [(ngModel)]="selectedEmployees" [settings]="dropdownSettings"
         (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)" class="multiselect">
