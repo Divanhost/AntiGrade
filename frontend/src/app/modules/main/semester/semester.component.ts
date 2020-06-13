@@ -33,7 +33,7 @@ export class SemesterComponent extends BaseComponent implements OnInit {
       this.generalService.getLastSemester().subscribe((response: ResponseModel<Semester>) => {
         this.prevSemester = response.payload;
         this.semNum = this.getNextSemesterNum();
-        this.year = !this.prevSemester.isFirstHalf ? this.prevSemester.year + 1 : this.prevSemester.year;
+        this.year = this.prevSemester.isFirstHalf ? this.prevSemester.year + 1 : this.prevSemester.year;
       })
     );
   }
@@ -69,6 +69,6 @@ export class SemesterComponent extends BaseComponent implements OnInit {
     }
   }
   getNextSemesterNum() {
-    return  2- +this.prevSemester.isFirstHalf;
+    return  2 - +!this.prevSemester.isFirstHalf;
   }
 }

@@ -166,6 +166,9 @@ namespace AntiGrade.Core.Services.Implementation
         {
             var result = await _unitOfWork.GetRepository<Semester,int>()
                                         .All()
+                                        .OrderByDescending(x=>x.Subjects.Any())
+                                        .ThenByDescending(x=>x.Year)
+                                        .ThenBy(x=>x.Id)
                                         .ProjectTo<SemesterView>(_mapper.ConfigurationProvider)
                                         .ToListAsync();
             return result;
