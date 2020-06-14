@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
+  import { Component, OnInit, Input, ViewChild, EventEmitter, Output } from '@angular/core';
 import { Student } from 'src/app/shared/models/student.model';
 import { Criteria } from 'src/app/shared/models/criteria.model';
 import { BaseComponent } from 'src/app/shared/classes';
@@ -19,6 +19,7 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
   @Input() criterias: Criteria[] = [];
   @Input() students: Student[] = [];
   @Output() changeData: EventEmitter<StudentWork[]> = new EventEmitter();
+  @Input() isDisabled: boolean;
   studentCriterias: StudentCriteria[] = [];
   studentWorks: StudentWork[] = [];
   data = [];
@@ -53,6 +54,7 @@ export class CriteriasComponent extends BaseComponent implements OnInit {
     this.createRatingCells();
   }
   createRatingCells() {
+    console.log(this.isDisabled)
     let row = [];
     this.data = [];
     this.students.forEach(student => {

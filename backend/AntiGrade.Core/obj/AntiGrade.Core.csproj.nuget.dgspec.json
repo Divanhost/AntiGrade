@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj": {}
+    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj": {
+    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj",
+        "projectUniqueName": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj",
         "projectName": "AntiGrade.Core",
-        "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj",
+        "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Core\\AntiGrade.Core.csproj",
         "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Core\\obj\\",
+        "outputPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -30,8 +30,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
-                "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj"
+              "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
+                "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj"
               }
             }
           }
@@ -134,18 +134,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
+    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
+        "projectUniqueName": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
         "projectName": "AntiGrade.Data",
-        "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
+        "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
         "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Data\\obj\\",
+        "outputPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -164,8 +164,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
-                "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj"
+              "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
+                "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj"
               }
             }
           }
@@ -206,18 +206,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
+    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
+        "projectUniqueName": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
         "projectName": "AntiGrade.Shared",
-        "projectPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
+        "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
         "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\Antigrade\\antigrade\\backend\\AntiGrade.Shared\\obj\\",
+        "outputPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -280,7 +280,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

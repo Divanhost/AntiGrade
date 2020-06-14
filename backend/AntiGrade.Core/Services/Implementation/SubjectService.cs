@@ -50,6 +50,7 @@ namespace AntiGrade.Core.Services.Implementation
                 throw new WebsiteException("Такой дисциплины не существует");
             }
         }
+
         public async Task<SubjectExamStatusView> GetExamStatus(int subjectId)
         {
             var examStatus = await _unitOfWork.GetRepository<SubjectExamStatus, int>()

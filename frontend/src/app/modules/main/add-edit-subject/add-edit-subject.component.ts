@@ -119,22 +119,18 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
 
   createOrUpdateSubject() {
     this.uniteData();
-    if (this.isCreate) {
-      this.createSubject();
-    } else {
-      this.updateSubject();
-    }
+    
   }
   createSubject() {
     this.subject.id = 0;
     this.subscriptions.push(
       this.subjectService.addSubject(this.subject).subscribe((response: ResponseModel<boolean>) => {
         if (response.payload) {
-          this.notifierService.notify('success', 'Subject successfully created');
-          this.router.navigate(['subjects/rating', this.subjectId]);
+          this.notifierService.notify('success', 'Предмет успешно создан');
+          this.router.navigate(['/subjects']);
 
         } else {
-          this.notifierService.notify('error', 'Cannot create subject');
+          this.notifierService.notify('error', 'Невозможно создать предмет');
         }
       })
     );
@@ -143,10 +139,10 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subscriptions.push(
       this.subjectService.updateSubject(this.subjectId, this.subject).subscribe((response: ResponseModel<boolean>) => {
         if (response.payload) {
-          this.notifierService.notify('success', 'Subject successfully created');
+          this.notifierService.notify('success', 'Предмет успешно обновлен');
           this.router.navigate(['subjects/rating', this.subjectId]);
         } else {
-          this.notifierService.notify('error', 'Cannot create subject');
+          this.notifierService.notify('error', 'Невозможно создать предмет');
         }
       })
     );
@@ -161,13 +157,31 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     );
   }
   uniteData() {
+    debugger
     this.subject.name = this.subjectCommonsComponent.name;
+    if(!this.subject.name) {
+      this.notifierService.notify('error','Нельзя создать предмет без названия')
+      return;
+    }
     this.subject.hasBonuses = this.subjectCommonsComponent.hasBonuses;
     this.subject.semesterId = this.subjectCommonsComponent.semesterId;
     this.subject.examType = this.subjectCommonsComponent.examType;
+    if(!this.subject.name) {
+      this.notifierService.notify('error','Нельзя создать предмет без вида контроля')
+      return;
+    }
     this.subject.works = this.planComponent.getWorksData();
     this.subject.subjectEmployees = this.teachersComponent.getEmployeesData();
     this.subject.group = this.groupComponent.getGroupData();
+    if(!this.subject.group) {
+      this.notifierService.notify('error','Необходимо добавить группу')
+      return;
+    }
+    if (this.isCreate) {
+      this.createSubject();
+    } else {
+      this.updateSubject();
+    }
   }
   saveAndRedirect() {
     this.createOrUpdateSubject();
@@ -201,7 +215,9 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
     this.subscriptions.push(
       this.subjectService.checkAvailability(this.subjectId).subscribe((response: ResponseModel<boolean>) => {
         this.disabled = response.payload;
-        console.log(this.disabled)
+        if(this.isCreate) {
+          this.subject.works = this.subject.works.filter(x=>x.workTypeId !== 4);
+        }
         this.loaded = true;
         this.subjectCommonsComponent.updateData(this.subject);
         this.planComponent.updateData(this.subject);

@@ -84,6 +84,9 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     const editField = event.target.textContent;
     const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
     const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
+    if (!editField) {
+      return;
+    }
     if (editField > 40 || !matchOnlyNumberRe.test(editField)) {
       event.target.textContent = 0;
       this.notifierService.notify('error', 'Неверно введены баллы');
@@ -202,7 +205,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       return false;
     }
   }
-  canEditFirst(row) {
+  canEditFirst(row) { 
       const totals = row.totals;
       const additionals = row.additional;
       if (!this.hasAccess) {

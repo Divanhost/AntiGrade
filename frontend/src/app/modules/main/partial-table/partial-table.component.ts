@@ -114,6 +114,8 @@ export class PartialTableComponent extends BaseComponent implements OnInit {
     modalRef.componentInstance.workId = this.selectedWork.id;
     modalRef.componentInstance.criterias = this.selectedWork.criterias;
     modalRef.componentInstance.students = this.students;
+    const dis = this.isDisabled;
+    modalRef.componentInstance.isDisabled = dis;
     modalRef.componentInstance.changeData.subscribe((receivedEntry: StudentWork[]) => {
       this.updateData(receivedEntry);
       this.selectedWork.canBeQuickRated = false;

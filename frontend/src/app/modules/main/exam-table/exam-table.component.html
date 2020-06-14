@@ -12,12 +12,12 @@
         <img src="assets/undo.svg" style="width: 25px; height: 25px; cursor:pointer;" [routerLink]="['/subjects']" class="ml-3 mb-1">
     </h2>
     <div>
-      <div class="btn btn-primary mb-3 mr-3" (click)="startExam()" *ngIf="!examStatus.isExamStarted"> Начать экзамен</div>
-      <div class="btn btn-danger mb-3 mr-3" (click)="closeExam()" *ngIf="examStatus.isExamStarted && !examStatus.isExamClosed"> Завершить экзамен</div>
-      <div class="btn btn-primary mb-3 mr-3" (click)="startFirstRetake()" *ngIf="isAdditionalMode && !examStatus.isFirstRetakeStarted && examStatus.isExamClosed"> Начать Первую пересдачу</div>
-      <div class="btn btn-danger mb-3 mr-3" (click)="closeFirstRetake()" *ngIf="isAdditionalMode && examStatus.isFirstRetakeStarted && !examStatus.isFirstRetakeClosed"> Завершить Первую пересдачу</div>
-      <div class="btn btn-primary mb-3 mr-3" (click)="startSecondRetake()" *ngIf="isAdditionalMode && !examStatus.isSecondRetakeStarted && examStatus.isFirstRetakeClosed"> Начать Вторую пересдачу</div>
-      <div class="btn btn-danger mb-3 mr-3" (click)="closeSecondRetake()" *ngIf="isAdditionalMode && examStatus.isSecondRetakeStarted && !examStatus.isSecondRetakeClosed"> Завершить Вторую пересдачу</div>
+      <div class="btn btn-primary mb-3 mr-3" (click)="startExam()" *ngIf="!examStatus.isExamStarted && this.hasAccess"> Начать экзамен</div>
+      <div class="btn btn-danger mb-3 mr-3" (click)="closeExam()" *ngIf="examStatus.isExamStarted && !examStatus.isExamClosed && this.hasAccess"> Завершить экзамен</div>
+      <div class="btn btn-primary mb-3 mr-3" (click)="startFirstRetake()" *ngIf="isAdditionalMode && !examStatus.isFirstRetakeStarted && examStatus.isExamClosed && this.hasAccess"> Начать Первую пересдачу</div>
+      <div class="btn btn-danger mb-3 mr-3" (click)="closeFirstRetake()" *ngIf="isAdditionalMode && examStatus.isFirstRetakeStarted && !examStatus.isFirstRetakeClosed && this.hasAccess"> Завершить Первую пересдачу</div>
+      <div class="btn btn-primary mb-3 mr-3" (click)="startSecondRetake()" *ngIf="isAdditionalMode && !examStatus.isSecondRetakeStarted && examStatus.isFirstRetakeClosed && this.hasAccess"> Начать Вторую пересдачу</div>
+      <div class="btn btn-danger mb-3 mr-3" (click)="closeSecondRetake()" *ngIf="isAdditionalMode && examStatus.isSecondRetakeStarted && !examStatus.isSecondRetakeClosed && this.hasAccess"> Завершить Вторую пересдачу</div>
       <div class="btn btn-success mb-3" (click)="updateExamResults()"> Сохранить</div>
     </div>
   </div>

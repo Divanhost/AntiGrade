@@ -8,11 +8,11 @@
       <tr>
         <ng-container *ngFor="let work of works">
         <th>
-          <div  *ngIf="work.criterias.length" type="button" (click) = "selectWork(work.id)" class="">
+          <div  *ngIf="work.criterias.length && !isAdditionalPageMode" type="button" (click) = "selectWork(work.id)" class="">
             {{work.name}} 
             <fa-icon [icon]="faPencilAlt" [ngClass]="{'free': canRate(work),'closed': !canRate(work)}"></fa-icon>
           </div>
-          <div  *ngIf="!work.criterias.length">
+          <div  *ngIf="!work.criterias.length || isAdditionalPageMode">
             {{work.name}} 
           </div>
         </th>

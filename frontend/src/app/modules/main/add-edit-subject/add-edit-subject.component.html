@@ -6,7 +6,6 @@
         <div class="btn btn-primary mr-2" (click)="togglePlan()" [ngClass]="{'disabled': isPlanVisible}">Мероприятия</div>
         <div class="btn btn-primary  mr-2" (click)="toggleTeachers()" [ngClass]="{'disabled': isTeachersVisible}">Преподаватели</div>
         <div class="btn btn-primary mr-2" (click)="toggleGroup()" [ngClass]="{'disabled': isGroupVisible}">Группа</div>
-        <div class="btn btn-warning" (click)="saveAndRedirect()" *ngIf="!isCreate">Перейти к оцениванию</div>
     </div>
     <div class="items" *ngIf="loaded">
         <div class="commons" [ngClass]="{'d-none': !isCommonsVisible}">

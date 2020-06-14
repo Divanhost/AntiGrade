@@ -36,8 +36,10 @@ export class GroupComponent extends BaseComponent implements OnInit {
     );
   }
   getGroupData() {
-    this.group.students.filter(x => x.firstName !== null && x.lastName !== null);
-    return this.group;
+    if(this.group) {
+      this.group.students.filter(x => x.firstName !== null && x.lastName !== null);
+      return this.group;
+    } 
   }
   updateData(subject: SubjectDto) {
     this.subject = subject;

@@ -1,17 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GroupService } from 'src/app/core/services/group.service';
 import { BaseFormComponent } from 'src/app/shared/classes';
 import { Work } from 'src/app/shared/models/work.model';
-import { Student } from 'src/app/shared/models/student.model';
 import { Criteria } from 'src/app/shared/models/criteria.model';
-import { SubjectPlan } from 'src/app/shared/models/subject-plan.model';
-import { SubjectService } from 'src/app/core/services/subject.service';
-import { ResponseModel } from 'src/app/shared/models/response.model';
 import { SubjectDto } from 'src/app/shared/models/subject-dto.model';
-import { faPlusSquare, faMinusSquare, faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { ExamType } from 'src/app/shared/models/exam-type.model';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 
 @Component({
   selector: 'app-add-edit-plan',
@@ -27,9 +21,7 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
   @Input() disabled: boolean;
   workTypes = [{id: 1, value: 'Лекция'}, {id: 2, value: 'Практика'}, {id: 3, value: 'Лабораторная'}];
   works: Work[] = [];
-  constructor(private readonly router: Router,
-              private readonly route: ActivatedRoute,
-              private readonly subjectService: SubjectService) {
+  constructor() {
     super();
   }
   get maxWorksPoints() {
@@ -92,14 +84,20 @@ export class AddEditPlanComponent extends BaseFormComponent implements OnInit {
     work.criterias.splice(index, 1);
   }
   getWorksData() {
-    const bonus = this.subject.works.filter(x => x.workTypeId === 4);
-    return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null).concat(bonus);
+    if(this.subject.works) {
+      const bonus = this.subject.works.filter(x => x.workTypeId === 4);
+      return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null).concat(bonus);
+    } else {
+      return this.works.filter(x => x.name !== null && x.points !== null && x.workTypeId !== null);
+    }
   }
   updateData(subject: SubjectDto) {
     this.subject = subject;
-    this.works = this.subject.works.filter(x => x.workTypeId !== 4);
-    if (!this.works) {
-      this.works = [];
+    this.works = [];
+    if(subject.works) {
+      this.works = this.subject.works.filter(x => x.workTypeId !== 4);
+    }
+    if (!this.works.length) {
       this.addWork();
     }
 

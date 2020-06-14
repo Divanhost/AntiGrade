@@ -147,8 +147,13 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   getStudentWorks() {
     this.subscriptions.push(
       this.workService.getStudentWorks(this.subjectId).subscribe((response: ResponseModel<StudentWork[]>) => {
-        this.studentWorks = response.payload.filter(x => x.workId !== this.bonusWork.id);
-        this.bonusWorkPoints = response.payload.filter(x => x.workId === this.bonusWork.id);
+        if(this.bonusWork) {
+          this.studentWorks = response.payload.filter(x => x.workId !== this.bonusWork.id);
+          this.bonusWorkPoints = response.payload.filter(x => x.workId === this.bonusWork.id);
+        } else {
+          this.studentWorks = response.payload;
+          this.bonusWorkPoints = []
+        }
         this.loaded = true;
         this.updateSum();
       })
@@ -292,11 +297,15 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     let sum = this.totals[index].totals;
     if (this.additionalTotals.length) {
       sum += this.additionalTotals[index].totals;
+      if(sum > 38) {
+        sum = 38;
+      }
     }
     if (this.examResults.length && this.examType.id === 1) {
       sum += this.getExamPoints(this.examResults[index]);
     }
     if (isNaN(sum)) {
+      debugger
       return 0;
     }
     if (this.examResults.length) {
@@ -309,7 +318,12 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       return sum > 100 ? 100 : sum;
     }
   }
-
+  getStudentAdditional(i) {
+    if(this.additionalTotals[i].totals + this.totals[i].totals > 38 && this.totals[i].totals < 38) {
+      this.additionalTotals[i].totals = 38 - this.totals[i].totals ;
+    }
+    return this.additionalTotals[i].totals;
+  }
   getExamPoints(examResult: ExamResult) {
     if (examResult.thirdPassPoints) {
       return examResult.thirdPassPoints;
@@ -320,6 +334,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
     if (examResult.points) {
       return examResult.points;
     }
+    return 0;
   }
   getGrade(index: number) {
     const points = this.getSum(index);

@@ -1,33 +1,36 @@
-    <div class="page-container central  no-overflow mt-3" >
-        <h1>Семестр</h1>
-        <ng-select [(ngModel)]="currentSemester" (change) = "reloadSubjects()">
-            <ng-option *ngFor="let semester of semesters" [value] = "semester" appendTo="body" >
-                {{ semester.name }}
-            </ng-option>
-        </ng-select>
-    </div>
-    <div class="page-container central mt-3">
-        <h1 *ngIf="mode.id === 3">Добор и пересдача</h1>
-        <h1 *ngIf="mode.id === 2">Сессия</h1>
-        <h1 *ngIf="mode.id === 1">Текущий учет</h1>
-        <ng-container  *ngIf="!subjectGroups.length">
-            <h2>Нет данных</h2>
-        </ng-container>
-        <div *ngFor="let item of subjectGroups" class="mt-3">
-            <h3 class="mb-3">{{item.subjectName}}</h3>
-            <div class="s-container ">
-                <div class="card group-card" *ngFor="let subject of item.subjects">
-                    <h3 class="group-title">{{subject.group.name}}</h3>
-                    <h4 class="group-title">{{subject.examType.name}}</h4>
-                    <div class="buttons d-flex flex-column">
-                        <div class="btn btn-success mb-2" *ngIf="subject.examType.id === 1 && mode.id === 3" [routerLink]="[ '/subjects/exam', subject.id ]">Пересдача</div>
-                        <div class="btn btn-danger mb-2" *ngIf="mode.id === 3" [routerLink]="[ '/subjects/rating/additional', subject.id ]">Добор</div>
-                        <div class="btn btn-primary mb-2" [routerLink]="[ '/subjects/exam', subject.id ]" *ngIf="subject.examType.id === 1 && mode.id === 2">Экзамен</div>
-                        <div class="btn btn-warning" [routerLink]="[ '/subjects/rating', subject.id ]">Рейтинг</div>
+    <div>
+        <div class="page-container central no-overflow mt-3" >
+            <h1>Семестр</h1>
+            <ng-select [(ngModel)]="currentSemester" (change) = "reloadSubjects()">
+                <ng-option *ngFor="let semester of semesters" [value] = "semester" appendTo="body" >
+                    {{ semester.name }}
+                </ng-option>
+            </ng-select>
+        </div>
+        <div class="page-container central mt-3">
+            <h1 *ngIf="mode.id === 3">Добор и пересдача</h1>
+            <h1 *ngIf="mode.id === 2">Сессия</h1>
+            <h1 *ngIf="mode.id === 1">Текущий учет</h1>
+            <ng-container  *ngIf="!subjectGroups.length">
+                <h2>Нет данных</h2>
+            </ng-container>
+            <div *ngFor="let item of subjectGroups" class="mt-3">
+                <h3 class="mb-3">{{item.subjectName}}</h3>
+                <div class="s-container ">
+                    <div class="card group-card" *ngFor="let subject of item.subjects">
+                        <h3 class="group-title">{{subject.group.name}}</h3>
+                        <h4 class="group-title">{{subject.examType.name}}</h4>
+                        <div class="buttons d-flex flex-column">
+                            <div class="btn btn-success mb-2" *ngIf="subject.examType.id === 1 && mode.id === 3" [routerLink]="[ '/subjects/exam', subject.id ]">Пересдача</div>
+                            <div class="btn btn-danger mb-2" *ngIf="mode.id === 3" [routerLink]="[ '/subjects/rating/additional', subject.id ]">Добор</div>
+                            <div class="btn btn-primary mb-2" [routerLink]="[ '/subjects/exam', subject.id ]" *ngIf="subject.examType.id === 1 && mode.id === 2">Экзамен</div>
+                            <div class="btn btn-warning" [routerLink]="[ '/subjects/rating', subject.id ]">Рейтинг</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+   
 
     

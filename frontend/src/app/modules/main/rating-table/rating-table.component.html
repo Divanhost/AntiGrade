@@ -122,7 +122,7 @@
               </ng-template>
               <td *ngIf="isAdditionalMode && !additionalPageMode">
                 <ng-container *ngIf="additionalTotals.length">
-                  {{additionalTotals[i].totals}}
+                  {{getStudentAdditional(i)}}
                 </ng-container>
               </td>
               <td *ngIf="(isAdditionalMode || isExamMode) && !this.additionalPageMode && examType.id === 1">

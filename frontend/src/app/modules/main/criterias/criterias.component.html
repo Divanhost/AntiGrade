@@ -24,10 +24,18 @@
               <td>
                 {{row.currentStudent.lastName}} {{row.currentStudent.firstName}}
               </td>
-              <td *ngFor="let sCrit of row.criterias" (keydown.enter)="$event.target.blur();"
+             
+              <ng-container *ngIf="!isDisabled; else elseTemplate">
+                <td *ngFor="let sCrit of row.criterias" (keydown.enter)="$event.target.blur();"
                 (blur)="updateCriteriaPoints(sCrit, $event)" contenteditable="true">
                 {{sCrit.points}}
-              </td>
+                </td>
+              </ng-container>
+              <ng-template #elseTemplate>
+                <td *ngFor="let sCrit of row.criterias" class = "readonly-cell">
+                {{sCrit.points}}
+                </td>
+              </ng-template>
               <td>
                 {{row.sumOfPoints}}
               </td>
