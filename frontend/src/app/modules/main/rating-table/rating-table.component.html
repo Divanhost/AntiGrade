@@ -11,7 +11,10 @@
         <img src="assets/undo.svg" style="width: 25px; height: 25px; cursor:pointer;" [routerLink]="['/subjects']" class="ml-3 mb-1">
     </h2>
 
-    <div class="btn btn-success mb-3" *ngIf="(!isAdditionalMode && !isExamMode) || additionalPageMode" (click)="updateStudentWorks()"> Сохранить</div>
+    <div class="mb-3">
+      <div class="btn btn-primary mr-1" (click)="print()">Печать</div>
+      <div class="btn btn-success" *ngIf="(!isAdditionalMode && !isExamMode) || additionalPageMode" (click)="updateStudentWorks()"> Сохранить</div>
+    </div>
   </div>
 
   <div class="text-center" *ngIf="!loaded">
@@ -23,7 +26,7 @@
     <h2  *ngIf="additionalPageMode">Нет студентов с задолженностью</h2>
     <h2  *ngIf="!additionalPageMode"> В группе нет студентов</h2>
   </ng-container>
-  <!-- <div class="btn" (click)="print()">Print</div> -->
+  
   <div *ngIf="loaded && students.length" class="rating-holder w-100" id="contentToPrint">
     <div id="full-table" class="central">
       <td class="cell">
