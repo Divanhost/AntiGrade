@@ -81,13 +81,14 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     );
   }
   updateWorkPoints(examResult: ExamResult, type: string, event: any) {
-    const editField = event.target.textContent;
+    const editField = event.target.textContent.replace(/\s/g, '');
     const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
     const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
-    if (!editField) {
+    debugger
+    if (!editField || +editField === 0 || editField === '') {
       return;
     }
-    if (editField > 40 || !matchOnlyNumberRe.test(editField)) {
+    if (+editField > 40 || !matchOnlyNumberRe.test(editField)) {
       event.target.textContent = 0;
       this.notifierService.notify('error', 'Неверно введены баллы');
       return;

@@ -23,8 +23,8 @@
     <h2  *ngIf="additionalPageMode">Нет студентов с задолженностью</h2>
     <h2  *ngIf="!additionalPageMode"> В группе нет студентов</h2>
   </ng-container>
-  
-  <div *ngIf="loaded && students.length" class="rating-holder w-100">
+  <!-- <div class="btn" (click)="print()">Print</div> -->
+  <div *ngIf="loaded && students.length" class="rating-holder w-100" id="contentToPrint">
     <div id="full-table" class="central">
       <td class="cell">
         <table class="table table-bordered table-responsive-md table-striped text-center">

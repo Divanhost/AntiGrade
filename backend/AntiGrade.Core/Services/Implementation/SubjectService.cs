@@ -40,8 +40,9 @@ namespace AntiGrade.Core.Services.Implementation
                 .FirstOrDefaultAsync();
             if (subject != null)
             {
+                subject.IsDeleted = true;
                 _unitOfWork.GetRepository<Subject, int>()
-                    .Delete(subject);
+                    .Update(subject);
                 bool result = await _unitOfWork.Save() > 0;
                 return result;
             }

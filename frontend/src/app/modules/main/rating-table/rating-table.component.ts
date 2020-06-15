@@ -16,11 +16,14 @@ import { Mode } from 'src/app/shared/models/mode.model';
 import { Status } from 'src/app/shared/models/status.model';
 import { StatusEnum } from 'src/app/shared/enums/status.enum';
 import { NotifierService } from 'angular-notifier';
-import * as XLSX from 'xlsx';
+import * as jspdf from 'jspdf';
+import * as html2canvas from 'html2canvas';
+import * as es6printJs from 'print-js';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { Totals } from 'src/app/shared/models/totals.model';
 import { ExamResult } from 'src/app/shared/models/exam-result.model';
 import { ExamType } from 'src/app/shared/models/exam-type.model';
+import { Semester } from 'src/app/shared/models/semester.model';
 @Component({
   selector: 'app-rating-table',
   templateUrl: './rating-table.component.html',
@@ -45,6 +48,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   bonusWorkPoints: StudentWork[] = [];
   bonusWork: Work = new Work();
   editField: string;
+  semester: Semester = new Semester();
   examType: ExamType = new ExamType();
   additionalTotals: Totals[] = [];
   examResults: ExamResult[] = [];
@@ -84,6 +88,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     this.checkStatus();
     this.initializeTable();
+    
   }
 
   initializeTable() {
@@ -96,6 +101,7 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       })
     );
   }
+
   getWorks() {
     this.subscriptions.push(
       this.subjectService.getSubjectWorks(this.subjectId).subscribe((response: ResponseModel<Work[]>) => {
@@ -382,5 +388,22 @@ export class RatingTableComponent extends BaseComponent implements OnInit {
       this.bonusWorkPoints.push(studentBonuses);
     }
   }
+
+
+  // print() {
+  //   const data = document.getElementById('contentToPrint');
+  //   html2canvas(data).then(canvas => {
+  //   const imgWidth = 208;
+  //   const imgHeight = canvas.height * imgWidth / canvas.width;
+  //   const contentDataURL = canvas.toDataURL('image/png');
+  //   const pdf = new jspdf('p', 'mm', 'a4');
+  //   const position = 0;
+  //   pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+  //   es6printJs({
+  //   printable: contentDataURL,
+  //   type: 'image',
+  //   });
+  //   });
+  //   }
 
 }

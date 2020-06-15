@@ -217,7 +217,9 @@ export class AddEditSubjectComponent extends BaseFormComponent implements OnInit
         this.disabled = response.payload;
         if(this.isCreate) {
           this.subject.works = this.subject.works.filter(x=>x.workTypeId !== 4);
+          this.disabled = false;
         }
+
         this.loaded = true;
         this.subjectCommonsComponent.updateData(this.subject);
         this.planComponent.updateData(this.subject);
