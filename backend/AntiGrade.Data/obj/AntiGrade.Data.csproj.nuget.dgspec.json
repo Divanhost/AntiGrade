@@ -1,37 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {}
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj",
         "projectName": "AntiGrade.Data",
-        "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\AntiGrade.Data.csproj",
-        "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Data\\obj\\",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/AntiGrade.Data.csproj",
+        "packagesPath": "/home/gtaslenko/.nuget/packages/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Data/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\George\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/gtaslenko/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
-                "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj"
+              "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj": {
+                "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj"
               }
             }
           }
@@ -72,31 +70,29 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj": {
+    "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
+        "projectUniqueName": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj",
         "projectName": "AntiGrade.Shared",
-        "projectPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\AntiGrade.Shared.csproj",
-        "packagesPath": "C:\\Users\\George\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\AntiGrade_неудачный\\backend\\AntiGrade.Shared\\obj\\",
+        "projectPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/AntiGrade.Shared.csproj",
+        "packagesPath": "/home/gtaslenko/.nuget/packages/",
+        "outputPath": "/home/gtaslenko/Documents/AntGrade3/antigrade/backend/AntiGrade.Shared/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\George\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/gtaslenko/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -146,7 +142,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -7,6 +7,7 @@ using AntiGrade.Shared.Models.Identity;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ namespace AntiGrade.Core.Configuration
         {
             services.RegisterCommonDependencies();
             services.RegisterTestOnlyDependencies();
-           // AddTestDbContext(services);
+            AddTestDbContext(services);
         }
 
         private static void RegisterCommonDependencies(this IServiceCollection services)
@@ -90,18 +91,18 @@ namespace AntiGrade.Core.Configuration
                 options => options.UseSqlServer(connection, x => x.MigrationsAssembly("AntiGrade.Data")));
         }
 
-        // private static void AddTestDbContext(IServiceCollection services)
-        // {
-        //     var connectionStringBuilder = new SqliteConnectionStringBuilder
-        //     {
-        //         DataSource = ":memory:"
-        //     };
-        //     var connectionString = connectionStringBuilder.ToString();
-        //     var connection = new SqliteConnection(connectionString);
-        //     connection.Open(); 
-        //     services.AddDbContext<AppDbContext>(options =>
-        //         options.UseSqlite(connection,
-        //             x => x.MigrationsAssembly("Antigrade.Data")), ServiceLifetime.Singleton, ServiceLifetime.Singleton);
-        // }
+        private static void AddTestDbContext(IServiceCollection services)
+        {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder
+            {
+                DataSource = ":memory:"
+            };
+            var connectionString = connectionStringBuilder.ToString();
+            var connection = new SqliteConnection(connectionString);
+            connection.Open(); 
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(connection,
+                    x => x.MigrationsAssembly("AntiGrade.Data")), ServiceLifetime.Singleton, ServiceLifetime.Singleton);
+        }
     }
 }
