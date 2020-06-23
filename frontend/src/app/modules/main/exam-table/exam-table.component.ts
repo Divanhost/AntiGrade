@@ -14,6 +14,8 @@ import { RoleService } from 'src/app/core/services/role.service';
 import { StatusEnum } from 'src/app/shared/enums/status.enum';
 import { Status } from 'src/app/shared/models/status.model';
 import { SubjectExamStatus } from 'src/app/shared/models/subject-exam-status.model';
+import { Role } from 'src/app/shared/enums/role.enum';
+import { retry } from 'rxjs/internal/operators';
 @Component({
   selector: 'app-exam-table',
   templateUrl: './exam-table.component.html',
@@ -41,6 +43,18 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     if (this.mode) {
       return this.mode.id === 3;
     }
+  }
+  get isAdmin() {
+    return this.roleService.checkIfRole(Role.Admin);
+  }
+  get ExamCanBeRecovered() {
+    return this.isAdmin && this.examStatus.isExamClosed && !this.isAdditionalMode;
+  }
+  get FirstRetakeCanBeRecovered() {
+    return this.isAdmin && this.examStatus.isFirstRetakeClosed;
+  }
+  get SecondRetakeCanBeRecovered() {
+    return this.isAdmin && this.examStatus.isSecondRetakeClosed;
   }
   constructor(
     private readonly subjectService: SubjectService,
@@ -84,7 +98,6 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     const editField = event.target.textContent.replace(/\s/g, '');
     const numberReSnippet = '(?:NaN|-?(?:(?:\\d+|\\d*\\.\\d+)(?:[E|e][+|-]?\\d+)?|Infinity))';
     const matchOnlyNumberRe = new RegExp('^(' + numberReSnippet + ')$');
-    debugger
     if (!editField || +editField === 0 || editField === '') {
       return;
     }
@@ -206,7 +219,7 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
       return false;
     }
   }
-  canEditFirst(row) { 
+  canEditFirst(row) {
       const totals = row.totals;
       const additionals = row.additional;
       if (!this.hasAccess) {
@@ -288,6 +301,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.updateExamResults();
     this.notifierService.notify('success', 'Экзамен завершен');
   }
+  recoverExam() {
+    this.examStatus.isExamStarted = false;
+    this.examStatus.isExamClosed = false;
+    this.updateExamStatus();
+    this.notifierService.notify('success', 'Данные обновлены');
+  }
   startFirstRetake() {
     this.examStatus.isFirstRetakeStarted = true;
     this.updateExamStatus();
@@ -299,6 +318,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.updateExamResults();
     this.notifierService.notify('success', 'Пересдача завершена');
   }
+  recoverFirstRetake() {
+    this.examStatus.isFirstRetakeClosed = false;
+    this.examStatus.isFirstRetakeStarted = false;
+    this.updateExamStatus();
+    this.notifierService.notify('success', 'Данные обновлены');
+  }
   startSecondRetake() {
     this.examStatus.isSecondRetakeStarted = true;
     this.updateExamStatus();
@@ -309,6 +334,12 @@ export class ExamTableComponent extends BaseComponent implements OnInit {
     this.updateExamStatus();
     this.updateExamResults();
     this.notifierService.notify('success', 'Пересдача завершена');
+  }
+  recoverSecondRetake() {
+    this.examStatus.isSecondRetakeClosed = false;
+    this.examStatus.isSecondRetakeStarted = false;
+    this.updateExamStatus();
+    this.notifierService.notify('success', 'Данные обновлены');
   }
   updateExamStatus() {
     this.subscriptions.push(

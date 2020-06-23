@@ -12,6 +12,10 @@
         <img src="assets/undo.svg" style="width: 25px; height: 25px; cursor:pointer;" [routerLink]="['/subjects']" class="ml-3 mb-1">
     </h2>
     <div>
+      <div class="btn btn-warning mb-3 mr-3" (click)="recoverExam()" *ngIf="ExamCanBeRecovered"> Начать экзамен заново</div>
+      <div class="btn btn-warning mb-3 mr-3 ml-3" (click)="recoverFirstRetake()" *ngIf="FirstRetakeCanBeRecovered"> Начать первую пересдачу заново</div>
+      <div class="btn btn-warning mb-3 mr-3 ml-3" (click)="recoverSecondRetake()" *ngIf="SecondRetakeCanBeRecovered"> Начать вторую пересдачу заново</div>
+
       <div class="btn btn-primary mb-3 mr-3" (click)="startExam()" *ngIf="!examStatus.isExamStarted && this.hasAccess"> Начать экзамен</div>
       <div class="btn btn-danger mb-3 mr-3" (click)="closeExam()" *ngIf="examStatus.isExamStarted && !examStatus.isExamClosed && this.hasAccess"> Завершить экзамен</div>
       <div class="btn btn-primary mb-3 mr-3" (click)="startFirstRetake()" *ngIf="isAdditionalMode && !examStatus.isFirstRetakeStarted && examStatus.isExamClosed && this.hasAccess"> Начать Первую пересдачу</div>
