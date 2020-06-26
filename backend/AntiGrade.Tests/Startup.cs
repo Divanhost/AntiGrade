@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading;
 using AntiGrade.Core.Configuration;
+using AntiGrade.Core.Middleware;
 using AutoMapper;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,16 +31,12 @@ namespace UnitTests
             services.TryAddSingleton(Configuration);
 
             services.AddDataProtection();
-
-            Dependencies.RegisterDependenciesForTesting(services);
+            services.AddHttpContextAccessor();
+            services.RegisterDependenciesForTesting();
+            services.SetupAuthorization(Configuration);
+            services.AddHttpContextAccessor();
                        
         }
 
-        // private static void OverrideDependencies(IServiceCollection services)
-        // {
-        // 	services.RemoveAll<ApplicationContext>();
-        // 	services.AddDbContext<ApplicationContext>(options =>
-        //              options.UseSqlite("Data Source=:memory:"));
-        // }
     }
 }

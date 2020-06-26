@@ -5,6 +5,8 @@ using AntiGrade.Data.Repositories.Implementation;
 using AntiGrade.Data.Repositories.Interfaces;
 using AntiGrade.Shared.Models.Identity;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
@@ -45,6 +47,7 @@ namespace AntiGrade.Core.Configuration
                 .AddJsonFile("appsettingsTest.json")
                 .Build();
             services.AddSingleton<IConfiguration>(config);
+            services.AddSingleton<IHostingEnvironment>(new HostingEnvironment());
         }
 
         private static void RegisterHelpers(IServiceCollection services)

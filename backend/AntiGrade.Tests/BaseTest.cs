@@ -35,15 +35,6 @@ namespace UnitTests
         {
             var services = new ServiceCollection();
 
-            var partManager = new ApplicationPartManager();
-            partManager.FeatureProviders.Add(new ControllerFeatureProvider());
-            var controllersFeature = new ControllerFeature();
-            partManager.PopulateFeature(controllersFeature);
-            foreach (var controllerType in controllersFeature.Controllers.Select(t => t.AsType()))
-            {
-                services.TryAddTransient(controllerType);
-            }
-
             Startup.ConfigureServices(services);
             return services.BuildServiceProvider();
         }

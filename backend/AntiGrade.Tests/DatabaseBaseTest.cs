@@ -16,7 +16,6 @@ namespace UnitTests
         protected DatabaseBaseTest()
         {
             TDbContext = ServiceProvider.GetRequiredService<AppDbContext>();
-            //_testDbContextFactory = ServiceProvider.GetRequiredService<ITestDbContextFactory>();
         }
 
 

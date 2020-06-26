@@ -12,22 +12,7 @@ namespace AntiGrade.Tests
         public const int AdminUserId = 1;
         public const int NewUserId = 2;
         public const int DeletedUserId = 3;
-        public const int ProjectNotificationsUserId = 4;
-        public const int DeveloperEmployeeId = 1;
-        public const int FiredDeveloperEmployeeId = 2;
-        public const int SalesEmployeeId = 3;
-        public const int ProjectNotificationsEmployeeId = 4;
-        public const int NonPrivilegedUserId = 2;
-        public const int DepartmentId = 1;
-        public const int AdminAccountId = 1;
-        public const int NonPrivilegedUserAccountId = 2;
-        public const int NonPrivilegedUserAccount2Id = 3;
-        public const int NonPrivilegedUserAccount3Id = 4;
-        public const int HelperAccountId = 5;
-        public const int DeletedAccountUserHasAccessId = 6;
-        public const int NotificationsAccountId = 7;
-        public const int RubCurrencyId = 1;
-        public const int NotificationsProjectId = 1;
+        public const int NonPrivilegedUserId = 4;
 
         public static DateTime UtcNow
         {
@@ -66,19 +51,6 @@ namespace AntiGrade.Tests
             IsDeleted = true,
             Roles = new List<UserRole> { }
         };
-
-        public static User ProjectNotificationsUser => new User
-        {
-            Id = ProjectNotificationsUserId,
-            UserName = "ProjectNotificationsUser",
-
-            Roles = new List<UserRole>
-            {
-                GetAdminRole(ProjectNotificationsUserId)
-            }
-        };
-
-        
 
         public static UserRole GetAdminRole(int userId)
         {
